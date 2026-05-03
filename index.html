@@ -1,0 +1,321 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Catch‑Up Bookkeeping Services</title>
+  <meta name="description" content="Get caught up on your bookkeeping and taxes with accurate, tax‑ready financials. Simple, fast, and stress‑free." />
+
+  <style>
+    :root {
+      --bg: #f9fafb;
+      --white: #ffffff;
+      --text: #0f172a;
+      --muted: #475569;
+      --border: #e5e7eb;
+      --primary: #111827;
+      --radius: 16px;
+    }
+
+    * {
+      box-sizing: border-box;
+    }
+
+    body {
+      margin: 0;
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1120px;
+      margin: 0 auto;
+      padding: 0 24px;
+    }
+
+    header{
+        padding: 8px 0;
+    }
+
+    section {
+      padding: 88px 0;
+    }
+
+    h1 {
+      font-size: 3rem;
+      line-height: 1.15;
+      margin-bottom: 20px;
+    }
+
+    h2 {
+      font-size: 2.1rem;
+      margin-bottom: 20px;
+    }
+
+    h3 {
+      margin-top: 0;
+    }
+
+    p {
+      color: var(--muted);
+      max-width: 720px;
+    }
+
+    .btn {
+      display: inline-block;
+      padding: 14px 28px;
+      background: var(--primary);
+      color: #ffffff;
+      border-radius: 14px;
+      font-weight: 600;
+      text-decoration: none;
+    }
+
+    .card {
+      background: var(--white);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      padding: 28px;
+    }
+
+    .grid {
+      display: grid;
+      gap: 24px;
+    }
+
+    .grid-3 {
+      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    }
+
+    .grid-2 {
+      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
+    }
+
+    .center {
+      text-align: center;
+    }
+
+    .dark {
+      background: var(--primary);
+      color: #ffffff;
+    }
+
+    .dark p {
+      color: #d1d5db;
+    }
+
+    footer {
+      padding: 40px 24px;
+      text-align: center;
+      font-size: 0.9rem;
+      color: #64748b;
+    }
+        
+    /* TOP BAR */
+    .topbar {
+        background: white;
+        border-bottom: 1px solid #e5e7eb;
+        position: sticky;
+        top: 0;
+        z-index: 100;
+    }
+
+    .nav-container {
+        max-width: 1200px;
+        margin: 0 auto;
+        display: flex;
+        align-items: center;
+        justify-content: space-between;
+    }
+
+    /* LEFT */
+    .logo {
+        font-size: 1.2rem;
+        font-weight: 800;
+    }
+    .logo span {
+        font-size: 0.7rem;
+        vertical-align: super;
+    }
+    .sublogo {
+        display: block;
+        font-size: 0.75rem;
+        letter-spacing: 0.2em;
+        color: #334155;
+    }
+
+    /* CENTER NAV */
+    .nav-center {
+        display: flex;
+        gap: 32px;
+    }
+
+    .nav-center a {
+        text-decoration: none;
+        color: #0f172a;
+        font-weight: 500;
+    }
+
+    /* RIGHT */
+    .nav-right {
+        display: flex;
+        align-items: center;
+        gap: 20px;
+    }
+
+    .login {
+        text-decoration: none;
+        color: #0f172a;
+        font-weight: 500;
+    }
+
+    /* CTA BUTTON */
+    .cta-btn {
+        background: #0b2a55;
+        color: white;
+        padding: 12px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-weight: 600;
+    }
+
+  </style>
+</head>
+<body>
+
+
+<!-- TOP NAV BAR -->
+<header class="topbar">
+  <div class="nav-container">
+
+    <!-- Left: Logo -->
+    <div class="nav-left">
+      <strong class="logo">Bench<span>®</span><br><span class="sublogo">MAINSTREET</span></strong>
+    </div>
+
+    <!-- Middle: Navigation -->
+    <nav class="nav-center">
+      <a href="#">Services ▾</a>
+      <a href="#">Platform ▾</a>
+      <a href="#">Pricing</a>
+      <a href="#">Resources ▾</a>
+      <a href="#">About ▾</a>
+    </nav>
+
+    <!-- Right: Actions -->
+    <div class="nav-right">
+      <a href="#" class="login">Log in</a>
+      <a href="#contact" class="cta-btn">Talk To An Expert Free</a>
+    </div>
+
+  </div>
+</header>
+
+
+<!-- HERO (Bench-style) -->
+<section class="center" style="background:#062d60;">
+  <div class="container">
+    <h1>Catch‑Up Bookkeeping, Without the Stress</h1>
+    <p>
+      If you’re behind on bookkeeping or tax filings, we help you get fully caught up
+      with clean, accurate, tax‑ready financials — so you can move forward with confidence.
+    </p>
+    <br />
+    <a href="#contact" class="btn">Talk to an expert</a>
+  </div>
+</section>
+
+<!-- WHO THIS IS FOR -->
+<section>
+  <div class="container">
+    <h2 class="center">This service is for businesses that are</h2>
+    <div class="grid grid-3">
+      <div class="card">Several months or years behind on bookkeeping</div>
+      <div class="card">Receiving notices or deadlines from tax authorities</div>
+      <div class="card">Applying for a loan, audit, or closing a business</div>
+    </div>
+  </div>
+</section>
+
+<!-- WHY IT WORKS -->
+<section style="background:#ffffff;">
+  <div class="container grid grid-2">
+    <div>
+      <h2>Why getting caught up matters</h2>
+      <p>
+        When your books are behind, everything else slows down.
+        Accurate, up‑to‑date financials are the foundation for compliance,
+        decision‑making, and peace of mind.
+      </p>
+    </div>
+
+    <div class="card">
+      <h3>What you get</h3>
+      <p>• Complete historical bookkeeping</p>
+      <p>• Clean reconciled accounts</p>
+      <p>• Year‑end financial statements</p>
+      <p>• Files ready for tax submission</p>
+    </div>
+  </div>
+</section>
+
+<!-- HOW IT WORKS -->
+<section>
+  <div class="container">
+    <h2 class="center">How the process works</h2>
+    <div class="grid grid-3">
+      <div class="card">
+        <strong>1. Free consultation</strong>
+        <p>We review your situation and identify what’s missing.</p>
+      </div>
+      <div class="card">
+        <strong>2. Document collection</strong>
+        <p>You provide access to bank statements and records.</p>
+      </div>
+      <div class="card">
+        <strong>3. Reconciliation</strong>
+        <p>We rebuild and reconcile your books period by period.</p>
+      </div>
+      <div class="card">
+        <strong>4. Review & finalize</strong>
+        <p>You receive financials ready for filing or review.</p>
+      </div>
+      <div class="card">
+        <strong>5. Stay on track</strong>
+        <p>Optional ongoing bookkeeping support going forward.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- SOCIAL PROOF STYLE -->
+<section style="background:#ffffff;">
+  <div class="container center">
+    <h2>Trusted by business owners who fell behind</h2>
+    <p>
+      Clients come to us overwhelmed — and leave with clarity,
+      compliance, and confidence.
+    </p>
+  </div>
+</section>
+
+<!-- FINAL CTA -->
+<section class="dark" id="contact">
+  <div class="container center">
+    <h2>Get caught up and move forward</h2>
+    <p>
+      Start with a no‑obligation conversation to understand your options.
+    </p>
+    <br />
+    <a href="mailto:info@example.com" class="btn">Schedule a consultation</a>
+  </div>
+</section>
+
+<footer>
+  © 2026 Your Company Name. All rights reserved.
+</footer>
+
+</body>
+</html>
