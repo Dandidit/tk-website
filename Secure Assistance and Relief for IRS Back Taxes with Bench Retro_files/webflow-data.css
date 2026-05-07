@@ -1,0 +1,45 @@
+/**
+ * SCSS for Sygnal Webflow Util HTML library
+ */
+/**
+ * @use: This is the modern replacement for @import. 
+ * Instead of dumping all the imported styles into the global scope, @use treats each imported file as a 
+ * separate module with its own private scope. This means that variables, mixins, and functions from 
+ * the imported file have to be accessed with a namespace based on the filename. 
+ * This helps to prevent naming conflicts and makes the code easier to understand.
+ */
+/* 
+
+ // Temporarily hide until decoded
+[wfu-bind] {
+//    display: none;
+    visibility: hidden; 
+}
+
+// Temporarily hide until decoded
+[wfu-bind-content] {
+//    display: none;
+    visibility: hidden; 
+}
+
+*/
+[wfu-preload=hidden] {
+  display: none;
+}
+
+[wfu-preload=invisible] {
+  visibility: hidden;
+}
+
+/*
+ // Temporarily hide until data-bound 
+[wfu-preload=hidden] {
+    display: none;
+}
+
+// Temporarily make invisible until data-bound 
+// Will take the appropriate space 
+[wfu-preload=invisible] {
+    visibility: hidden; 
+}
+*//*# sourceMappingURL=webflow-data.css.map */
