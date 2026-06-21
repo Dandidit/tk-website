@@ -39,3 +39,98 @@ body {
   padding: 1.5rem;
   border-radius: 6px;
 }
+
+/* Shared desktop navbar */
+.site-navbar {
+  position: sticky;
+  top: 0;
+  z-index: 999;
+  background: #ffffff;
+  border-bottom: 1px solid #e5e7eb;
+}
+
+.site-navbar .nav-inner {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 20px;
+  min-height: 72px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 24px;
+}
+
+.site-navbar .brand-link {
+  text-decoration: none;
+  color: #0f172a;
+  font-weight: 800;
+  font-size: 1.2rem;
+}
+
+.site-navbar .brand-sub {
+  display: block;
+  font-size: 0.68rem;
+  letter-spacing: 0.2em;
+  color: #334155;
+  margin-top: 2px;
+}
+
+.site-navbar .menu {
+  display: flex;
+  align-items: center;
+  gap: 28px;
+}
+
+.site-navbar .menu > a,
+.site-navbar .drop-trigger {
+  text-decoration: none;
+  color: #0f172a;
+  font-weight: 500;
+  font-size: 0.95rem;
+  line-height: 1;
+}
+
+.site-navbar .dropdown {
+  position: relative;
+}
+
+.site-navbar .drop-trigger {
+  cursor: default;
+  display: inline-block;
+  padding: 26px 0;
+}
+
+.site-navbar .dropdown-menu {
+  display: none;
+  position: absolute;
+  top: calc(100% - 8px);
+  left: 0;
+  min-width: 230px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  box-shadow: 0 10px 26px rgba(15, 23, 42, 0.12);
+  padding: 8px 0;
+}
+
+.site-navbar .dropdown:hover .dropdown-menu {
+  display: block;
+}
+
+.site-navbar .dropdown-menu a,
+.site-navbar .dropdown-menu .coming-soon {
+  display: block;
+  padding: 10px 14px;
+  text-decoration: none;
+  color: #0f172a;
+  font-size: 0.92rem;
+  white-space: nowrap;
+}
+
+.site-navbar .dropdown-menu a:hover {
+  background: #f8fafc;
+}
+
+.site-navbar .dropdown-menu .coming-soon {
+  color: #64748b;
+}
