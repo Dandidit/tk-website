@@ -1,0 +1,7 @@
+- [x] Analyze task requirements
+- [x] Search for existing blackbox_mcp_settings.json
+- [x] Confirm creation path with user
+- [x] Create blackbox_mcp_settings.json with server name `github.com/microsoft/playwright-mcp`
+- [x] Verify Node.js / npx availability for MCP server startup
+- [x] Demonstrate server capability by running one Playwright MCP tool via MCP Inspector
+- [x] Mark all steps complete

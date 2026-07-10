@@ -1,0 +1,102 @@
+.site-navbar {
+  background: #fff;
+  color: #111;
+  width: 100%;
+  border-bottom: 1px solid #e5e5e5;
+}
+
+.site-navbar-container {
+  max-width: 1160px;
+  margin: 0 auto;
+  padding: 0 24px;
+  height: 74px;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.site-logo {
+  color: #111;
+  text-decoration: none;
+  line-height: 1;
+}
+
+.site-logo span {
+  display: block;
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: 0.5px;
+}
+
+.site-logo small {
+  display: block;
+  font-size: 13px;
+  font-weight: 800;
+  letter-spacing: 6px;
+}
+
+.site-nav-links {
+  list-style: none;
+  display: flex;
+  gap: 26px;
+  margin: 0;
+  padding: 0;
+}
+
+.site-nav-links a {
+  color: #111;
+  text-decoration: none;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.nav-call-btn {
+  color: #111;
+  text-decoration: none;
+  border: 1px solid #111;
+  border-radius: 8px;
+  padding: 13px 24px;
+  font-weight: 700;
+  font-size: 15px;
+}
+
+.site-menu-toggle {
+  display: none;
+  font-size: 28px;
+  background: none;
+  color: #111;
+  border: none;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .site-navbar-container {
+    height: 70px;
+  }
+
+  .site-menu-toggle {
+    display: block;
+  }
+
+  .site-nav-links,
+  .nav-call-btn {
+    display: none;
+  }
+
+  .site-nav-links.active {
+    position: absolute;
+    top: 70px;
+    left: 0;
+    width: 100%;
+    background: white;
+
+    display: flex;
+    flex-direction: column;
+    text-align: center;
+    padding: 24px 0;
+    gap: 20px;
+
+    border-bottom: 1px solid #e5e5e5;
+  }
+}

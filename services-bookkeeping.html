@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+
+  <title>Bookkeeping Services | TeraKira</title>
+
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+
+<body>
+  <div id="navbar"></div>
+
+  <script>
+    fetch("component/navbar.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar").innerHTML = data;
+
+        const script = document.createElement("script");
+        script.src = "component/navbar.js";
+        document.body.appendChild(script);
+      });
+  </script>
+
+  <main class="page-shell">
+
+    <section class="split-section">
+      <div class="text-block">
+        <h1>Bookkeeping Services</h1>
+        <p>
+          From monthly upkeep to catch-up bookkeeping, Terakira keeps your
+          books accurate and up to date, no matter your business type
+        </p>
+      </div>
+
+      <div class="image-placeholder">
+        Pictures
+      </div>
+    </section>
+
+    <section class="split-section reverse">
+      <div class="image-placeholder">
+        Pictures
+      </div>
+
+      <div class="text-block">
+        <h1>Tax Resolution</h1>
+        <p>
+          From income statements to tax computations, Terakira prepares
+          everything you need, well ahead of every deadline.
+        </p>
+      </div>
+    </section>
+
+  </main>
+</body>
+</html>

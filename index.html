@@ -1,607 +1,73 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Catch‑Up Bookkeeping Services</title>
-  <link rel="stylesheet" href="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/benchco.shared.b6342ab65.min.css" />
-  <link rel="stylesheet" href="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/webflow-data.css" />
-  <link rel="stylesheet" href="styles.css" />
-  <meta name="description"
-    content="Get caught up on your bookkeeping and taxes with accurate, tax‑ready financials. Simple, fast, and stress‑free." />
+  <title>TeraKira Bookkeeping</title>
 
-  <style>
-    :root {
-      --bg: #f9fafb;
-      --white: #ffffff;
-      --text: #0f172a;
-      --muted: #475569;
-      --border: #e5e7eb;
-      --primary: #111827;
-      --radius: 16px;
-    }
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/home.css">
 
-    * {
-      box-sizing: border-box;
-    }
-
-    body {
-      margin: 0;
-      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
-      background: var(--bg);
-      color: var(--text);
-      line-height: 1.6;
-    }
-
-    .container {
-      max-width: 1120px;
-      margin: 0 auto;
-      padding: 0 24px;
-    }
-
-    header {
-      padding: 10px 0;
-    }
-
-    section {
-      padding: 88px 0;
-    }
-
-    h1 {
-      font-size: 3rem;
-      line-height: 1.15;
-      margin-bottom: 20px;
-    }
-
-    h2 {
-      font-size: 2.1rem;
-      margin-bottom: 20px;
-    }
-
-    h3 {
-      margin-top: 0;
-    }
-
-    p {
-      color: var(--muted);
-      max-width: 720px;
-    }
-
-    .btn {
-      display: inline-block;
-      padding: 14px 28px;
-      background: var(--primary);
-      color: #ffffff;
-      border-radius: 14px;
-      font-weight: 600;
-      text-decoration: none;
-    }
-
-    .card {
-      background: var(--white);
-      border: 1px solid var(--border);
-      border-radius: var(--radius);
-      padding: 28px;
-    }
-
-    .grid {
-      display: grid;
-      gap: 24px;
-    }
-
-    .grid-3 {
-      grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
-    }
-
-    .grid-2 {
-      grid-template-columns: repeat(auto-fit, minmax(360px, 1fr));
-    }
-
-    .center {
-      text-align: center;
-    }
-
-    .dark {
-      background: var(--primary);
-      color: #ffffff;
-    }
-
-    .dark p {
-      color: #d1d5db;
-    }
-
-    footer {
-      padding: 40px 24px;
-      text-align: center;
-      font-size: 0.9rem;
-      color: #64748b;
-    }
-
-    /* TOP BAR */
-    .topbar {
-      background: white;
-      border-bottom: 1px solid #e5e7eb;
-      position: sticky;
-      top: 0;
-      z-index: 100;
-    }
-
-    .nav-container {
-      max-width: 1200px;
-      margin: 0 auto;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    /* LEFT */
-    .logo {
-      font-size: 1.2rem;
-      font-weight: 800;
-    }
-
-    .logo span {
-      font-size: 0.7rem;
-      vertical-align: super;
-    }
-
-    .sublogo {
-      display: block;
-      font-size: 0.75rem;
-      letter-spacing: 0.2em;
-      color: #334155;
-    }
-
-    /* CENTER NAV */
-    .nav-center {
-      display: flex;
-      gap: 32px;
-    }
-
-    .nav-center a {
-      text-decoration: none;
-      color: #0f172a;
-      font-weight: 500;
-    }
-
-    /* RIGHT */
-    .nav-right {
-      display: flex;
-      align-items: center;
-      gap: 20px;
-    }
-
-    .login {
-      text-decoration: none;
-      color: #0f172a;
-      font-weight: 500;
-    }
-
-    /* CTA BUTTON */
-    .cta-btn {
-      background: #0b2a55;
-      color: white;
-      padding: 12px 20px;
-      border-radius: 10px;
-      text-decoration: none;
-      font-weight: 600;
-    }
-
-    /* DROPDOWN MENU */
-    .dropdown {
-      position: relative;
-    }
-
-    .dropdown a {
-      text-decoration: none;
-      color: #0f172a;
-      font-weight: 500;
-      padding: 8px 0;
-      display: block;
-    }
-
-    .dropdown-menu {
-      display: none;
-      position: absolute;
-      top: 100%;
-      left: 0;
-      background: white;
-      border: 1px solid #e5e7eb;
-      border-radius: 8px;
-      min-width: 200px;
-      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.05);
-      z-index: 200;
-    }
-
-    .dropdown-menu a {
-      padding: 10px 16px;
-      color: #0f172a;
-      background-color: #ffffff;
-      font-weight: 400;
-    }
-
-    .dropdown-menu a:hover {
-      background: #f1f5f9;
-    }
-
-    /* Show menu on hover */
-    .dropdown:hover .dropdown-menu {
-      display: block;
-    }
-  </style>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
 </head>
 
 <body>
-<script href="component/navbar.html" id="navbar"></script>
+  <div id="navbar"></div>
 
+  <script>
+    fetch("component/navbar.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar").innerHTML = data;
 
-<div class="page-wrapper">
-    <section class="section_header background-color-sapphire">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="text-align-center">
-              <div class="margin-top">
-                <div class="max-width-xxlarge is-core">
-                  <div class="blog_header">
-                    <h1>Get caught up on your bookkeeping and taxes. Avoid IRS penalties and interest.</h1>
-                    <p class="text-size-regular">
-                      Several years behind on business taxes and bookkeeping? The first step in getting caught up with the IRS is having up to date financials. With Bench, a specialized team of experts gets you caught up, ready to file back taxes, and in the clear with the IRS.
-                      <br><br><strong>Sign up now and get over 40% off 2024 catch up bookkeeping.</strong>
-                    </p>
-                    <a href="#" class="button is-large w-button">Talk to an expert free</a>
-                    <p class="contact_para is-arc--light-2-2">
-                      By clicking ‘Talk to an expert free’, I agree to Bench’s Terms &amp; Privacy Policy.
-                    </p>
-                  </div>
-                </div>
-              </div>
+        const script = document.createElement("script");
+        script.src = "component/navbar.js";
+        document.body.appendChild(script);
+      });
+  </script>
 
-              <div class="logo-wrapper">
-                <div class="margin-right margin-small justify-left mobile-flex-horizontal">
-                  <div class="margin-bottom margin-small">
-                    <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6570f107550a6ce148f86c0a_Group 15133.svg" alt="">
-                  </div>
-                  <div class="text-align-left margin-left margin-small">
-                    4.4/5 average rating based on 1,327+ reviews
-                  </div>
-                </div>
-                <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6570ede937bf8c736c61f0c3_Line 140.svg" class="hide-mobile-landscape margin-right margin-small" alt="">
-                <div class="button-group is-accounts">
-                  <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6570ee0b8585d036283208e9_Group 15124.svg" alt="">
-                  <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6570edfd86aa6fef046e2c0b_Group 15122.svg" alt="">
-                  <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6570ee17960df4762f3dde29_Group 15130.svg" alt="">
-                  <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6570ee22f0adbbd1380812f7_Group 15131.svg" alt="">
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
+  <main class="page-shell">
+
+    <section class="hero">
+      <div class="hero-logo">Logo</div>
+
+      <h1>Any business, any size. Take it easy, we handle the books.</h1>
+
+      <p>
+        You focus on running the business. We'll make sure the numbers make sense.
+      </p>
     </section>
-    <section class="section_account">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="account_grid">
-            <div class="account_link-list">
-              <a href="#Overview" class="text-size-regular text-style-link w-inline-block"><div>Overview</div></a>
-              <a href="#Why-Bench" class="text-size-regular text-style-link w-inline-block"><div>Why Bench</div></a>
-              <a href="#How-it-works" class="text-size-regular text-style-link w-inline-block"><div>How It Works</div></a>
-              <a href="#Reviews" class="text-size-regular text-style-link w-inline-block"><div>Reviews</div></a>
-            </div>
-            <div>
-              <div class="button-group align-left">
-                <a href="#" class="button is-large w-button">Talk to an expert free</a>
-              </div>
-            </div>
-          </div>
-        </div>
+
+    <div class="divider"></div>
+
+    <section class="intro-section">
+      <div class="intro-content">
+        <h2>
+          Confidence in your business,<br>
+          without doing the math.
+        </h2>
+
+        <p>
+          Get a dedicated bookkeeper who actually knows your business
+          not a call centre, not a rotating team. We keep your books
+          organized, accurate, and ready to view anytime, so you always
+          know where you stand.
+          <br>
+          From day-to-day transactions to tax season, LHDN compliance,
+          or your next round of funding, your finances stay audit-ready
+          and stress-free.
+        </p>
+
+        <a href="#" class="schedule-btn">schedule call</a>
       </div>
-    </section>
-    <section class="section_benefits">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="benefits_component">
-              <div class="text-align-center">
-                <div class="max-width-large align-center">
-                  <div class="margin-bottom margin-large">
-                    <h2 class="heading-style-h3">Expert support for businesses that are:</h2>
-                  </div>
-                </div>
-              </div>
-              <div class="w-layout-grid benefits_list is-3-columns is-gap-60">
-                <div class="benefits_item vertical-align-center">
-                  <div class="margin-bottom margin-small">
-                    <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/64b584ab2a33722040d4655e_20220511_PaidRetroLP_Icon1.png" class="icon-1x1-large" alt="">
-                  </div>
-                  <div class="max-width-large">
-                    <div class="margin-bottom margin-small"><h3 class="heading-style-h4">Overwhelmed by back taxes and outdated bookkeeping</h3></div>
-                  </div>
-                </div>
-                <div class="benefits_item vertical-align-center">
-                  <div class="margin-bottom margin-small">
-                    <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/64b584abff34f5c8e2404c27_20220511_PaidRetroLP_Icon2.png" class="icon-1x1-large" alt="">
-                  </div>
-                  <div class="max-width-large">
-                    <div class="margin-bottom margin-small"><h3 class="heading-style-h4">Looking for tax resolution help</h3></div>
-                  </div>
-                </div>
-                <div class="benefits_item vertical-align-center">
-                  <div class="margin-bottom margin-small">
-                    <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/64b584ab0d7aba6e8d0c7edc_20220511_PaidRetroLP_Icon3.png" class="icon-1x1-large" alt="">
-                  </div>
-                  <div class="max-width-large">
-                    <div class="margin-bottom margin-small"><h3 class="heading-style-h4">Applying for a business loan or dissolving a business</h3></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div id="Overview" class="anchor-block"></div>
-        </div>
+
+      <div class="intro-image">
+        Pictures
       </div>
     </section>
 
-    <div class="line-divider is-small"></div>
-    <section>
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="text-align-center">
-              <div class="margin-bottom margin-medium">
-                <h2 class="heading-style-h3">We have a strong network of expert tax resolution partners ready to get your tax debt settled</h2>
-              </div>
-              <div class="partners_logo-wrapper">
-                <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/64949a0bf9e957dbecbe5579_2020TaxResolution.png" width="63" class="partners_logo" alt="">
-                <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6579da672649a0006eaf89cf_fixyourtaxproblemlogo.png" width="63" class="partners_logo" alt="">
-                <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6579daf55af9bba7742d55f0_tra logo.webp" width="63" class="partners_logo" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <div class="line-divider"></div>
-    <section class="section background-color-ghost">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="max-width-xlarge align-center">
-              <div class="text-align-center">
-                <div class="margin-bottom margin-medium">
-                  <div class="tagline is-fill-sunlight"><div>Why Bench</div></div>
-                </div>
-                <div class="margin-bottom margin-medium">
-                  <h2>It can be overwhelming to be behind in business taxes. You’ve come to the right place.</h2>
-                </div>
-                <p class="text-size-large">The first step is to get an accurate picture of your business finances. We offer payment plans of up to 12 months - interest free.</p>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="Why-Bench" class="anchor-block"></div>
-    </section>
-
-    <section class="section background-color-ghost">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="w-layout-grid col-2x_grid">
-              <div class="col-2x_content">
-                <div class="margin-bottom margin-small"><h2>Get paired with catch up bookkeeping experts</h2></div>
-                <p>Leave the heavy lifting to us. Your dedicated team supports you through the entire process. With your own point of contact and frequent check-ins, you won’t be alone.</p>
-                <div class="margin-top margin-medium"><a href="#" class="button is-link w-button">Talk to an expert free →</a></div>
-              </div>
-              <div class="col-2x_image-wrapper">
-                <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/67513bb1ea9aacd391f98085_bench_retro_image_936x690_fix_2.png" class="full-image" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section background-color-ghost">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="w-layout-grid col-2x_grid">
-              <div class="col-2x_image-wrapper">
-                <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/666764404f2fa271cb3a9e22_Accurate tax-ready books done quick.webp" class="full-image" alt="">
-              </div>
-              <div class="col-2x_content">
-                <div class="margin-bottom margin-small"><h2>Accurate tax-ready books done quick</h2></div>
-                <p>Whether you're a few years or several years behind on your bookkeeping and tax filing, our experts work with you to identify outstanding tasks and complete your books swiftly and accurately.</p>
-                <div class="margin-top margin-medium"><a href="#" class="button is-link w-button">Talk to an expert free →</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section background-color-ghost">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="w-layout-grid col-2x_grid">
-              <div class="col-2x_content">
-                <div class="margin-bottom margin-small"><h2>Minimize IRS late filing penalties and interest</h2></div>
-                <p>You'll need up-to-date financials in order to minimize your tax penalties. We provide year-end financial packages for each completed catch up year so you can get filed and compliant.</p>
-                <div class="margin-top margin-medium"><a href="#" class="button is-link w-button">Talk to an expert free →</a></div>
-              </div>
-              <div class="col-2x_image-wrapper">
-                <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/67513b9c3bbc4ac53ee6498b_bench_retro_image_936x690_fix_1.png" class="full-image" alt="">
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section background-color-ghost">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="w-layout-grid col-2x_grid">
-              <div class="col-2x_image-wrapper">
-                <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/67513b8349a3bdc009b5bdd3_TaxSeason_Product_Release.gif" class="full-image" alt="">
-              </div>
-              <div class="col-2x_content">
-                <div class="margin-bottom margin-small"><h2>Keep your books up-to-date, effortlessly.</h2></div>
-                <p>Once you're back on track, let dedicated experts and easy-to-use software manage your ongoing bookkeeping so you can focus on growing your business.</p>
-                <div class="margin-top margin-medium"><a href="#" class="button is-link w-button">Talk to an expert free →</a></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section>
-      <div class="padding-section-small">
-        <div class="margin-bottom margin-large">
-          <div class="padding-global">
-            <div class="container-large">
-              <div class="max-width-large align-center">
-                <div class="text-align-center"><h2>Take control of your <span class="text-color-electric-blue">finances</span> with Bench</h2></div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div class="finance_container">
-          <div class="w-layout-grid finance_grid">
-            <div class="finance_card is-white">
-              <div class="margin-bottom margin-small"><h3 class="text-color-dark-blue">Before Bench</h3></div>
-              <ul role="list" class="finance_list w-list-unstyled">
-                <li class="finance_item"><div class="margin-right margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f95220db4ea7b677de61_Group 14689.svg" class="icon-1x1-xmedium" alt=""></div><div class="text-block-7">Behind on bookkeeping and tax filing</div></li>
-                <li class="finance_item"><div class="margin-right margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f95220db4ea7b677de61_Group 14689.svg" class="icon-1x1-xmedium" alt=""></div><div class="text-block-7">Late penalties and fees</div></li>
-                <li class="finance_item"><div class="margin-right margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f95220db4ea7b677de61_Group 14689.svg" class="icon-1x1-xmedium" alt=""></div><div class="text-block-7">Letters from the IRS</div></li>
-                <li class="finance_item"><div class="margin-right margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f95220db4ea7b677de61_Group 14689.svg" class="icon-1x1-xmedium" alt=""></div><div class="text-block-7">Missed opportunities for tax savings</div></li>
-              </ul>
-            </div>
-            <div class="finance_card is-blue">
-              <div class="margin-bottom margin-small"><h3 class="text-color-dark-blue">With Bench</h3></div>
-              <ul role="list" class="finance_list w-list-unstyled">
-                <li class="finance_item"><div class="margin-right margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f6fb8290853d5c946f09_Group 14685.svg" class="icon-1x1-xmedium" alt=""></div><div class="text-block-7">Up to date, accurate financials</div></li>
-                <li class="finance_item"><div class="margin-right margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f6fb8290853d5c946f09_Group 14685.svg" class="icon-1x1-xmedium" alt=""></div><div class="text-block-7">Back taxes filed</div></li>
-                <li class="finance_item"><div class="margin-right margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f6fb8290853d5c946f09_Group 14685.svg" class="icon-1x1-xmedium" alt=""></div><div class="text-block-7">Compliant with IRS</div></li>
-                <li class="finance_item"><div class="margin-right margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f6fb8290853d5c946f09_Group 14685.svg" class="icon-1x1-xmedium" alt=""></div><div class="text-block-7">Lowered outstanding fees</div></li>
-              </ul>
-            </div>
-            <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565f8bfe87aebfa1ddcfea3_Group 15096.svg" class="finance_icon" alt="">
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section_benefits">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="benefits_component">
-              <div class="margin-bottom margin-large">
-                <div class="text-align-center">
-                  <div class="tagline is-fill-sunlight"><h2 class="text-size-small">How Bench Catch Up Bookkeeping Works</h2></div>
-                </div>
-              </div>
-              <div class="w-layout-grid benefits_list">
-                <div class="benefits_item vertical-align-center">
-                  <div class="margin-bottom margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/647992340ea66978a9e36e84_Group_19.png" width="56" class="icon-1x1-medium" alt=""></div>
-                  <div><div class="margin-bottom margin-small"><h3 class="heading-style-h4">Step 1: Get a free consultation with experts</h3></div><p>Speak to our bookkeeping and tax resolution experts who are here to help.</p></div>
-                </div>
-                <div class="benefits_item vertical-align-center">
-                  <div class="margin-bottom margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6479923487a1f9ea9aa73027_Group_53.png" width="42" class="icon-1x1-medium" alt=""></div>
-                  <div><div class="margin-bottom margin-small"><h3 class="heading-style-h4">Step 2: Find out how much you owe</h3></div><p>We can help you understand what the IRS currently records for your business.</p></div>
-                </div>
-                <div class="benefits_item vertical-align-center">
-                  <div class="margin-bottom margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/64799234523a6279a0195307_Financials.webp" width="110" class="icon-1x1-medium" alt=""></div>
-                  <div><div class="margin-bottom margin-small"><h3 class="heading-style-h4">Step 3: We help do your bookkeeping</h3></div><p>Our team helps gather documents and reconcile books for each catch-up year.</p></div>
-                </div>
-                <div class="benefits_item vertical-align-center">
-                  <div class="margin-bottom margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/647992348b1ce4afa31469d0_Check.png" width="85" class="icon-1x1-medium" alt=""></div>
-                  <div><div class="margin-bottom margin-small"><h3 class="heading-style-h4">Step 4: We deliver tax-ready financials</h3></div><p>Receive completed year-end financial packages to support filing and resolution.</p></div>
-                </div>
-              </div>
-              <div class="benefits_item vertical-align-center is-catch-up">
-                <div class="margin-bottom margin-small"><img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/664c33219ca52b7f05d54199_Ongoing bookkeepping.webp" width="85" class="icon-1x1-medium" alt=""></div>
-                <div><div class="margin-bottom margin-small"><h3 class="heading-style-h4">Step 5: We manage your ongoing bookkeeping</h3></div><p>Transition to ongoing monthly bookkeeping to stay compliant and informed.</p></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-      <div id="How-it-works" class="anchor-block"></div>
-    </section>
-
-    <section class="section_testimonial">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="margin-bottom margin-large">
-              <div class="text-align-center"><div class="tagline is-fill-sunlight"><h2 class="text-size-small">What our clients say about Bench</h2></div></div>
-              <div class="margin-top margin-medium">
-                <div class="col-3x-grid gap2-5rem">
-                  <div class="w-layout-grid blue_testimonial-card">
-                    <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565fabc25e0a9fb648d91e6_Group 14421.svg" alt="">
-                    <div class="heading-style-h4 text-color-white is-custom">What a lifesaver! We came to Bench needing help catching up on our bookkeeping and getting everything straightened out.</div>
-                    <div class="testiomonial_name-block is-gap-23"><div class="testimonial_name-right"><p class="text-color-white text-size-xsmall">Victoria Leon</p></div></div>
-                  </div>
-                  <div class="w-layout-grid blue_testimonial-card">
-                    <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565fabc25e0a9fb648d91e6_Group 14421.svg" alt="">
-                    <div class="heading-style-h4 text-color-white is-custom">Bench helped with back taxes. Their service is truly a lifesaver for busy business owners.</div>
-                    <div class="testiomonial_name-block is-gap-23"><div class="testimonial_name-right"><p class="text-color-white text-size-xsmall">Kelly Wetzel/Mangold</p></div></div>
-                  </div>
-                  <div class="w-layout-grid blue_testimonial-card">
-                    <img src="./Secure Assistance and Relief for IRS Back Taxes with Bench Retro_files/6565fabc25e0a9fb648d91e6_Group 14421.svg" alt="">
-                    <div class="heading-style-h4 text-color-white is-custom">Bench got us caught up across multiple years quickly, and now we’re compliant with the IRS.</div>
-                    <div class="testiomonial_name-block is-gap-23"><div class="testimonial_name-right"><p class="text-color-white text-size-xsmall">James Whiteside</p></div></div>
-                  </div>
-                </div>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div id="Reviews" class="anchor-block"></div>
-      </div>
-    </section>
-
-    <section class="section_quick-faqs background-color-ghost">
-      <div class="padding-global">
-        <div class="container-large">
-          <div class="padding-section-medium">
-            <div class="text-align-center"><div class="margin-bottom margin-large"><h2>Frequently Asked Questions</h2></div></div>
-            <div class="max-width-large align-center is-left-align">
-              <div class="quick-faqs_list">
-                <div class="faq_accordion"><div class="faq_question"><div class="heading-style-h5">Is Bench a fit for my business?</div></div><div class="faq_answer" style="height:auto;"><div class="margin-vertical margin-small"><p>We work with businesses who need multiple years of bookkeeping caught up and filed.</p></div></div></div>
-                <div class="faq_accordion"><div class="faq_question"><div class="heading-style-h5">What are my payment options?</div></div><div class="faq_answer" style="height:auto;"><div class="margin-vertical margin-small"><p>Customized plans are available, including installment options.</p></div></div></div>
-                <div class="faq_accordion"><div class="faq_question"><div class="heading-style-h5">Are there hidden charges?</div></div><div class="faq_answer" style="height:auto;"><div class="margin-vertical margin-small"><p>No hidden charges. Pricing is fixed and transparent.</p></div></div></div>
-                <div class="faq_accordion"><div class="faq_question"><div class="heading-style-h5">Can you help if I’m several years behind?</div></div><div class="faq_answer" style="height:auto;"><div class="margin-vertical margin-small"><p>Yes, including clients that are 5+ years behind.</p></div></div></div>
-                <div class="faq_accordion"><div class="faq_question"><div class="heading-style-h5">Can you work with upcoming deadlines?</div></div><div class="faq_answer" style="height:auto;"><div class="margin-vertical margin-small"><p>Yes, teams prioritize urgent filing timelines where possible.</p></div></div></div>
-              </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-
-    <section class="section_cta background-color-sapphire">
-      <div class="padding-global padding-section-medium">
-        <div class="container-large">
-          <div class="trial-cta_text-block">
-            <div class="text-align-center">
-              <div class="margin-bottom margin-small"><h2>Join thousands of small business owners who trust Bench with their books.</h2></div>
-              <p class="trial-cta_para">Our team will provide guidance on your current bookkeeping situation and show how Bench can help.</p>
-              <div class="button-group margin-top margin-medium"><a href="#" class="button w-button">Talk to an expert free</a></div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </section>
-  </div>
+  </main>
 </body>
 </html>
