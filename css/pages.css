@@ -485,7 +485,7 @@
 @media (max-width: 768px) {
   .consultation-section {
     padding: 32px 18px;
-    border-radius: 18px;
+    /* border-radius: 18px; */
   }
 
   .consultation-card {
