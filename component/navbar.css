@@ -1,23 +1,24 @@
 .site-navbar {
-  background: #fff;
-  color: #111;
+  position: fixed;
+  top: 0;
+  z-index: 1000;
   width: 100%;
-  border-bottom: 1px solid #e5e5e5;
+  background: #f5f1e8;
+  border-bottom: 1px solid rgba(19, 32, 24, 0.14);
 }
 
 .site-navbar-container {
-  max-width: 1160px;
+  width: min(1600px, calc(100% - 100px));
+  height: 78px;
   margin: 0 auto;
-  padding: 0 24px;
-  height: 74px;
-
   display: flex;
   align-items: center;
   justify-content: space-between;
+  gap: 30px;
 }
 
 .site-logo {
-  color: #111;
+  color: #132018;
   text-decoration: none;
   line-height: 1;
 }
@@ -26,77 +27,99 @@
   display: block;
   font-size: 22px;
   font-weight: 800;
-  letter-spacing: 0.5px;
+  letter-spacing: -0.04em;
 }
 
 .site-logo small {
   display: block;
-  font-size: 13px;
+  margin-top: 5px;
+  font-size: 9px;
   font-weight: 800;
-  letter-spacing: 6px;
+  letter-spacing: 0.23em;
+  text-transform: uppercase;
 }
 
 .site-nav-links {
+  margin: auto;
+  padding: 10px;
   list-style: none;
   display: flex;
-  gap: 26px;
-  margin: 0;
-  padding: 0;
+  align-items: center;
+  gap: 45px;
 }
 
 .site-nav-links a {
-  color: #111;
+  color: #132018;
   text-decoration: none;
+  font-size: 16px;
   font-weight: 700;
-  font-size: 15px;
 }
 
 .nav-call-btn {
-  color: #111;
+  min-height: 44px;
+  padding: 0 20px;
+  border: 1px solid #132018;
+  border-radius: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  color: #132018;
   text-decoration: none;
-  border: 1px solid #111;
-  border-radius: 8px;
-  padding: 13px 24px;
-  font-weight: 700;
-  font-size: 15px;
+  font-size: 16px;
+  font-weight: 900;
 }
 
 .site-menu-toggle {
   display: none;
-  font-size: 28px;
-  background: none;
-  color: #111;
-  border: none;
+  width: 44px;
+  height: 44px;
+  padding: 0;
+  border: 1px solid #132018;
+  border-radius: 6px;
+  background: transparent;
+  color: #132018;
+  font-size: 23px;
   cursor: pointer;
 }
 
 @media (max-width: 768px) {
   .site-navbar-container {
+    width: min(100% - 32px, 1180px);
     height: 70px;
   }
 
   .site-menu-toggle {
-    display: block;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
   }
 
-  .site-nav-links,
   .nav-call-btn {
     display: none;
   }
 
-  .site-nav-links.active {
+  .site-nav-links {
     position: absolute;
     top: 70px;
     left: 0;
     width: 100%;
-    background: white;
-
-    display: flex;
+    margin: 0;
+    padding: 18px 16px 24px;
+    border-bottom: 1px solid rgba(19, 32, 24, 0.14);
+    background: #f5f1e8;
+    display: none;
     flex-direction: column;
-    text-align: center;
-    padding: 24px 0;
-    gap: 20px;
+    align-items: stretch;
+    gap: 4px;
+  }
 
-    border-bottom: 1px solid #e5e5e5;
+  .site-nav-links.active {
+    display: flex;
+  }
+
+  .site-nav-links a {
+    display: block;
+    padding: 13px 10px;
+    text-align: center;
   }
 }

@@ -1,25 +1,23 @@
 <link rel="stylesheet" href="component/navbar.css">
 
-<nav class="site-navbar">
+<nav class="site-navbar" aria-label="Main navigation">
   <div class="site-navbar-container">
-
-    <a href="#" class="site-logo">
+    <a href="index.html" class="site-logo" aria-label="TeraKira home">
       <span>TeraKira</span>
       <small>Bookkeeping</small>
     </a>
 
-    <button class="site-menu-toggle" aria-label="Toggle Menu">
+    <button class="site-menu-toggle" type="button" aria-label="Toggle menu" aria-controls="site-navigation">
       ☰
     </button>
 
-    <ul class="site-nav-links">
-      <li><a href="services-bookkeeping.html">Services⌄</a></li>
-      <li><a href="#">Pricing</a></li>
+    <ul class="site-nav-links" id="site-navigation">
+      <li><a href="services-bookkeeping.html">Services</a></li>
+      <li><a href="pricing.html">Pricing</a></li>
       <li><a href="#">Offer</a></li>
-      <li><a href="#">About⌄</a></li>
+      <li><a href="#">About</a></li>
     </ul>
 
-    <a href="#" class="nav-call-btn">Schedule Call</a>
-
+    <a href="mailto:hello@terakira.com" class="nav-call-btn">Schedule Call</a>
   </div>
 </nav>
