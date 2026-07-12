@@ -3,71 +3,229 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Simple, dependable bookkeeping support for Malaysian businesses." />
   <title>TeraKira Bookkeeping</title>
 
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
   <link rel="stylesheet" href="css/home.css">
-
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <script src="js/pages.js" defer></script>
 </head>
-
 <body>
   <div id="navbar"></div>
 
-  <script>
-    fetch("component/navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar").innerHTML = data;
+  <main>
+    <!-- Hero section -->
+    <section class="hero-section">
+      <div class="section-container hero-centered">
+        <div class="hero-logo">TK</div>
 
-        const script = document.createElement("script");
-        script.src = "component/navbar.js";
-        document.body.appendChild(script);
-      });
-  </script>
+        <h1>
+          Any business, any size. Take it easy,<br>
+          we handle the books.
+        </h1>
 
-  <main class="page-shell">
-
-    <section class="hero">
-      <div class="hero-logo">Logo</div>
-
-      <h1>Any business, any size. Take it easy, we handle the books.</h1>
-
-      <p>
-        You focus on running the business. We'll make sure the numbers make sense.
-      </p>
-    </section>
-
-    <div class="divider"></div>
-
-    <section class="intro-section">
-      <div class="intro-content">
-        <h2>
-          Confidence in your business,<br>
-          without doing the math.
-        </h2>
-
-        <p>
-          Get a dedicated bookkeeper who actually knows your business
-          not a call centre, not a rotating team. We keep your books
-          organized, accurate, and ready to view anytime, so you always
-          know where you stand.
-          <br>
-          From day-to-day transactions to tax season, LHDN compliance,
-          or your next round of funding, your finances stay audit-ready
-          and stress-free.
+        <p class="hero-description">
+          You focus on running the business. We'll make sure the
+          numbers make sense.
         </p>
 
-        <a href="#" class="schedule-btn">schedule call</a>
-      </div>
-
-      <div class="intro-image">
-        Pictures
+        <a href="#contact" class="hero-button">
+          Schedule a Call →
+        </a>
       </div>
     </section>
 
+    <!-- showcase details and images -->
+    <section class="showcase-section">
+      <div class="section-container">
+
+        <article class="content-split">
+          <div class="content-split__text">
+            <h2>Confidence in your business,<br>without doing the math.</h2>
+
+            <p>
+              Get a dedicated bookkeeper who actually knows your business,
+              not a call centre, not a rotating team. We keep your books
+              organised, accurate, and ready to view anytime.
+            </p>
+
+            <a href="#contact" class="content-split__button">
+              Schedule Call →
+            </a>
+          </div>
+
+          <div class="content-split__media content-split__media--accent">
+            <span>Pictures</span>
+          </div>
+        </article>
+
+        <article class="content-split">
+          <div class="content-split__text">
+            <span class="content-split__eyebrow">Bookkeeping</span>
+
+            <h2>Bookkeeping Services</h2>
+
+            <p>
+              From monthly upkeep to catch-up bookkeeping, TeraKira keeps
+              your books accurate and up to date, no matter your business type.
+            </p>
+
+            <a href="services-bookkeeping.html" class="content-split__link">
+              Learn More
+            </a>
+          </div>
+
+          <div class="content-split__media">
+            <span>Pictures</span>
+          </div>
+        </article>
+
+        <article class="content-split content-split--reverse">
+          <div class="content-split__text">
+            <span class="content-split__eyebrow">Tax Resolution</span>
+
+            <h2>Tax Resolution</h2>
+
+            <p>
+              From income statements to tax computations, TeraKira prepares
+              everything you need, well ahead of every LHDN deadline.
+            </p>
+
+            <a href="#" class="content-split__link">
+              Learn More
+            </a>
+          </div>
+
+          <div class="content-split__media">
+            <span>Pictures</span>
+          </div>
+        </article>
+
+        <article class="content-split">
+          <div class="content-split__text">
+            <span class="content-split__eyebrow">Invoice Management</span>
+
+            <h2>Invoice Management</h2>
+
+            <p>
+              TeraKira manages invoicing and follows up on payments,
+              keeping your cash flow steady and your records accurate.
+            </p>
+
+            <a href="#" class="content-split__link">
+              Learn More
+            </a>
+          </div>
+
+          <div class="content-split__media">
+            <span>Pictures</span>
+          </div>
+        </article>
+
+      </div>
+    </section>
+
+    <!-- Moving carousel nigga -->
+    <section class="review-carousel" aria-label="Customer reviews">
+      <div class="review-carousel__track">
+
+        <div class="review-carousel__group">
+          <img src="assets/reviews/review-1.jpg" alt="Customer review">
+          <img src="assets/reviews/review-2.jpg" alt="Customer review">
+          <img src="assets/reviews/review-3.jpg" alt="Customer review">
+          <img src="assets/reviews/review-4.jpg" alt="Customer review">
+          <img src="assets/reviews/review-5.jpg" alt="Customer review">
+          <img src="assets/reviews/review-6.jpg" alt="Customer review">
+          <img src="assets/reviews/review-7.jpg" alt="Customer review">
+        </div>
+
+        <!-- Duplicate for seamless looping -->
+        <div class="review-carousel__group" aria-hidden="true">
+          <img src="assets/reviews/review-1.jpg" alt="">
+          <img src="assets/reviews/review-2.jpg" alt="">
+          <img src="assets/reviews/review-3.jpg" alt="">
+          <img src="assets/reviews/review-4.jpg" alt="">
+          <img src="assets/reviews/review-5.jpg" alt="">
+          <img src="assets/reviews/review-6.jpg" alt="">
+          <img src="assets/reviews/review-7.jpg" alt="">
+        </div>
+
+      </div>
+    </section>
+
+    <!-- FAQ sections -->
+    <section class="faq-section">
+      <div class="section-container faq-layout">
+
+        <div class="faq-intro">
+          <h2>Frequently Asked<br>Questions</h2>
+          <p>
+            Everything you need to know before your first call with us.
+          </p>
+        </div>
+
+        <div class="faq-list">
+
+          <details class="faq-item">
+            <summary>
+              <span>What size of business do you work with?</span>
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Any size — from solo founders to growing SMEs. Our process scales with your transaction volume.
+              </div>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Do you handle LHDN and tax filing?</span>
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Yes. We help prepare the required records and supporting documents for tax filing and LHDN compliance.
+              </div>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>Will I have a dedicated bookkeeper?</span>
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Yes. You will work with a dedicated bookkeeper who understands your business and records.
+              </div>
+            </div>
+          </details>
+
+          <details class="faq-item">
+            <summary>
+              <span>How do we get started?</span>
+              <span class="faq-icon"></span>
+            </summary>
+            <div class="faq-answer">
+              <div class="faq-answer__inner">
+                Start with a short consultation so we can understand your bookkeeping needs and current records.
+              </div>
+            </div>
+          </details>
+
+        </div>
+      </div>
+    </section>
+
+    <!-- consultation form section -->
+    <div id="consultation-form"></div>
+    <div id="footer"></div>
   </main>
 </body>
 </html>

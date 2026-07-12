@@ -1,5 +1,9 @@
 :root {
   --font-main: "Manrope", sans-serif;
+  --green-button: #447444;
+  --green-button-hover: #345834;
+  --green-eyebrow: var(--green-button);
+  --bg-dark: #12271e;
 }
 
 body {

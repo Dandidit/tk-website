@@ -1,0 +1,156 @@
+<section class="consultation-section" id="contact">
+  <div class="consultation-card">
+
+    <div class="consultation-intro">
+      <a href="index.html" class="consultation-brand">
+        <span class="consultation-brand__icon">TK</span>
+        <span>TeraKira</span>
+      </a>
+
+      <h2>TeraKira Bookkeeping Consultation</h2>
+
+      <p>
+        See if TeraKira is right for your business.
+      </p>
+    </div>
+
+    <form class="consultation-form" action="#" method="post">
+      <div class="consultation-form__row">
+        <div class="form-field">
+          <label for="firstName">First name<span>*</span></label>
+          <input id="firstName" name="firstName" type="text" required>
+        </div>
+
+        <div class="form-field">
+          <label for="lastName">Last name<span>*</span></label>
+          <input id="lastName" name="lastName" type="text" required>
+        </div>
+      </div>
+
+      <div class="form-field">
+        <label for="businessName">Business name</label>
+        <input id="businessName" name="businessName" type="text">
+      </div>
+
+      <div class="form-field">
+        <label for="email">Email<span>*</span></label>
+        <input id="email" name="email" type="email" required>
+      </div>
+
+      <div class="form-field">
+        <label for="phone">Phone<span>*</span></label>
+        <input id="phone" name="phone" type="tel" required>
+      </div>
+
+      <div class="form-field">
+        <label for="monthlyRevenue">
+          Average monthly revenue<span>*</span>
+        </label>
+
+        <select id="monthlyRevenue" name="monthlyRevenue" required>
+          <option value="" selected disabled>Please select</option>
+          <option value="below-10k">Below RM10,000</option>
+          <option value="10k-50k">RM10,000 – RM50,000</option>
+          <option value="50k-100k">RM50,000 – RM100,000</option>
+          <option value="above-100k">Above RM100,000</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="currentBookkeeping">
+          How do you currently manage your books?<span>*</span>
+        </label>
+
+        <select id="currentBookkeeping" name="currentBookkeeping" required>
+          <option value="" selected disabled>Please select</option>
+          <option value="myself">I manage them myself</option>
+          <option value="employee">An employee manages them</option>
+          <option value="accountant">An accountant manages them</option>
+          <option value="software">Using bookkeeping software</option>
+          <option value="none">They are currently unmanaged</option>
+        </select>
+      </div>
+
+      <fieldset class="form-field form-options">
+        <legend>
+          What is your preferred bookkeeping method?<span>*</span>
+        </legend>
+
+        <label>
+          <input type="radio" name="bookkeepingMethod" value="cash" required>
+          <span>
+            Cash basis — record transactions when money enters or leaves.
+          </span>
+        </label>
+
+        <label>
+          <input type="radio" name="bookkeepingMethod" value="accrual">
+          <span>
+            Accrual basis — track invoices and bills before payment.
+          </span>
+        </label>
+
+        <label>
+          <input type="radio" name="bookkeepingMethod" value="unsure">
+          <span>I am not sure or my current books are mixed.</span>
+        </label>
+      </fieldset>
+
+      <div class="form-field">
+        <label for="closingFrequency">
+          How often do you prefer your books closed?<span>*</span>
+        </label>
+
+        <select id="closingFrequency" name="closingFrequency" required>
+          <option value="" selected disabled>Please select</option>
+          <option value="weekly">Weekly</option>
+          <option value="monthly">Monthly</option>
+          <option value="quarterly">Quarterly</option>
+        </select>
+      </div>
+
+      <div class="form-field">
+        <label for="contactReason">
+          What made you contact TeraKira?<span>*</span>
+        </label>
+
+        <select id="contactReason" name="contactReason" required>
+          <option value="" selected disabled>Please select</option>
+          <option value="new-business">Starting a new business</option>
+          <option value="catch-up">Need catch-up bookkeeping</option>
+          <option value="tax">Need tax support</option>
+          <option value="replace-provider">Replacing my current provider</option>
+          <option value="other">Other</option>
+        </select>
+      </div>
+
+      <fieldset class="form-field form-options">
+        <legend>How soon do you need support?<span>*</span></legend>
+
+        <label>
+          <input type="radio" name="supportTimeline" value="now" required>
+          <span>Now</span>
+        </label>
+
+        <label>
+          <input type="radio" name="supportTimeline" value="exploring">
+          <span>Just exploring</span>
+        </label>
+      </fieldset>
+
+      <label class="form-consent">
+        <input type="checkbox" name="consent" required>
+
+        <span>
+          By providing your contact information, you agree to receive
+          communications from TeraKira and accept our terms and privacy policy.
+        </span>
+      </label>
+
+      <button type="submit" class="consultation-form__submit">
+        Submit
+      </button>
+    </form>
+
+  </div>
+</section>
