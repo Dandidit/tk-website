@@ -28,9 +28,13 @@
 
   color: var(--green-eyebrow);
   font-size: 11px;
-  font-weight: 800;
+  font-weight: 900;
   letter-spacing: 0.08em;
   text-transform: uppercase;
+}
+
+.content-split__eyebrow--light {
+  color: var(--green-eyebrow-light);
 }
 
 .content-split__text h2 {
@@ -947,3 +951,371 @@
 }
 
 /* #endregion */
+
+/* #region BOOKKEEPING SERVICES */
+/* =========================
+   BOOKKEEPING SERVICES PAGE
+========================= */
+
+.bookkeeping-hero {
+  padding-top: 52px;
+  padding-bottom: 52px;
+}
+
+.bookkeeping-hero {
+  border-bottom: 1px solid var(--border-color, #e8e8e8);
+}
+
+.bookkeeping-hero .content-split {
+  min-height: 412px;
+}
+
+.bookkeeping-hero__title {
+  margin: 18px 0 14px;
+  font-size: clamp(2.25rem, 4vw, 3.15rem);
+  line-height: 1.08;
+  letter-spacing: auto;
+  color: #fff;
+}
+
+.bookkeeping-hero .content-split__text p {
+  max-width: 520px;
+  color: #fff;
+}
+
+.bookkeeping-hero__actions {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  margin-top: 26px;
+}
+
+.trusted-businesses {
+  padding: 36px 0 40px;
+  border-bottom: 1px solid var(--border-color, #e8e8e8);
+}
+
+.trusted-businesses__title {
+  margin: 0 0 22px;
+  color: var(--text-muted, #768096);
+  font-size: 0.75rem;
+  font-weight: 700;
+  text-align: center;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+}
+
+.trusted-businesses__logos {
+  max-width: 520px;
+  margin: 0 auto;
+
+  display: grid;
+  grid-template-columns: repeat(5, 1fr);
+  gap: 32px;
+  align-items: center;
+
+  color: var(--text-muted, #768096);
+  font-size: 0.875rem;
+  font-weight: 700;
+  text-align: center;
+}
+
+@media (max-width: 768px) {
+  .bookkeeping-hero__title br {
+    display: none;
+  }
+
+  .bookkeeping-hero__actions {
+    justify-content: center;
+  }
+
+  .trusted-businesses__logos {
+    grid-template-columns: repeat(2, 1fr);
+    gap: 24px;
+  }
+
+  .trusted-businesses__logos span:last-child {
+    grid-column: 1 / -1;
+  }
+}
+/* #endregion */
+
+/* #region SERVICES SECTIONS */
+
+/* =========================
+   SERVICE DETAILS
+========================= */
+
+.service-details {
+  padding: 38px 0 20px;
+}
+
+.service-detail {
+  min-height: 390px;
+  padding: 42px 0;
+
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 64px;
+  align-items: center;
+
+  border-bottom: 1px solid var(--border-color, #e7e7e7);
+}
+
+.service-detail__media {
+  width: 100%;
+  min-height: 290px;
+  border-radius: 16px;
+  background: var(--accent-soft, #e3f4eb);
+  color: var(--accent, #1da362);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.8rem;
+}
+
+.service-detail__content {
+  max-width: 520px;
+}
+
+.service-detail__eyebrow {
+  display: inline-block;
+  margin-bottom: 10px;
+  color: var(--accent, #1da362);
+  font-size: 0.72rem;
+  font-weight: 800;
+  text-transform: uppercase;
+  letter-spacing: 0.05em;
+}
+
+.service-detail__content h2 {
+  margin: 0 0 12px;
+  color: var(--text-primary, #17213b);
+  font-size: clamp(1.75rem, 3vw, 2.25rem);
+  line-height: 1.15;
+  letter-spacing: -0.03em;
+}
+
+.service-detail__content > p {
+  margin: 0 0 18px;
+  color: var(--text-muted, #778197);
+  font-size: 0.93rem;
+  line-height: 1.6;
+}
+
+.service-detail__list {
+  display: grid;
+  gap: 10px;
+  margin: 0;
+  padding: 0;
+  list-style: none;
+}
+
+.service-detail__list li {
+  position: relative;
+  padding-left: 26px;
+  color: var(--text-primary, #17213b);
+  font-size: 0.88rem;
+}
+
+.service-detail__list li::before {
+  content: "✓";
+
+  position: absolute;
+  left: 0;
+  top: -1px;
+
+  width: 16px;
+  height: 16px;
+  border-radius: 50%;
+  background: var(--accent-soft, #e3f4eb);
+  color: var(--accent, #1da362);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.65rem;
+  font-weight: 800;
+}
+
+.service-detail--reverse .service-detail__media {
+  order: 2;
+}
+
+.service-detail--reverse .service-detail__content {
+  order: 1;
+}
+
+/* =========================
+   TIME SAVING PANEL
+========================= */
+
+.time-saving {
+  padding: 28px 0 56px;
+}
+
+.time-saving__panel {
+  min-height: 172px;
+  padding: 34px;
+  border-radius: 22px;
+  background: #101d36;
+  color: #fff;
+
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+
+  text-align: center;
+}
+
+.time-saving__panel strong {
+  margin-bottom: 10px;
+  color: #78e3a9;
+  font-size: clamp(2.4rem, 5vw, 3.6rem);
+  line-height: 1;
+}
+
+.time-saving__panel p {
+  max-width: 620px;
+  margin: 0;
+  color: #c8cfda;
+  font-size: 0.95rem;
+  line-height: 1.55;
+}
+
+/* =========================
+   PROCESS SECTION
+========================= */
+
+.process-section {
+  padding: 20px 0 66px;
+}
+
+.process-section__header {
+  margin-bottom: 40px;
+  text-align: center;
+}
+
+.process-section__header h2 {
+  margin: 0 0 10px;
+  color: var(--text-primary, #17213b);
+  font-size: clamp(2rem, 3vw, 2.65rem);
+}
+
+.process-section__header p {
+  margin: 0;
+  color: var(--text-muted, #778197);
+  font-size: 0.92rem;
+}
+
+@media (max-width: 768px) {
+  .process-section__header h2 br {
+    display: none;
+  }
+}
+
+.process-grid {
+  display: grid;
+  grid-template-columns: repeat(4, 1fr);
+  gap: 28px;
+}
+
+.process-step__number {
+  width: 29px;
+  height: 29px;
+  margin-bottom: 14px;
+  border-radius: 50%;
+  background: var(--accent-soft, #e3f4eb);
+  color: var(--accent, #1da362);
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  font-size: 0.82rem;
+  font-weight: 800;
+}
+
+.process-step h3 {
+  margin: 0 0 10px;
+  color: var(--text-primary, #17213b);
+  font-size: 0.95rem;
+}
+
+.process-step p {
+  margin: 0;
+  color: var(--text-muted, #778197);
+  font-size: 0.84rem;
+  line-height: 1.55;
+}
+
+/* =========================
+   RESPONSIVE
+========================= */
+
+@media (max-width: 768px) {
+  .service-detail {
+    min-height: auto;
+    grid-template-columns: 1fr;
+    gap: 30px;
+    padding: 38px 0;
+  }
+
+  .service-detail__media {
+    min-height: 240px;
+  }
+
+  .service-detail--reverse .service-detail__media,
+  .service-detail--reverse .service-detail__content {
+    order: initial;
+  }
+
+  .service-detail__content {
+    max-width: none;
+  }
+
+  .time-saving__panel {
+    padding: 34px 22px;
+  }
+
+  .process-grid {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .process-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* #endregion */
+
+/* #region BOOKKEEPING SERVICES FOR INVOICE MANAGEMENT */
+
+.bookkeeping-features__grid--four {
+  grid-template-columns: repeat(4, 1fr);
+}
+
+.bookkeeping-features__grid--four .bookkeeping-feature-card {
+  min-height: 220px;
+}
+
+@media (max-width: 900px) {
+  .bookkeeping-features__grid--four {
+    grid-template-columns: repeat(2, 1fr);
+  }
+}
+
+@media (max-width: 520px) {
+  .bookkeeping-features__grid--four {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* #endregion */
+

@@ -3,61 +3,323 @@
 <head>
   <meta charset="UTF-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta
+    name="description"
+    content="Accurate monthly bookkeeping services for Malaysian businesses."
+  />
 
   <title>Bookkeeping Services | TeraKira</title>
 
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/home.css">
   <link rel="stylesheet" href="css/pages.css">
 
-  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link
+    href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap"
+    rel="stylesheet"
+  >
+
+  <script src="js/pages.js" defer></script>
 </head>
 
 <body>
   <div id="navbar"></div>
 
-  <script>
-    fetch("component/navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar").innerHTML = data;
+  <main>
 
-        const script = document.createElement("script");
-        script.src = "component/navbar.js";
-        document.body.appendChild(script);
-      });
-  </script>
+    <!-- Bookkeeping hero -->
+    <section class="hero-section bookkeeping-hero">
+      <div class="section-container">
 
-  <main class="page-shell">
+        <div class="content-split">
+          <div class="content-split__text">
+            <span class="content-split__eyebrow--light">
+              Bookkeeping
+            </span>
 
-    <section class="split-section">
-      <div class="text-block">
-        <h1>Bookkeeping Services</h1>
-        <p>
-          From monthly upkeep to catch-up bookkeeping, Terakira keeps your
-          books accurate and up to date, no matter your business type
-        </p>
-      </div>
+            <h1 class="bookkeeping-hero__title">
+              Accurate books, every month — without lifting a finger.
+            </h1>
 
-      <div class="image-placeholder">
-        Pictures
+            <p>
+              Your dedicated bookkeeper categorises transactions,
+              reconciles accounts, and delivers financial statements
+              you can actually trust.
+            </p>
+
+            <div class="bookkeeping-hero__actions">
+              <a href="#contact" class="hero-button">
+                Schedule Call
+              </a>
+
+              <a href="pricing.html" class="hero-button hero-button--outline">
+                View Pricing
+              </a>
+            </div>
+          </div>
+
+          <div class="content-split__media content-split__media--accent">
+            <span>Pictures</span>
+          </div>
+        </div>
+
       </div>
     </section>
 
-    <section class="split-section reverse">
-      <div class="image-placeholder">
-        Pictures
-      </div>
-
-      <div class="text-block">
-        <h1>Tax Resolution</h1>
-        <p>
-          From income statements to tax computations, Terakira prepares
-          everything you need, well ahead of every deadline.
+    <!-- Trusted businesses -->
+    <section class="trusted-businesses">
+      <div class="section-container">
+        <p class="trusted-businesses__title">
+          Trusted by business owners across Malaysia
         </p>
+
+        <div class="trusted-businesses__logos">
+          <span>Name</span>
+          <span>Name</span>
+          <span>Name</span>
+          <span>Name</span>
+          <span>Name</span>
+        </div>
       </div>
     </section>
+
+    <!-- Bookkeeping service details -->
+<section class="service-details">
+  <div class="section-container">
+
+    <article class="service-detail">
+      <div class="service-detail__media">
+        <span>Pictures</span>
+      </div>
+
+      <div class="service-detail__content">
+        <span class="service-detail__eyebrow">Reconciliation</span>
+
+        <h2>Bank &amp; credit card reconciliation</h2>
+
+        <p>
+          We match every transaction against your bank and credit card
+          statements, so your books reflect what's actually happening
+          in your business.
+        </p>
+
+        <ul class="service-detail__list">
+          <li>Multi-account reconciliation</li>
+          <li>Discrepancies flagged and resolved</li>
+          <li>Monthly close, every time</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="service-detail service-detail--reverse">
+      <div class="service-detail__media">
+        <span>Pictures</span>
+      </div>
+
+      <div class="service-detail__content">
+        <span class="service-detail__eyebrow">Reporting</span>
+
+        <h2>Profit &amp; loss and balance sheet</h2>
+
+        <p>
+          Get monthly financial statements that are accurate, easy to read,
+          and ready whenever your bank, investor, or accountant asks for them.
+        </p>
+
+        <ul class="service-detail__list">
+          <li>Monthly P&amp;L statements</li>
+          <li>Balance sheet on demand</li>
+          <li>Tax-ready year round</li>
+        </ul>
+      </div>
+    </article>
+
+    <article class="service-detail">
+      <div class="service-detail__media">
+        <span>Pictures</span>
+      </div>
+
+      <div class="service-detail__content">
+        <span class="service-detail__eyebrow">Your Team</span>
+
+        <h2>One dedicated bookkeeper</h2>
+
+        <p>
+          No call centres, no rotating staff. You get a bookkeeper who
+          knows your business and is only a message away.
+        </p>
+
+        <ul class="service-detail__list">
+          <li>Direct line to your bookkeeper</li>
+          <li>Pre-scheduled monthly check-ins</li>
+          <li>Custom categorization for your business</li>
+        </ul>
+      </div>
+    </article>
+
+  </div>
+</section>
+
+<!-- Time saving highlight -->
+<section class="time-saving">
+  <div class="section-container">
+    <div class="time-saving__panel">
+      <strong>20+ hrs</strong>
+
+      <p>
+        TeraKira clients save an average of 20 hours a month on bookkeeping
+        admin — time they get back to focus on growing their business.
+      </p>
+    </div>
+  </div>
+</section>
+
+<!-- How it works -->
+<section class="process-section">
+  <div class="section-container">
+
+    <div class="process-section__header">
+      <h2>How it works</h2>
+
+      <p>
+        From sign-up to your first monthly close in four simple steps.
+      </p>
+    </div>
+
+    <div class="process-grid">
+
+      <article class="process-step">
+        <span class="process-step__number">1</span>
+        <h3>Provide your statements</h3>
+        <p>
+          Share your bank statements, receipts, and any existing
+          bookkeeping records.
+        </p>
+      </article>
+
+      <article class="process-step">
+        <span class="process-step__number">2</span>
+        <h3>We categorize &amp; reconcile</h3>
+        <p>
+          Your dedicated bookkeeper records and reconciles every
+          transaction monthly.
+        </p>
+      </article>
+
+      <article class="process-step">
+        <span class="process-step__number">3</span>
+        <h3>Review your statements</h3>
+        <p>
+          Receive clear P&amp;L and balance sheet reports you can
+          actually act on.
+        </p>
+      </article>
+
+      <article class="process-step">
+        <span class="process-step__number">4</span>
+        <h3>Stay tax-ready</h3>
+        <p>
+          Your books stay clean and compliant year-round,
+          ready for tax season.
+        </p>
+      </article>
+
+    </div>
+  </div>
+</section>
+
+<!-- FAQ -->
+<section class="faq-section">
+  <div class="section-container faq-layout">
+
+    <div class="faq-intro">
+      <h2>Frequently Asked<br>Questions</h2>
+
+      <p>
+        Everything you need to know before your first call.
+      </p>
+    </div>
+
+    <div class="faq-list">
+
+      <details class="faq-item" open>
+        <summary>
+          <span>What software do you use to complete my bookkeeping?</span>
+          <span class="faq-icon"></span>
+        </summary>
+
+        <div class="faq-answer">
+          <div class="faq-answer__inner">
+            We work inside your existing tools where possible, and can also
+            set you up on cloud accounting software if you don't have one yet.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Will I have a dedicated bookkeeper?</span>
+          <span class="faq-icon"></span>
+        </summary>
+
+        <div class="faq-answer">
+          <div class="faq-answer__inner">
+            Yes. You will work with one dedicated bookkeeper who becomes
+            familiar with your business and accounts.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>Does TeraKira support both cash and accrual accounting?</span>
+          <span class="faq-icon"></span>
+        </summary>
+
+        <div class="faq-answer">
+          <div class="faq-answer__inner">
+            Yes. We can maintain your books using either cash or accrual
+            accounting, depending on your business requirements.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>What happens to my financial data if I cancel?</span>
+          <span class="faq-icon"></span>
+        </summary>
+
+        <div class="faq-answer">
+          <div class="faq-answer__inner">
+            Your financial records remain yours. We will help ensure that
+            your available bookkeeping files can be transferred to you.
+          </div>
+        </div>
+      </details>
+
+      <details class="faq-item">
+        <summary>
+          <span>How often will I hear from my bookkeeping team?</span>
+          <span class="faq-icon"></span>
+        </summary>
+
+        <div class="faq-answer">
+          <div class="faq-answer__inner">
+            You will receive regular monthly updates and can contact your
+            bookkeeper whenever clarification is needed.
+          </div>
+        </div>
+      </details>
+
+    </div>
+  </div>
+</section>
+
+<div id="footer"></div>
 
   </main>
 </body>
