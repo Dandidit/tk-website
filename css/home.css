@@ -79,6 +79,18 @@
   background: var(--green-button-hover);
   transform: translateY(-1px);
 }
+
+.hero-button--outline {
+  background: transparent;
+  color: var(--text-primary, #dedede);
+  border: 1px solid var(--border-color, #dedede);
+}
+
+.hero-button--outline:hover {
+  background: var(--green-button-hover);
+  color: #fff;
+  border: 1px solid var(--green-button-hover);
+} 
 /* #endregion */
 
 /* #region TRUST STRIP */
