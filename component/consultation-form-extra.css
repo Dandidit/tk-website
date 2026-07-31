@@ -1,0 +1,33 @@
+.consultation-form__honeypot {
+  position: absolute;
+  left: -9999px;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+
+.consultation-form__turnstile {
+  margin-top: 8px;
+}
+
+.consultation-form__message {
+  padding: 12px 14px;
+  border-radius: 8px;
+  font-size: 14px;
+  line-height: 1.5;
+}
+
+.consultation-form__message.is-success {
+  background: #edf8f0;
+  border: 1px solid #9bc9a5;
+}
+
+.consultation-form__message.is-error {
+  background: #fff1f1;
+  border: 1px solid #dfaaaa;
+}
+
+.consultation-form__submit:disabled {
+  cursor: not-allowed;
+  opacity: 0.65;
+}

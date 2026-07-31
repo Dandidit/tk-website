@@ -1,0 +1,15 @@
+{
+  "name": "terakira-bookkeeping",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "vercel dev"
+  },
+  "dependencies": {
+    "@neondatabase/serverless": "^1.0.1",
+    "resend": "^6.0.0"
+  },
+  "devDependencies": {
+    "vercel": "^46.0.0"
+  }
+}
