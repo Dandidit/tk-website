@@ -175,6 +175,7 @@ export async function POST(request) {
 
     // Saving to Neon determines success. Email failure does not fail the form.
     if (process.env.RESEND_API_KEY && process.env.ADMIN_NOTIFICATION_EMAIL) {
+      console.log("ADMIN_NOTIFICATION_EMAIL: ", process.env.ADMIN_NOTIFICATION_EMAIL)
       const submission = inserted[0];
 
       const { error } = await resend.emails.send({
