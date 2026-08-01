@@ -70,6 +70,7 @@ async function verifyTurnstile(token, ipAddress) {
 
 export async function POST(request) {
   try {
+    console.log("resend email: ", process.env.RESEND_FROM_EMAIL)
     if (!process.env.terakira_db_DATABASE_URL || !process.env.TURNSTILE_SECRET_KEY) {
       console.error("Missing DATABASE_URL or TURNSTILE_SECRET_KEY.");
       return json({ message: "Server configuration error." }, 500);
