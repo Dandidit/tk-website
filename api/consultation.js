@@ -1,7 +1,7 @@
 import { neon } from "@neondatabase/serverless";
 import { Resend } from "resend";
 
-const sql = neon(process.env.DATABASE_URL);
+const sql = neon(process.env.terakira_db_DATABASE_URL);
 const resend = new Resend(process.env.RESEND_API_KEY);
 
 const allowedValues = {
@@ -70,7 +70,7 @@ async function verifyTurnstile(token, ipAddress) {
 
 export async function POST(request) {
   try {
-    if (!process.env.DATABASE_URL || !process.env.TURNSTILE_SECRET_KEY) {
+    if (!process.env.terakira_db_DATABASE_URL || !process.env.TURNSTILE_SECRET_KEY) {
       console.error("Missing DATABASE_URL or TURNSTILE_SECRET_KEY.");
       return json({ message: "Server configuration error." }, 500);
     }
