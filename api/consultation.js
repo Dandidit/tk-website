@@ -70,7 +70,6 @@ async function verifyTurnstile(token, ipAddress) {
 
 export async function POST(request) {
   try {
-    console.log("resend email: ", process.env.RESEND_FROM_EMAIL)
     if (!process.env.terakira_db_DATABASE_URL || !process.env.TURNSTILE_SECRET_KEY) {
       console.error("Missing DATABASE_URL or TURNSTILE_SECRET_KEY.");
       return json({ message: "Server configuration error." }, 500);
@@ -179,7 +178,7 @@ export async function POST(request) {
       const submission = inserted[0];
 
       const { error } = await resend.emails.send({
-        from: process.env.RESEND_FROM_EMAIL || "TeraKira <onboarding@resend.dev>",
+        from: "TeraKira <onboarding@resend.dev>",
         to: [process.env.ADMIN_NOTIFICATION_EMAIL],
         replyTo: email,
         subject: `New TeraKira consultation: ${firstName} ${lastName}`,
