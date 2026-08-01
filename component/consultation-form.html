@@ -15,6 +15,16 @@
     </div>
 
     <form class="consultation-form" action="/api/consultation" method="post">
+      <div class="form-field consultation-form__honeypot" aria-hidden="true">
+        <label for="website">Leave this field empty</label>
+        <input
+          id="website"
+          name="website"
+          type="text"
+          tabindex="-1"
+          autocomplete="off"
+        >
+      </div>
       <div class="consultation-form__row">
         <div class="form-field">
           <label for="firstName">First name<span>*</span></label>
@@ -140,13 +150,21 @@
 
       <label class="form-consent">
         <input type="checkbox" name="consent" required>
-
         <span>
-          By providing your contact information, you agree to receive
-          communications from TeraKira and accept our terms and privacy policy.
+          By submitting this form, you agree to receive communications from
+          TeraKira and acknowledge our
+          <a href="terms-and-conditions.html#pdpa">Terms, Privacy and PDPA Notice</a>.
+          We collect your form details to respond to your enquiry. We also process
+          your IP address, browser information and submission time for spam
+          prevention and security. The IP address and browser information are
+          removed after 30 days, and the consultation record is retained for up to
+          2 years unless a longer period is legally required.
         </span>
       </label>
 
+      <div id="consultation-turnstile" class="consultation-form__turnstile" data-sitekey="0x4AAAAAAEDA1vBB-_ldZnOy"></div>
+      <div class="consultation-form__message" role="status" aria-live="polite" hidden></div>
+      
       <button type="submit" class="consultation-form__submit">
         Submit
       </button>

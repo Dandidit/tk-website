@@ -51,7 +51,7 @@ async function initializeConsultationForm() {
     const turnstile = await loadTurnstileScript();
     const siteKey = turnstileContainer?.dataset.sitekey;
 
-    if (!siteKey || siteKey === "0x4AAAAAAEDA1vBB-_ldZnOy") {
+    if (!siteKey) {
       throw new Error("Cloudflare Turnstile site key has not been configured.");
     }
 
@@ -140,3 +140,20 @@ async function initializeConsultationForm() {
 }
 
 window.initializeConsultationForm = initializeConsultationForm;
+
+// Javascript for consultation form
+fetch("component/consultation-form.html")
+  .then(response => {
+    if (!response.ok) {
+      throw new Error("Unable to load consultation form.");
+    }
+
+    return response.text();
+  })
+  .then(html => {
+    document.getElementById("consultation-form").innerHTML = html;
+    initializeConsultationForm();
+  })
+  .catch(error => {
+    console.error(error);
+  });

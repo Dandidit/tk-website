@@ -78,22 +78,6 @@ fetch("component/navbar.html")
   })
   .catch(error => console.error(error));
 
-// Javascript for consultation form
-fetch("component/consultation-form.html")
-  .then(response => {
-    if (!response.ok) {
-      throw new Error("Unable to load consultation form.");
-    }
-
-    return response.text();
-  })
-  .then(html => {
-    document.getElementById("consultation-form").innerHTML = html;
-  })
-  .catch(error => {
-    console.error(error);
-  });
-
 // Javascript for footer
 fetch("component/footer.html")
   .then(response => {
