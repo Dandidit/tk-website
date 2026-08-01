@@ -127,7 +127,7 @@ export async function POST(request) {
         SELECT COUNT(*)::int AS count
         FROM consultation_submissions
         WHERE ip_address = ${ipAddress}::inet
-          AND submitted_at >= NOW() - INTERVAL '1 minute'
+          AND submitted_at >= NOW() - INTERVAL '1 hour'
       `;
 
       if (rateLimitResult[0].count >= 3) {
