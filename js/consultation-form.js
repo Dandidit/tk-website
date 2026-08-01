@@ -109,10 +109,24 @@ async function initializeConsultationForm() {
         body: JSON.stringify(payload)
       });
 
-      const result = await response.json().catch(() => ({}));
+      const responseText = await response.text();
+
+      console.log("Status:", response.status);
+      console.log("Response:", responseText);
+
+      let result = {};
+
+      try {
+        result = JSON.parse(responseText);
+      } catch {
+        result = {};
+      }
 
       if (!response.ok) {
-        throw new Error(result.message || "Unable to submit the form.");
+        throw new Error(
+          result.message ||
+          `Submission failed with status ${response.status}. Check the console.`
+        );
       }
 
       form.reset();
