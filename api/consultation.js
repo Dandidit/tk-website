@@ -120,7 +120,8 @@ export async function POST(request) {
     if (!turnstilePassed) {
       return json({ message: "Security verification failed. Please try again." }, 400);
     }
-
+    
+    // to convert from 1 minute to 1 hour
     if (ipAddress) {
       const rateLimitResult = await sql`
         SELECT COUNT(*)::int AS count
@@ -175,11 +176,10 @@ export async function POST(request) {
 
     // Saving to Neon determines success. Email failure does not fail the form.
     if (process.env.RESEND_API_KEY && process.env.ADMIN_NOTIFICATION_EMAIL) {
-      console.log("ADMIN_NOTIFICATION_EMAIL: ", process.env.ADMIN_NOTIFICATION_EMAIL)
       const submission = inserted[0];
 
       const { error } = await resend.emails.send({
-        from: "TeraKira <onboarding@resend.dev>",
+        from:  process.env.RESEND_FROM_EMAIL || "TeraKira <onboarding@resend.dev>",
         to: [process.env.ADMIN_NOTIFICATION_EMAIL],
         replyTo: email,
         subject: `New TeraKira consultation: ${firstName} ${lastName}`,
