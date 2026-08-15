@@ -19,26 +19,36 @@
 }
 
 .site-logo {
+  display: flex;
+  align-items: center;
+  gap: 4px;
+
   color: #132018;
   text-decoration: none;
   line-height: 1;
 }
 
-.site-logo span {
+.site-logo img {
+  height: 42px;
+  object-fit: contain;
   display: block;
-  font-size: 22px;
-  font-weight: 800;
-  letter-spacing: -0.04em;
 }
 
-.site-logo small {
+.site-logo span {
+  font-size: 22px;
+  font-weight: 800;
+  letter-spacing: -0.02em;
+}
+
+/* comment out old css foir logo */
+/* .site-logo small {
   display: block;
   margin-top: 5px;
   font-size: 9px;
   font-weight: 800;
   letter-spacing: 0.23em;
   text-transform: uppercase;
-}
+} */
 
 .site-nav-links {
   margin: auto;
@@ -176,20 +186,28 @@
 /* Schedule button */
 
 .nav-call-btn {
-  min-height: 44px;
-  padding: 0 20px;
-
-  border: 1px solid #132018;
-  border-radius: 6px;
-
   display: inline-flex;
   align-items: center;
   justify-content: center;
 
-  color: #132018;
+  padding: 12px 24px;
+
+  background: var(--green-button);
+  color: #fff;
+  border-radius: 999px;
+
   text-decoration: none;
   font-size: 16px;
-  font-weight: 900;
+  font-weight: 700;
+
+  transition:
+    background 0.2s ease,
+    transform 0.2s ease;
+}
+
+.nav-call-btn:hover {
+  background: var(--green-button-hover);
+  transform: translateY(-1px);
 }
 
 /* Mobile button */
@@ -207,6 +225,45 @@
   color: #132018;
   font-size: 23px;
   cursor: pointer;
+}
+
+@media (min-width: 769px) and (max-width: 1100px) {
+  .site-navbar-container {
+    width: calc(100% - 48px);
+    height: 74px;
+    gap: 18px;
+  }
+
+  .site-logo img {
+    height: 36px;
+  }
+
+  .site-logo span {
+    font-size: 20px;
+  }
+
+  .site-nav-links {
+    gap: 24px;
+    padding: 8px;
+  }
+
+  .site-nav-links > li > a,
+  .nav-dropdown-toggle {
+    font-size: 14px;
+  }
+
+  .nav-call-btn {
+    padding: 10px 18px;
+    font-size: 14px;
+  }
+
+  .nav-dropdown-menu {
+    width: 340px;
+  }
+
+  .nav-dropdown-menu-small {
+    width: 290px;
+  }
 }
 
 @media (max-width: 768px) {

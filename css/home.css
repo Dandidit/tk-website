@@ -17,20 +17,20 @@
 }
 
 .hero-logo {
-  width: 48px;
-  height: 48px;
+  /* width: 48px; */
+  height: 90px;
   margin-bottom: 20px;
 
   display: flex;
   align-items: center;
   justify-content: center;
+}
 
-  background: #d8e8d8;
-  color: var(--bg-dark);
-  border-radius: 10px;
-
-  font-size: 18px;
-  font-weight: 900;
+.hero-logo img {
+  width: 100%;
+  height: 100%;
+  object-fit: contain;
+  display: block;
 }
 
 .hero-centered h1,

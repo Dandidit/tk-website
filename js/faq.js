@@ -1,5 +1,5 @@
 document.addEventListener("DOMContentLoaded", () => {
-  const tabs = document.querySelectorAll(".category-tab");
+  const tabs = document.querySelectorAll(".faq-category");
   const items = document.querySelectorAll(".faq-item");
 
   tabs.forEach(tab => {

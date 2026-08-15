@@ -63,7 +63,7 @@ a {
   display: grid;
   grid-template-columns: 1fr auto;
   gap: 80px;
-  align-items: start;
+  align-items: center;
   padding-bottom: 52px;
 }
 
@@ -73,7 +73,7 @@ a {
   gap: 10px;
   width: fit-content;
 
-  color: #14213d;
+  color: var(--dark-blue);
   text-decoration: none;
   font-size: 22px;
   font-weight: 800;
@@ -117,7 +117,7 @@ a {
 }
 
 .site-footer__column a {
-  color: #14213d;
+  color: var(--dark-blue);
   text-decoration: none;
   font-size: 15px;
 }

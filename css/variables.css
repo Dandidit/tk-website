@@ -1,10 +1,15 @@
 :root {
+  /* --font-main: "Manrope", sans-serif; */
   --font-main: "Manrope", sans-serif;
-  --green-button: #447444;
-  --green-button-hover: #345834;
+  --green-button: #28A65C;
+  --green-button-hover: #1e884a;
   --green-eyebrow: var(--green-button);
   --green-eyebrow-light: #72AC72;
-  --bg-dark: #12271e;
+  --bg-dark: #0B1830;
+  --accent-soft: #E7F5EC;
+  --accent: #178C4C;
+  --dark-blue: #16233E;
+  --light-gray: #6B7686;
 }
 
 body {
