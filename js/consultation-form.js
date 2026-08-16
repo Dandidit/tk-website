@@ -164,23 +164,40 @@ fetch("component/consultation-form.html")
 
     return response.text();
   })
-  .then(html => {
-  const consultationTarget = document.getElementById("consultation-form");
+  .then(async html => {
+    const consultationTarget = document.getElementById("consultation-form");
 
-  consultationTarget.innerHTML = html;
-  initializeConsultationForm();
+    consultationTarget.innerHTML = html;
+    initializeConsultationForm();
 
-  if (window.location.hash === "#consultation-form") {
-    requestAnimationFrame(() => {
-      consultationTarget.scrollIntoView({
-        behavior: "smooth",
-        block: "start"
+    if (window.location.hash === "#consultation-form") {
+
+      // Wait for fonts
+      if (document.fonts?.ready) {
+        await document.fonts.ready;
+      }
+
+      // Wait until the page itself has finished loading
+      if (document.readyState !== "complete") {
+        await new Promise(resolve => {
+          window.addEventListener("load", resolve, { once: true });
+        });
+      }
+
+      // Give browser time to calculate final layout
+      requestAnimationFrame(() => {
+        requestAnimationFrame(() => {
+
+          consultationTarget.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+          });
+
+          consultationTarget.classList.add("consultation-reveal");
+        });
       });
-
-      consultationTarget.classList.add("consultation-reveal");
-    });
-  }
-})
+    }
+  })
   .catch(error => {
     console.error(error);
   });
