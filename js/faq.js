@@ -6,10 +6,15 @@ document.addEventListener("DOMContentLoaded", () => {
     tab.addEventListener("click", () => {
       const category = tab.dataset.category;
 
-      tabs.forEach(item => item.classList.remove("active"));
-      tab.classList.add("active");
+      tabs.forEach(item => {
+        const isActive = item === tab;
+
+        item.classList.toggle("active", isActive);
+        item.setAttribute("aria-selected", String(isActive));
+      });
 
       items.forEach(item => {
+        item.open = false;
         item.hidden = item.dataset.category !== category;
       });
     });

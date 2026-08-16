@@ -165,9 +165,22 @@ fetch("component/consultation-form.html")
     return response.text();
   })
   .then(html => {
-    document.getElementById("consultation-form").innerHTML = html;
-    initializeConsultationForm();
-  })
+  const consultationTarget = document.getElementById("consultation-form");
+
+  consultationTarget.innerHTML = html;
+  initializeConsultationForm();
+
+  if (window.location.hash === "#consultation-form") {
+    requestAnimationFrame(() => {
+      consultationTarget.scrollIntoView({
+        behavior: "smooth",
+        block: "start"
+      });
+
+      consultationTarget.classList.add("consultation-reveal");
+    });
+  }
+})
   .catch(error => {
     console.error(error);
   });

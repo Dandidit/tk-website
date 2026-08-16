@@ -297,6 +297,28 @@
 
 /* #region CONSULTATION FORM */
 
+/* #region animation consultation form redirect */
+#consultation-form {
+  scroll-margin-top: 96px;
+}
+
+.consultation-reveal {
+  animation: consultationReveal 400ms ease-out;
+}
+
+@keyframes consultationReveal {
+  from {
+    opacity: 0;
+    transform: translateY(24px) scale(0.98);
+  }
+
+  to {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+  }
+}
+/* #endregion animation consultation form redirect */
+
 .consultation-section {
   padding: 64px 24px;
   background: var(--bg-dark);
