@@ -4,13 +4,67 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Dashboard | TeraKira</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/dashboard.css">
 </head>
 <body>
-  <main>
-    <h1>Dashboard</h1>
-    <p id="welcome"></p>
-    <button id="logout-button">Log out</button>
-  </main>
+  <div class="app-shell">
+    <aside class="sidebar">
+      <div class="brand">TeraKira</div>
+      <nav>
+        <a href="/dashboard.html" class="active">Home</a>
+        <a href="/profile.html">Profile</a>
+        <a href="/login-settings.html">Login settings</a>
+      </nav>
+    </aside>
+
+    <main class="dashboard-main">
+      <header class="dashboard-header">
+        <div>
+          <h1>Dashboard</h1>
+          <p id="welcome"></p>
+        </div>
+        <span id="role"></span>
+        <button id="logout-button">Log out</button>
+      </header>
+
+      <section class="dashboard-card">
+        <h2>Bank statements</h2>
+
+        <form id="upload-form">
+          <input
+            id="statement-file"
+            type="file"
+            accept="application/pdf"
+            required
+          >
+          <button type="submit">Upload PDF</button>
+        </form>
+
+        <p id="upload-message"></p>
+
+        <div id="statement-list"></div>
+      </section>
+
+      <section class="dashboard-card">
+        <h2>Calendar</h2>
+        <div id="calendar-list"></div>
+
+        <div id="admin-appointment-panel" hidden>
+          <h3>Set appointment</h3>
+          <form id="appointment-form">
+            <input id="appointment-user" placeholder="User ID" required>
+            <input id="appointment-title" placeholder="Title" required>
+            <input id="appointment-start" type="datetime-local" required>
+            <input id="appointment-end" type="datetime-local" required>
+            <textarea id="appointment-notes" placeholder="Notes"></textarea>
+            <button type="submit">Create appointment</button>
+          </form>
+        </div>
+      </section>
+    </main>
+  </div>
 
   <script>
     window.TERAKIRA_CONFIG = {
@@ -18,17 +72,6 @@
     };
   </script>
 
-  <script type="module">
-    import { requireAuth, logout } from "./js/auth-guard.js";
-
-    const user = await requireAuth();
-
-    if (user) {
-      document.getElementById("welcome").textContent =
-        `Logged in as ${user.name || user.email}`;
-    }
-
-    document.getElementById("logout-button").addEventListener("click", logout);
-  </script>
+  <script type="module" src="/js/dashboard.js"></script>
 </body>
 </html>
