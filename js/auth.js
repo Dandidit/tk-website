@@ -2,7 +2,7 @@ import { createAuthClient } from "https://cdn.jsdelivr.net/npm/@neondatabase/aut
 
 const authUrl = window.TERAKIRA_CONFIG?.NEON_AUTH_URL;
 
-if (!authUrl || authUrl === "https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth") {
+if (!authUrl) {
   throw new Error("NEON_AUTH_URL is not configured.");
 }
 
