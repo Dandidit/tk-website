@@ -1,4 +1,4 @@
-import { getCurrentUser, signOut } from "./auth.js";
+import { getCurrentUser, getJWT, signOut } from "./auth.js";
 
 export async function requireAuth() {
   const user = await getCurrentUser();
@@ -9,6 +9,23 @@ export async function requireAuth() {
   }
 
   return user;
+}
+
+export async function getAppUser() {
+  const token = await getJWT();
+
+  const response = await fetch("/api/me", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    }
+  });
+
+  if (!response.ok) {
+    window.location.href = "/login.html";
+    return null;
+  }
+
+  return await response.json();
 }
 
 export async function logout() {

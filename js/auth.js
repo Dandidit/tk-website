@@ -9,10 +9,11 @@ if (!authUrl) {
 export const authClient = createAuthClient(authUrl);
 
 export async function signIn(email, password) {
-  return await authClient.signIn.email({
-    email,
-    password
-  });
+  return await authClient.signIn.email({ email, password });
+}
+
+export async function signUp(name, email, password) {
+  return await authClient.signUp.email({ name, email, password });
 }
 
 export async function getSession() {
@@ -24,14 +25,10 @@ export async function getCurrentUser() {
   return result?.data?.user ?? result?.user ?? null;
 }
 
-export async function signOut() {
-  return await authClient.signOut();
+export async function getJWT() {
+  return await authClient.getJWTToken();
 }
 
-export async function signUp(name, email, password) {
-  return await authClient.signUp.email({
-    name,
-    email,
-    password
-  });
+export async function signOut() {
+  return await authClient.signOut();
 }
