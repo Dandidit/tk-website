@@ -27,3 +27,11 @@ export async function getCurrentUser() {
 export async function signOut() {
   return await authClient.signOut();
 }
+
+export async function signUp(name, email, password) {
+  return await authClient.signUp.email({
+    name,
+    email,
+    password
+  });
+}

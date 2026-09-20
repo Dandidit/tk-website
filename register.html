@@ -3,9 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Login | TeraKira</title>
+  <title>Create Account | TeraKira</title>
+
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/layout.css">
+
   <style>
     .auth-page {
       min-height: 100vh;
@@ -78,35 +80,65 @@
       color: #a00;
       background: #fff5f5;
     }
+
+    .auth-link {
+      margin-top: 20px;
+      text-align: center;
+    }
   </style>
 </head>
 
 <body>
   <main class="auth-page">
     <section class="auth-card">
-      <h1>Welcome back</h1>
-      <p>Sign in to your TeraKira account.</p>
+      <h1>Create account</h1>
+      <p>Create your TeraKira account.</p>
 
-      <div id="login-error" class="auth-error"></div>
+      <div id="register-error" class="auth-error"></div>
 
-      <form id="login-form">
+      <form id="register-form">
+
+        <div class="auth-field">
+          <label for="name">Name</label>
+          <input
+            id="name"
+            name="name"
+            type="text"
+            autocomplete="name"
+            required
+          >
+        </div>
+
         <div class="auth-field">
           <label for="email">Email</label>
-          <input id="email" name="email" type="email" autocomplete="email" required>
+          <input
+            id="email"
+            name="email"
+            type="email"
+            autocomplete="email"
+            required
+          >
         </div>
 
         <div class="auth-field">
           <label for="password">Password</label>
-          <input id="password" name="password" type="password" autocomplete="current-password" required>
+          <input
+            id="password"
+            name="password"
+            type="password"
+            autocomplete="new-password"
+            required
+          >
         </div>
 
-        <button id="login-button" class="auth-submit" type="submit">
-          Sign in
+        <button id="register-button" class="auth-submit" type="submit">
+          Create account
         </button>
       </form>
+
       <div class="auth-link">
-        Don't have an account?
-        <a href="/register.html">Create account</a>
+        Already have an account?
+        <a href="/login.html">Sign in</a>
       </div>
     </section>
   </main>
@@ -117,6 +149,6 @@
     };
   </script>
 
-  <script type="module" src="js/login.js"></script>
+  <script type="module" src="js/register.js"></script>
 </body>
 </html>
