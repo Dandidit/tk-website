@@ -1,0 +1,3 @@
+PyMuPDF
+psycopg[binary]
+vercel
