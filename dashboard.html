@@ -1,0 +1,34 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard | TeraKira</title>
+</head>
+<body>
+  <main>
+    <h1>Dashboard</h1>
+    <p id="welcome"></p>
+    <button id="logout-button">Log out</button>
+  </main>
+
+  <script>
+    window.TERAKIRA_CONFIG = {
+      NEON_AUTH_URL: "https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth"
+    };
+  </script>
+
+  <script type="module">
+    import { requireAuth, logout } from "./js/auth-guard.js";
+
+    const user = await requireAuth();
+
+    if (user) {
+      document.getElementById("welcome").textContent =
+        `Logged in as ${user.name || user.email}`;
+    }
+
+    document.getElementById("logout-button").addEventListener("click", logout);
+  </script>
+</body>
+</html>
