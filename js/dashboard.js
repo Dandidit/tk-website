@@ -107,8 +107,14 @@ uploadForm.addEventListener("submit", async (event) => {
 
   if (!file) return;
 
-  if (file.type !== "application/pdf") {
-    uploadMessage.textContent = "Only PDF files are allowed.";
+  const allowedTypes = [
+    "application/pdf",
+    "image/jpeg",
+    "image/png"
+  ];
+
+  if (!allowedTypes.includes(file.type)) {
+    uploadMessage.textContent = "Only PDF, JPG and PNG files are allowed.";
     return;
   }
 
