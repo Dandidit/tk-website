@@ -133,4 +133,4 @@ table.rules th,table.rules td{text-align:left;padding:10px 8px;border-bottom:1px
 table.rules th{border-bottom:2px solid var(--ink);font-weight:600}
 .scroll-x{overflow-x:auto}
 .legend{display:grid;gap:0;margin-top:12px}
-@media (prefers-reduced-motion:no-preference){.toast{animation:pop .2s ease-out}@keyframes po.onboarding-app p{from{opacity:0;transform:translate(-50%,6px)}}}
+@media (prefers-reduced-motion:no-preference){.toast{animation:pop .2s ease-out}@keyframes pop{from{opacity:0;transform:translate(-50%,6px)}}}
