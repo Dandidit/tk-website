@@ -1,4 +1,4 @@
-import { createAuthClient } from "https://cdn.jsdelivr.net/npm/@neondatabase/auth@0.4.2-beta/+esm";
+import { createAuthClient } from "https://cdn.jsdelivr.net/npm/@neondatabase/auth@0.5.0-beta/+esm";
 
 const authUrl = window.TERAKIRA_CONFIG?.NEON_AUTH_URL;
 
@@ -26,7 +26,9 @@ export async function getCurrentUser() {
 }
 
 export async function getJWT() {
-  return await authClient.getJWTToken();
+  const result = await authClient.getSession();
+
+  return result?.data?.session?.token ?? null;
 }
 
 export async function signOut() {
