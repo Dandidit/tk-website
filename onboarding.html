@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Onboarding | TeraKira</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/layout.css">
+  <link rel="stylesheet" href="css/components.css">
+  <link rel="stylesheet" href="css/pages.css">
+  <link rel="stylesheet" href="css/onboarding.css">
+</head>
+<body>
+  <div id="navbar"></div>
+  <div class="onboarding-app">
+
+<header class="onboarding-top">
+  <div class="onboarding-top-in">
+    <div class="brand" aria-label="Terakira">
+      <svg width="26" height="26" viewBox="0 0 26 26" aria-hidden="true"><rect x="2" y="3" width="22" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M7 11h12M7 15.5h12M7 19.5h6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+      Terakira
+    </div>
+    <div class="tabs" role="tablist" aria-label="View">
+      <button class="tab" role="tab" data-act="tab" data-v="app" id="tab-app">Onboarding</button>
+      <button class="tab" role="tab" data-act="tab" data-v="flow" id="tab-flow">Flow map</button>
+    </div>
+  </div>
+  <div class="strip" id="strip"></div>
+</header>
+<div id="root"></div>
+<div id="bar" class="bar" hidden></div>
+<div id="toast" class="toast" role="status" hidden></div>
+
+  </div>
+  <script>
+    fetch("component/navbar.html")
+      .then(res => res.text())
+      .then(data => {
+        document.getElementById("navbar").innerHTML = data;
+        const script = document.createElement("script");
+        script.src = "component/navbar.js";
+        document.body.appendChild(script);
+      });
+  </script>
+  <script src="js/onboarding.js"></script>
+</body>
+</html>
