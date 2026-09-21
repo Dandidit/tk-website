@@ -10,7 +10,7 @@ function load(){
   return blank();
 }
 let S = load();
-function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} }
+function save(){ try{ localStorage.setItem(KEY, JSON.stringify(S)); }catch(e){} window.TKOnboarding?.queueSave(S); }
 
 const STEPS = ['welcome','tailor','company','docs','access','start','review'];
 const TITLES = { tailor:'Your business', company:'Company details', docs:'Documents', access:'Access and accounts', start:'Before we start', review:'Review' };
@@ -285,10 +285,10 @@ function render(focus){
       right = `<span class="note">${ok?'':'Answer all five to continue.'}</span><button class="btn" data-act="next" ${ok?'':'disabled'}>Continue</button>`;
     } else if(st==='review'){
       right = `<span class="note">Saved. Come back any time.</span>`;
-    } else right = `<button class="btn" data-act="next">${st==='start'?'Review':'Continue'}</button>`;
+    } else if(st==='review'){ const open = stats().open.length; right = open ? `<span class="note">You can finish later.</span>` : `<button class="btn" data-act="complete">Complete onboarding</button>`; } else if(st==='review'){ const open = stats().open.length; right = open ? `<span class="note">You can finish later.</span>` : `<button class="btn" data-act="complete">Complete onboarding</button>`; } else right = `<button class="btn" data-act="next">${st==='start'?'Review':'Continue'}</button>`;
   }
   bar.hidden = false;
-  bar.innerHTML = `<div class="bar-in">${st==='welcome'?'':left}${right}</div>`;
+  bar.innerHTML = `<div class="bar-in">${st==='welcome'?'':left}<button class="link" data-act="skip">Skip for now</button>${right}</div>`;
   chrome();
   if(focus){ window.scrollTo(0,0); const h = document.querySelector('main h1'); if(h) h.focus({preventScroll:true}); }
 }
@@ -320,6 +320,10 @@ document.addEventListener('click', e => {
     case 'paid': setItem('s_dep','review'); break;
     case 'invoice': toast('On the live site, this opens your invoice.'); break;
     case 'demo': loadDemo(); break;
+    case 'skip': window.TKOnboarding?.skipOnboarding(S).then(()=>{ toast('Onboarding saved. You can continue later.'); setTimeout(()=>window.location.href='/dashboard.html',500); }); break;
+    case 'complete': window.TKOnboarding?.completeOnboarding(S).then(result=>{ if(result?.completed){ toast('Onboarding completed.'); setTimeout(()=>window.location.href='/dashboard.html',500); } else toast('Please complete the remaining items first.'); }); break;
+    case 'skip': window.TKOnboarding?.skipOnboarding(S).then(()=>{ toast('Onboarding saved. You can continue later.'); setTimeout(()=>window.location.href='/dashboard.html',500); }); break;
+    case 'complete': window.TKOnboarding?.completeOnboarding(S).then(result=>{ if(result?.completed){ toast('Onboarding completed.'); setTimeout(()=>window.location.href='/dashboard.html',500); } else toast('Please complete the remaining items first.'); }); break;
   }
 });
 document.addEventListener('input', e => {
@@ -330,8 +334,19 @@ document.addEventListener('input', e => {
 });
 document.addEventListener('change', e => {
   const t = e.target;
-  if(t.dataset.f){ const k=t.dataset.f.split('.'); S[k[0]][k[1]] = t.value; save(); chrome(); if(t.dataset.rerender) render(); }
-  if(t.dataset.file && t.files[0]){ setItem(t.dataset.file,'done',t.files[0].name); }
+  if(t.dataset.f){ const k=t.dataset.f.split('.'); S[k[0]][k[1]] = t.value; save(); chrome(); if(t.dataset.rerender) (async function initOnboarding(){
+  try {
+    const data = await window.TKOnboarding.loadOnboarding();
+    if (data?.onboarding) S = Object.assign(blank(), data.onboarding);
+    if (data?.completed) { window.location.href='/dashboard.html'; return; }
+    render(true);
+  } catch (error) {
+    console.error(error);
+    render(true);
+    toast('Unable to sync onboarding.');
+  }
+})(); }
+  if(t.dataset.file && t.files[0]){ const file=t.files[0]; const id=t.dataset.file; toast('Uploading...'); window.TKOnboarding?.uploadOnboardingFile(file,id).then(blob=>{ setItem(id,'done',file.name); S.items[id].fileUrl=blob.url; S.items[id].fileName=file.name; save(); toast('File uploaded.'); }).catch(err=>toast(err.message||'Upload failed.')); }
 });
 
 function loadDemo(){
@@ -343,4 +358,15 @@ function loadDemo(){
   toast('Example loaded. Some items are still open.');
 }
 
-render();
+(async function initOnboarding(){
+  try {
+    const data = await window.TKOnboarding.loadOnboarding();
+    if (data?.onboarding) S = Object.assign(blank(), data.onboarding);
+    if (data?.completed) { window.location.href='/dashboard.html'; return; }
+    render(true);
+  } catch (error) {
+    console.error(error);
+    render(true);
+    toast('Unable to sync onboarding.');
+  }
+})();

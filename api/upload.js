@@ -1,6 +1,8 @@
 import { handleUpload } from "@vercel/blob/client";
 import { requireAuth } from "./_auth.js";
 
+const allowedTypes = ["application/pdf", "image/jpeg", "image/png"];
+
 export default async function handler(req, res) {
   if (req.method !== "POST") {
     return res.status(405).json({ error: "Method not allowed" });
@@ -17,16 +19,15 @@ export default async function handler(req, res) {
       request: req,
       token: process.env.BLOB_READ_WRITE_TOKEN,
       onBeforeGenerateToken: async (pathname) => {
-        if (!pathname.toLowerCase().endsWith(".pdf")) {
-          throw new Error("Only PDF files are allowed.");
+        const lower = pathname.toLowerCase();
+        if (!allowedTypes.some(type => lower.endsWith(type === "image/jpeg" ? ".jpg" : type === "image/png" ? ".png" : ".pdf"))) {
+          throw new Error("Only PDF, JPG and PNG files are allowed.");
         }
 
         return {
-          allowedContentTypes: ["application/pdf"],
+          allowedContentTypes: allowedTypes,
           addRandomSuffix: true,
-          tokenPayload: JSON.stringify({
-            userId: user.id
-          })
+          tokenPayload: JSON.stringify({ userId: user.id })
         };
       },
       onUploadCompleted: async () => {}
