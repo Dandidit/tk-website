@@ -122,15 +122,24 @@ uploadForm.addEventListener("submit", async (event) => {
 
   try {
     const { upload } = await import(
-      "https://cdn.jsdelivr.net/npm/@vercel/blob@1.1.1/+esm"
+      "https://cdn.jsdelivr.net/npm/@vercel/blob@2.8.0/client/+esm"
     );
+
+    const token = await (await import("./auth.js")).getJWT();
+
+    if (!token) {
+      throw new Error("Your session has expired. Please sign in again.");
+    }
 
     const blob = await upload(
       `bank-statements/${user.id}/${Date.now()}-${file.name}`,
       file,
       {
         access: "private",
-        handleUploadUrl: "/api/upload"
+        handleUploadUrl: "/api/upload",
+        headers: {
+          Authorization: `Bearer ${token}`
+        }
       }
     );
 
