@@ -22,6 +22,9 @@ def process_mae_debit(pdf_path):
     text = ""
     for page in doc:
         text += page.get_text()
+    print("=== EXTRACTED PDF TEXT ===")
+    print(text[:10000])
+    print("=== END PDF TEXT ===")
     doc.close()
 
     lines = text.split("\n")
