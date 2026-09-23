@@ -50,8 +50,6 @@ def process_mae_debit(pdf_path):
         "15th Floor, Tower A, Dataran Maybank, 1, Jalan Maarof, 59000 Kuala Lumpur",
         "請通知本行在何地址更换."
     )
-    lines = remove_sections(lines, "ENTRY DATE", "STATEMENT BALANCE")
-    lines = remove_sections(lines, "ENDING BALANCE :", "TOTAL DEBIT :")
 
     strings_to_remove = [
         "URUSNIAGA AKAUN/ 戶口進支項 /ACCOUNT TRANSACTIONS",
