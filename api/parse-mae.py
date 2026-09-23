@@ -233,6 +233,8 @@ class handler(BaseHTTPRequestHandler):
 
             async def read_blob():
                 result = await client.get(storage_path, access="private")
+                print(type(result))
+                print(dir(result))
                 if result is None or result.status_code != 200:
                     raise ValueError("Stored PDF could not be read.")
                 chunks = []
