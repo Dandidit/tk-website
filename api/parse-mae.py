@@ -237,10 +237,7 @@ class handler(BaseHTTPRequestHandler):
                 print(dir(result))
                 if result is None or result.status_code != 200:
                     raise ValueError("Stored PDF could not be read.")
-                chunks = []
-                async for chunk in result.stream:
-                    chunks.append(chunk)
-                return b"".join(chunks)
+                return result.content
 
             pdf_bytes = asyncio.run(read_blob())
 
