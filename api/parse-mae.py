@@ -266,7 +266,7 @@ class handler(BaseHTTPRequestHandler):
                     with psycopg.connect(os.environ["terakira_db_DATABASE_URL"]) as conn:
                         with conn.cursor() as cur:
                             cur.execute(
-                                "UPDATE bank_statements SET parse_status='Successfully uploaded, failed parsing', parse_error=%s WHERE id=%s",
+                                "UPDATE bank_statements SET parse_status='failed', parse_error=%s WHERE id=%s",
                                 (str(exc), statement_id)
                             )
                         conn.commit()
