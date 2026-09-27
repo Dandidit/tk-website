@@ -336,18 +336,7 @@ document.addEventListener('change', e => {
   const t = e.target;
   if (t.dataset.f) {
     const k = t.dataset.f.split('.'); S[k[0]][k[1]] = t.value; save(); chrome();
-    if (t.dataset.rerender) (async function initOnboarding() {
-      try {
-        const data = await window.TKOnboarding.loadOnboarding();
-        if (data?.onboarding) S = Object.assign(blank(), data.onboarding);
-        if (data?.completed) { window.location.href = '/dashboard.html'; return; }
-        render(true);
-      } catch (error) {
-        console.error(error);
-        render(true);
-        toast('Unable to sync onboarding.');
-      }
-    })();
+    if(t.dataset.rerender) render(true);
   }
   if (t.dataset.file && t.files[0]) { const file = t.files[0]; const id = t.dataset.file; toast('Uploading...'); window.TKOnboarding?.uploadOnboardingFile(file, id).then(blob => { setItem(id, 'done', file.name); S.items[id].fileUrl = blob.url; S.items[id].fileName = file.name; save(); toast('File uploaded.'); }).catch(err => toast(err.message || 'Upload failed.')); }
 });
