@@ -1,8 +1,29 @@
-import { signIn, getCurrentUser } from "./auth.js";
+import { signIn, getCurrentUser, getJWT } from "./auth.js";
 
 const form = document.getElementById("login-form");
 const button = document.getElementById("login-button");
 const errorBox = document.getElementById("login-error");
+
+async function redirectAfterLogin() {
+  const token = await getJWT();
+
+  const response = await fetch("/api/onboarding", {
+    headers: {
+      Authorization: `Bearer ${token}`
+    },
+    cache: "no-store"
+  });
+
+  if (!response.ok) {
+    throw new Error("Unable to check onboarding status.");
+  }
+
+  const data = await response.json();
+
+  window.location.href = data.completed
+    ? "/dashboard.html"
+    : "/onboarding.html";
+}
 
 function showError(message) {
   errorBox.textContent = message;
@@ -19,7 +40,8 @@ async function redirectIfAlreadyLoggedIn() {
     const user = await getCurrentUser();
 
     if (user) {
-      window.location.href = "/dashboard.html";
+      // window.location.href = "/dashboard.html";
+      await redirectAfterLogin();
     }
   } catch {
     // No active session.
@@ -44,7 +66,8 @@ form.addEventListener("submit", async (event) => {
       return;
     }
 
-    window.location.href = "/dashboard.html";
+    // window.location.href = "/dashboard.html";
+    await redirectAfterLogin();
   } catch (error) {
     console.error(error);
     showError("Unable to sign in. Please try again.");

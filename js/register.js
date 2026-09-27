@@ -1,4 +1,5 @@
-import { signUp, getCurrentUser } from "./auth.js";
+import { signUp, getCurrentUser, getJWT } from "./auth.js";
+import { redirectAfterLogin } from "./login.js";
 
 const form = document.getElementById("register-form");
 const button = document.getElementById("register-button");
@@ -36,7 +37,8 @@ form.addEventListener("submit", async (event) => {
     const user = await getCurrentUser();
 
     if (user) {
-      window.location.href = "/dashboard.html";
+      // window.location.href = "/dashboard.html";
+      await redirectAfterLogin();
       return;
     }
 
