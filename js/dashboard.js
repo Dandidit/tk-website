@@ -27,7 +27,7 @@ async function loadStatements() {
     row.innerHTML = `
       <div>
         <strong>${escapeHtml(statement.original_filename)}</strong>
-        <div>${statement.bank_code} · ${statement.parse_status}</div>
+        <div>${statement.bank_code} · ${statement.parse_status} parsing</div>
       </div>
       <div>
         <button data-file="${statement.id}" class="file-button">View PDF</button>
