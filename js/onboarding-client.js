@@ -1,5 +1,5 @@
 import { getJWT, getCurrentUser } from "./auth.js";
-import { upload } from "https://cdn.jsdelivr.net/npm/@vercel/blob@1.1.1/client/+esm";
+import { upload } from "https://cdn.jsdelivr.net/npm/@vercel/blob@2.8.0/client/+esm";
 let saveTimer;
 async function headers() {
     const token = await getJWT();
