@@ -1,5 +1,5 @@
 import { handleUpload } from "@vercel/blob/client";
-import { getAuthUser } from "./_auth.js";
+import { requireAuth } from "./_auth.js";
 
 const allowedTypes = [
   "application/pdf",
@@ -12,51 +12,32 @@ export default async function handler(req, res) {
     return res.status(405).json({ error: "Method not allowed" });
   }
 
-  try {
-    const body = req.body;
+  const user = await requireAuth(req, res);
 
+  if (!user) return;
+
+  try {
     const jsonResponse = await handleUpload({
-      body,
+      body: req.body,
       request: req,
       token: process.env.BLOB_READ_WRITE_TOKEN,
 
-      onBeforeGenerateToken: async (pathname, clientPayload) => {
-        let token = null;
-
-        try {
-          const payload = clientPayload
-            ? JSON.parse(clientPayload)
-            : null;
-
-          token = payload?.token || null;
-        } catch {
-          throw new Error("Invalid client payload.");
-        }
-
-        if (!token) {
-          throw new Error("Unauthorized.");
-        }
-
-        // Reuse your existing JWT authentication logic.
-        const authReq = {
-          headers: {
-            ...req.headers,
-            authorization: `Bearer ${token}`
-          }
-        };
-
-        const user = await getAuthUser(authReq);
-
-        if (!user) {
-          throw new Error("Unauthorized.");
-        }
-
+      onBeforeGenerateToken: async (pathname) => {
         const lower = pathname.toLowerCase();
 
         const allowed = allowedTypes.some(type => {
-          if (type === "application/pdf") return lower.endsWith(".pdf");
-          if (type === "image/jpeg") return lower.endsWith(".jpg") || lower.endsWith(".jpeg");
-          if (type === "image/png") return lower.endsWith(".png");
+          if (type === "application/pdf") {
+            return lower.endsWith(".pdf");
+          }
+
+          if (type === "image/jpeg") {
+            return lower.endsWith(".jpg") || lower.endsWith(".jpeg");
+          }
+
+          if (type === "image/png") {
+            return lower.endsWith(".png");
+          }
+
           return false;
         });
 
@@ -73,12 +54,14 @@ export default async function handler(req, res) {
         };
       },
 
-      onUploadCompleted: async () => { }
+      onUploadCompleted: async () => {}
     });
 
     return res.status(200).json(jsonResponse);
+
   } catch (error) {
     console.error(error);
+
     return res.status(400).json({
       error: error.message || "Upload failed"
     });
