@@ -40,19 +40,30 @@ export async function completeOnboarding(state) {
     return saveOnboarding(state, "complete");
 }
 export async function uploadOnboardingFile(file, itemId) {
-    const token = await getJWT();
-    if (!token)
-        throw new Error("Your session has expired. Please sign in again.");
-    const ext = file.name.toLowerCase().split(".").pop();
-    if (!["pdf", "jpg", "jpeg", "png"].includes(ext))
-        throw new Error("Only PDF, JPG and PNG files are allowed.");
-    return await upload(`onboarding/${itemId}/${file.name}`,
-        file,
-        {
-            access: "public",
-            handleUploadUrl: "/api/upload",
-            // headers: { Authorization: `Bearer ${token}` },
-            clientPayload: JSON.stringify({ itemId })
-        });
+  const token = await getJWT();
+
+  if (!token) {
+    throw new Error("Your session has expired. Please sign in again.");
+  }
+
+  const ext = file.name.toLowerCase().split(".").pop();
+
+  if (!["pdf", "jpg", "jpeg", "png"].includes(ext)) {
+    throw new Error("Only PDF, JPG and PNG files are allowed.");
+  }
+
+  return await upload(
+    `onboarding/${itemId}/${file.name}`,
+    file,
+    {
+      access: "public",
+      handleUploadUrl: "/api/upload",
+
+      clientPayload: JSON.stringify({
+        itemId,
+        token
+      })
+    }
+  );
 }
 window.TKOnboarding = { loadOnboarding, queueSave, saveOnboarding, skipOnboarding, completeOnboarding, uploadOnboardingFile };
