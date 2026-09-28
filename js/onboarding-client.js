@@ -51,7 +51,7 @@ export async function uploadOnboardingFile(file, itemId) {
         {
             access: "public",
             handleUploadUrl: "/api/upload",
-            headers: { Authorization: `Bearer ${token}` },
+            // headers: { Authorization: `Bearer ${token}` },
             clientPayload: JSON.stringify({ itemId })
         });
 }
