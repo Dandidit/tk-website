@@ -3,6 +3,7 @@ import { createAuthClient } from "https://cdn.jsdelivr.net/npm/@neondatabase/aut
 const authUrl = window.TERAKIRA_CONFIG?.NEON_AUTH_URL;
 
 if (!authUrl) {
+  console.error("FATAL: NEON_AUTH_URL is not configured in environment variables.");
   throw new Error("NEON_AUTH_URL is not configured.");
 }
 
