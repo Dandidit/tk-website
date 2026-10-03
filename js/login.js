@@ -39,9 +39,12 @@ async function redirectIfAlreadyLoggedIn() {
   try {
     const user = await getCurrentUser();
 
+
     if (user) {
+      console.log("Curent user: ", user)
+
       // window.location.href = "/dashboard.html";
-      await redirectAfterLogin();
+      // await redirectAfterLogin();
     }
   } catch {
     // No active session.
