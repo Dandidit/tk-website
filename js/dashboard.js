@@ -9,6 +9,9 @@ document.getElementById("welcome").textContent =
 
 document.getElementById("role").textContent = user.role;
 
+const adminViewLink = document.getElementById("admin-view-link");
+if (adminViewLink && user.role === "admin") adminViewLink.hidden = false;
+
 document.getElementById("logout-button").addEventListener("click", logout);
 
 const uploadForm = document.getElementById("upload-form");

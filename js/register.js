@@ -1,5 +1,5 @@
-import { signUp, getCurrentUser, getJWT } from "./auth.js";
-import { redirectAfterLogin } from "./login.js";
+import { signUp, getCurrentUser } from "./auth.js";
+import { redirectAfterLogin } from "./redirect.js";
 
 const form = document.getElementById("register-form");
 const button = document.getElementById("register-button");
@@ -33,11 +33,11 @@ form.addEventListener("submit", async (event) => {
       showError(result.error.message || "Unable to create account.");
       return;
     }
-
+    
+    sessionStorage.removeItem("terakira-onboarding-v1");
     const user = await getCurrentUser();
 
     if (user) {
-      // window.location.href = "/dashboard.html";
       await redirectAfterLogin();
       return;
     }

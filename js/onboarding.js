@@ -1,20 +1,27 @@
 const KEY = 'terakira-onboarding-v1';
+
 const blank = () => ({
   step: 0, tab: 'app',
   ans: { newCo: null, bank: null, payroll: null, loans: null, sst: null },
   co: { name: '', entity: '', ssm: '', tin: '', addr: '', contact: '', phone: '', email: '', fye: '', holders: [{ name: '', pct: '' }] },
   items: {}, comms: '', sig: ''
 });
+
 function load() {
-  try { const r = localStorage.getItem(KEY); if (r) { const o = JSON.parse(r); return Object.assign(blank(), o); } } catch (e) { }
+  try {
+    const raw = sessionStorage.getItem(KEY);
+    if (raw) return Object.assign(blank(), JSON.parse(raw));
+  } catch (e) {}
+
   return blank();
 }
 let S = load();
-function save() { 
-  try { 
-    localStorage.setItem(KEY, JSON.stringify(S)); 
-  } catch (e) { } 
-  window.TKOnboarding?.queueSave(S); 
+function save() {
+  try {
+    sessionStorage.setItem(KEY, JSON.stringify(S));
+  } catch (e) {}
+
+  window.TKOnboarding?.queueSave(S);
 }
 
 const STEPS = ['welcome', 'tailor', 'company', 'docs', 'access', 'start', 'review'];

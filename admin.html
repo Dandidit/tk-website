@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="robots" content="noindex,nofollow">
+  <title>Admin · Documents | TeraKira</title>
+  <link rel="stylesheet" href="css/variables.css">
+  <link rel="stylesheet" href="css/admin.css">
+</head>
+<body>
+  <script>
+    window.TERAKIRA_CONFIG = {
+      NEON_AUTH_URL: "https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth"
+    };
+  </script>
+
+  <div class="admin-app">
+    <header class="topbar">
+      <a class="brand" href="/dashboard.html" aria-label="TeraKira dashboard">
+        <span class="brand-mark" aria-hidden="true">T</span>
+        <span>TeraKira <small>ADMIN</small></span>
+      </a>
+      <div class="top-actions">
+        <a class="quiet-link" href="/dashboard.html">Dashboard</a>
+        <button class="button button-quiet" id="logout-button" type="button">Log out</button>
+      </div>
+    </header>
+
+    <main class="main-content">
+      <section class="page-intro">
+        <p class="eyebrow">ADMINISTRATION</p>
+        <h1>Client documents</h1>
+        <p class="intro-copy">Browse uploaded bank statements, organised by client. Only administrator accounts can access this page.</p>
+      </section>
+
+      <section class="stats-grid" aria-label="Document overview">
+        <article class="stat-card"><span>Total clients</span><strong id="client-count">—</strong></article>
+        <article class="stat-card"><span>Total documents</span><strong id="document-count">—</strong></article>
+        <article class="stat-card"><span>Awaiting review</span><strong id="review-count">—</strong></article>
+      </section>
+
+      <section class="documents-panel">
+        <div class="panel-heading">
+          <div><h2>All client files</h2><p id="result-summary">Loading documents…</p></div>
+          <button class="button button-quiet" id="refresh-button" type="button">Refresh</button>
+        </div>
+
+        <label class="search-box">
+          <span aria-hidden="true">⌕</span>
+          <input id="search-input" type="search" placeholder="Search client name, email, or filename…" autocomplete="off">
+        </label>
+
+        <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
+        <div id="client-list" class="client-list"></div>
+      </section>
+      <footer>Client files are private. Open documents only when required for your work.</footer>
+    </main>
+  </div>
+
+  <script type="module" src="js/admin.js"></script>
+</body>
+</html>

@@ -3,66 +3,106 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta name="theme-color" content="#0E1B18">
   <title>Dashboard | TeraKira</title>
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/layout.css">
   <link rel="stylesheet" href="css/dashboard.css">
 </head>
-<body>
-  <div class="app-shell">
-    <aside class="sidebar">
-      <div class="brand">TeraKira</div>
-      <nav>
-        <a href="/dashboard.html" class="active">Home</a>
+<body class="dashboard-page">
+  <div class="dashboard-app">
+    <header class="dashboard-topbar">
+      <a class="brand" href="/dashboard.html" aria-label="TeraKira dashboard">
+        <svg width="27" height="27" viewBox="0 0 26 26" aria-hidden="true"><rect x="2" y="3" width="22" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M7 11h12M7 15.5h12M7 19.5h6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
+        <span>Terakira</span>
+      </a>
+      <nav class="dashboard-nav" aria-label="Account navigation">
         <a href="/profile.html">Profile</a>
         <a href="/login-settings.html">Login settings</a>
+        <a href="/admin.html" id="admin-view-link" hidden>Admin view</a>
       </nav>
-    </aside>
+      <div class="topbar-account">
+        <span id="role" class="role-pill">Account</span>
+        <button id="logout-button" class="button button-quiet" type="button">Log out <span aria-hidden="true">↗</span></button>
+      </div>
+    </header>
 
     <main class="dashboard-main">
-      <header class="dashboard-header">
+      <section class="page-intro">
         <div>
-          <h1>Dashboard</h1>
-          <p id="welcome"></p>
+          <p class="eyebrow">YOUR WORKSPACE</p>
+          <h1>Dashboard<span class="heading-period">.</span></h1>
+          <p id="welcome" class="welcome-copy">Welcome back.</p>
         </div>
-        <span id="role"></span>
-        <button id="logout-button">Log out</button>
-      </header>
-
-      <section class="dashboard-card">
-        <h2>Bank statements</h2>
-
-        <form id="upload-form">
-          <input
-            id="statement-file"
-            type="file"
-            accept=".pdf,.jpg,.jpeg,.png"
-            required
-          >
-          <button type="submit">Upload PDF</button>
-        </form>
-
-        <p id="upload-message"></p>
-
-        <div id="statement-list"></div>
+        <div class="intro-mark" aria-hidden="true">
+          <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="5" width="38" height="38" rx="12" stroke="currentColor" stroke-width="1.5"/><path d="M15 18h18M15 24h18M15 30h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
+        </div>
       </section>
 
-      <section class="dashboard-card">
-        <h2>Calendar</h2>
-        <div id="calendar-list"></div>
+      <section class="dashboard-card statements-card" aria-labelledby="statements-title">
+        <div class="section-heading">
+          <div class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><path d="M6 3.75h8l4 4V20a.75.75 0 0 1-.75.75h-10.5A.75.75 0 0 1 6 20V3.75Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 4v4h4M9 13h6M9 16.5h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <p class="eyebrow">DOCUMENTS</p>
+            <h2 id="statements-title">Bank statements</h2>
+            <p class="section-description">Upload a statement to get it ready for reconciliation.</p>
+          </div>
+        </div>
 
-        <div id="admin-appointment-panel" hidden>
-          <h3>Set appointment</h3>
-          <form id="appointment-form">
-            <input id="appointment-user" placeholder="User ID" required>
-            <input id="appointment-title" placeholder="Title" required>
-            <input id="appointment-start" type="datetime-local" required>
-            <input id="appointment-end" type="datetime-local" required>
-            <textarea id="appointment-notes" placeholder="Notes"></textarea>
-            <button type="submit">Create appointment</button>
+        <form id="upload-form" class="upload-panel">
+          <div class="upload-copy">
+            <span class="upload-symbol" aria-hidden="true">
+              <svg viewBox="0 0 24 24" fill="none"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v4A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
+            </span>
+            <div>
+              <strong>Choose a bank statement</strong>
+              <p>PDF, JPG or PNG files</p>
+            </div>
+          </div>
+          <label class="file-picker" for="statement-file">Browse files</label>
+          <input id="statement-file" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
+          <button class="button button-primary" type="submit">Upload statement <span aria-hidden="true">→</span></button>
+        </form>
+        <p id="upload-message" class="upload-message" role="status" aria-live="polite"></p>
+
+        <div class="list-heading">
+          <h3>Your documents</h3>
+          <span class="list-caption">Latest uploads</span>
+        </div>
+        <div id="statement-list" class="statement-list"></div>
+      </section>
+
+      <section class="dashboard-card calendar-card" aria-labelledby="calendar-title">
+        <div class="section-heading">
+          <div class="section-icon" aria-hidden="true">
+            <svg viewBox="0 0 24 24" fill="none"><rect x="3.75" y="5.5" width="16.5" height="14.75" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.75v3.5M16.5 3.75v3.5M4 9.5h16M8 13h2M14 13h2M8 16.5h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
+          </div>
+          <div>
+            <p class="eyebrow">STAY ON TRACK</p>
+            <h2 id="calendar-title">Appointments</h2>
+            <p class="section-description">Keep track of your upcoming sessions.</p>
+          </div>
+        </div>
+        <div id="calendar-list" class="calendar-list"></div>
+
+        <div id="admin-appointment-panel" class="admin-panel" hidden>
+          <div class="admin-panel-heading">
+            <h3>Schedule an appointment</h3>
+            <p>Create a session for a client.</p>
+          </div>
+          <form id="appointment-form" class="appointment-form">
+            <label class="field field-user" for="appointment-user">User ID<input id="appointment-user" placeholder="Enter user ID" required></label>
+            <label class="field" for="appointment-title">Appointment title<input id="appointment-title" placeholder="e.g. Financial review" required></label>
+            <label class="field" for="appointment-start">Starts<input id="appointment-start" type="datetime-local" required></label>
+            <label class="field" for="appointment-end">Ends<input id="appointment-end" type="datetime-local" required></label>
+            <label class="field field-notes" for="appointment-notes">Notes <span>(optional)</span><textarea id="appointment-notes" placeholder="Add any useful details"></textarea></label>
+            <div class="form-actions"><button class="button button-primary" type="submit">Create appointment <span aria-hidden="true">→</span></button></div>
           </form>
         </div>
       </section>
+      <footer class="dashboard-footer"><span>Terakira</span><span>Your finances, in clearer view.</span></footer>
     </main>
   </div>
 
@@ -71,7 +111,6 @@
       NEON_AUTH_URL: "https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth"
     };
   </script>
-
-  <script type="module" src="/js/dashboard.js"></script>
+  <script type="module" src="js/dashboard.js"></script>
 </body>
 </html>
