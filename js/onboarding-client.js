@@ -63,4 +63,20 @@ export async function uploadOnboardingFile(file, itemId) {
     }
   );
 }
-window.TKOnboarding = { loadOnboarding, queueSave, saveOnboarding, skipOnboarding, completeOnboarding, uploadOnboardingFile };
+
+export async function getOnboardingFile(itemId) {
+  const r = await fetch(
+    `/api/onboarding-file?itemId=${encodeURIComponent(itemId)}`,
+    {
+      headers: await headers(),
+      cache: "no-store"
+    }
+  );
+
+  if (!r.ok) {
+    throw new Error("Unable to open uploaded file.");
+  }
+
+  return await r.blob();
+}
+window.TKOnboarding = { loadOnboarding, queueSave, saveOnboarding, skipOnboarding, completeOnboarding, uploadOnboardingFile, getOnboardingFile };

@@ -30,3 +30,5 @@ onboarding
 onboarding-integrated
 terakira-bookkeeping-features
 terakira-neon-auth
+.vercel
+.env*

@@ -10,7 +10,12 @@ function load() {
   return blank();
 }
 let S = load();
-function save() { try { localStorage.setItem(KEY, JSON.stringify(S)); } catch (e) { } window.TKOnboarding?.queueSave(S); }
+function save() { 
+  try { 
+    localStorage.setItem(KEY, JSON.stringify(S)); 
+  } catch (e) { } 
+  window.TKOnboarding?.queueSave(S); 
+}
 
 const STEPS = ['welcome', 'tailor', 'company', 'docs', 'access', 'start', 'review'];
 const TITLES = { tailor: 'Your business', company: 'Company details', docs: 'Documents', access: 'Access and accounts', start: 'Before we start', review: 'Review' };
@@ -105,11 +110,29 @@ function chrome() {
 function row(id, inner) {
   const s = status(id), it = ITEMS[id];
   const glyph = { done: '✓', na: '–', team: '…', review: '…', todo: '', later: '' }[s];
-  const reason = s === 'na' ? (autoNA(id) && !(S.items[id] && S.items[id].status) ? autoNA(id) : 'You marked this as not needed.') : '';
-  return `<li class="row" data-s="${s}"><div class="mark" aria-hidden="true">${glyph}</div><div>
-    <div class="title">${it.label}</div>${it.help ? `<div class="help">${it.help}</div>` : ''}
-    <div class="state">${s === 'na' ? reason : STATE_TEXT[s]}${s === 'done' && S.items[id] && S.items[id].note ? ` · ${esc(S.items[id].note)}` : ''}</div>
-    ${inner || ''}</div></li>`;
+  const reason = s === 'na'
+    ? (autoNA(id) && !(S.items[id] && S.items[id].status)
+        ? autoNA(id)
+        : 'You marked this as not needed.')
+    : '';
+
+  const file = S.items[id];
+  const fileLink = s === 'done' && file?.fileName
+    ? ` · <button class="link" data-act="view-file" data-id="${id}">${esc(file.fileName)}</button>`
+    : '';
+
+  return `<li class="row" data-s="${s}">
+    <div class="mark" aria-hidden="true">${glyph}</div>
+    <div>
+      <div class="title">${it.label}</div>
+      ${it.help ? `<div class="help">${it.help}</div>` : ''}
+      <div class="state">
+        ${s === 'na' ? reason : STATE_TEXT[s]}
+        ${fileLink}
+      </div>
+      ${inner || ''}
+    </div>
+  </li>`;
 }
 function laterCtl(id) {
   const s = status(id);
@@ -124,8 +147,14 @@ function actionRow(id) {
   if (s === 'na') {
     acts = `<div class="acts"><button class="link" data-act="apply" data-id="${id}">This does apply</button></div>`;
   } else if (s === 'done') {
-    acts = `<div class="acts">${it.mode === 'file' ? `<label class="btn quiet small">Replace file<input class="sr" type="file" data-file="${id}"></label>` : ''}<button class="link" data-act="undo" data-id="${id}">Remove</button></div>`;
-  } else {
+  acts = `<div class="acts">
+    ${it.mode === 'file'
+      ? `<label class="btn quiet small">Replace file<input class="sr" type="file" data-file="${id}"></label>`
+      : ''}
+    <button class="link" data-act="undo" data-id="${id}">Remove</button>
+  </div>`;
+}
+  else {
     let main = '';
     if (it.mode === 'file') main = `<label class="btn small">Upload file<input class="sr" type="file" data-file="${id}"></label>`;
     if (it.mode === 'tap') main = `<button class="btn small" data-act="tap" data-id="${id}">${it.cta}</button>`;
@@ -280,12 +309,24 @@ function render(focus) {
   if (st === 'welcome') right = `<button class="btn" data-act="next" style="width:100%">Start setup</button>`;
   else {
     left = `<button class="btn quiet" data-act="back">Back</button>`;
+
     if (st === 'tailor') {
       const ok = Object.values(S.ans).every(v => v !== null);
-      right = `<span class="note">${ok ? '' : 'Answer all five to continue.'}</span><button class="btn" data-act="next" ${ok ? '' : 'disabled'}>Continue</button>`;
+
+      right = `${
+        ok ? '' : '<span class="note">Answer all five to continue.</span>'
+      }<button class="btn" data-act="next" ${ok ? '' : 'disabled'}>Continue</button>`;
+
     } else if (st === 'review') {
-      right = `<span class="note">Saved. Come back any time.</span>`;
-    } else if (st === 'review') { const open = stats().open.length; right = open ? `<span class="note">You can finish later.</span>` : `<button class="btn" data-act="complete">Complete onboarding</button>`; } else if (st === 'review') { const open = stats().open.length; right = open ? `<span class="note">You can finish later.</span>` : `<button class="btn" data-act="complete">Complete onboarding</button>`; } else right = `<button class="btn" data-act="next">${st === 'start' ? 'Review' : 'Continue'}</button>`;
+      const open = stats().open.length;
+
+      right = open
+        ? `<span class="note">You can finish later.</span>`
+        : `<button class="btn" data-act="complete">Complete onboarding</button>`;
+
+    } else {
+      right = `<button class="btn" data-act="next">${st === 'start' ? 'Review' : 'Continue'}</button>`;
+    }
   }
   bar.hidden = false;
   bar.innerHTML = `<div class="bar-in">${st === 'welcome' ? '' : left}<button class="link" data-act="skip">Skip for now</button>${right}</div>`;
@@ -324,6 +365,25 @@ document.addEventListener('click', e => {
     case 'complete': window.TKOnboarding?.completeOnboarding(S).then(result => { if (result?.completed) { toast('Onboarding completed.'); setTimeout(() => window.location.href = '/dashboard.html', 500); } else toast('Please complete the remaining items first.'); }); break;
     case 'skip': window.TKOnboarding?.skipOnboarding(S).then(() => { toast('Onboarding saved. You can continue later.'); setTimeout(() => window.location.href = '/dashboard.html', 500); }); break;
     case 'complete': window.TKOnboarding?.completeOnboarding(S).then(result => { if (result?.completed) { toast('Onboarding completed.'); setTimeout(() => window.location.href = '/dashboard.html', 500); } else toast('Please complete the remaining items first.'); }); break;
+    case 'view-file': {
+      const tab = window.open("about:blank", "_blank");
+
+      window.TKOnboarding?.getOnboardingFile(id)
+        .then(file => {
+          if (!tab) {
+            toast("Allow pop-ups to view this file.");
+            return;
+          }
+
+          tab.location.href = URL.createObjectURL(file);
+        })
+        .catch(err => {
+          if (tab) tab.close();
+          toast(err.message || "Unable to open file.");
+        });
+
+      break;
+    }
   }
 });
 document.addEventListener('input', e => {
@@ -336,9 +396,9 @@ document.addEventListener('change', e => {
   const t = e.target;
   if (t.dataset.f) {
     const k = t.dataset.f.split('.'); S[k[0]][k[1]] = t.value; save(); chrome();
-    if(t.dataset.rerender) render(true);
+    if (t.dataset.rerender) render(true);
   }
-  if (t.dataset.file && t.files[0]) { const file = t.files[0]; const id = t.dataset.file; toast('Uploading...'); window.TKOnboarding?.uploadOnboardingFile(file, id).then(blob => { setItem(id, 'done', file.name); S.items[id].fileUrl = blob.url; S.items[id].fileName = file.name; save(); toast('File uploaded.'); }).catch(err => toast(err.message || 'Upload failed.')); }
+  if (t.dataset.file && t.files[0]) { const file = t.files[0]; const id = t.dataset.file; toast('Uploading...'); window.TKOnboarding?.uploadOnboardingFile(file, id).then(blob => { setItem(id, 'done', file.name); S.items[id].fileUrl = blob.url; S.items[id].fileName = file.name; save(); render; toast('File uploaded.'); }).catch(err => toast(err.message || 'Upload failed.')); }
 });
 
 function loadDemo() {
