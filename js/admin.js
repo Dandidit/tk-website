@@ -25,13 +25,11 @@ function escapeHtml(value) {
     "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#039;"
   })[char]);
 }
-
 function formatDate(value) {
   if (!value) return "Date unavailable";
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? "Date unavailable" : date.toLocaleString();
 }
-
 function formatSize(value) {
   const bytes = Number(value);
   if (!Number.isFinite(bytes) || bytes <= 0) return "Size unavailable";
@@ -39,7 +37,6 @@ function formatSize(value) {
   if (bytes < 1024 * 1024) return `${(bytes / 1024).toFixed(0)} KB`;
   return `${(bytes / (1024 * 1024)).toFixed(1)} MB`;
 }
-
 function parseStatus(statement) {
   const raw = String(statement.parse_status || "pending").toLowerCase();
   if (["completed", "complete", "success", "parsed", "succeeded"].includes(raw)) return { label: "Parsed", css: "done" };
@@ -84,7 +81,7 @@ function render() {
     <details class="client-card" ${query || index === 0 ? "open" : ""}>
       <summary>
         <span class="client-info"><span class="client-name">${escapeHtml(client.name)}</span><span class="client-email">${escapeHtml(client.email)}</span></span>
-        <span class="client-meta"><span class="doc-count">${client.documents.length} file${client.documents.length === 1 ? "" : "s"}</span></span>
+        <span class="client-meta"><span class="doc-count">${client.documents.length} file${client.documents.length === 1 ? "" : "s"}</span><button class="button button-quiet view-profile" type="button" data-client-id="${escapeHtml(client.id)}">View profile</button></span>
       </summary>
       <div class="document-list">
         ${client.documents.map(statement => {
@@ -112,6 +109,14 @@ function render() {
 
   list.querySelectorAll(".view-file").forEach(button => {
     button.addEventListener("click", () => openDocument(button.dataset.id, button));
+  });
+  list.querySelectorAll(".view-profile").forEach(button => {
+    button.addEventListener("click", event => {
+      event.preventDefault();
+      event.stopPropagation();
+      window.location.href = `/profile.html?userId=${encodeURIComponent(button.dataset.clientId)}`;
+      console.log("Client ID:", button.dataset.clientId);
+    });
   });
 }
 

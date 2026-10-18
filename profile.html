@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Client Profile | TeraKira</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/layout.css">
+  <link rel="stylesheet" href="/css/profile.css">
+</head>
+<body>
+  <main class="profile-page">
+    <header class="profile-header">
+      <div>
+        <a class="back-link" href="/admin.html">← Back to admin</a>
+        <p class="eyebrow">CLIENT PROFILE</p>
+        <h1 id="client-name">Loading profile…</h1>
+        <p id="client-email" class="muted"></p>
+      </div>
+      <button id="logout-button" class="button button-quiet" type="button">Log out</button>
+    </header>
+    <p id="profile-message" class="message" role="status"></p>
+    <div id="profile-content" hidden>
+      <section class="profile-card">
+        <div class="section-heading"><div><p class="eyebrow">OVERVIEW</p><h2>Onboarding status</h2></div><span id="completion-badge" class="status-badge"></span></div>
+        <div class="overview-grid">
+          <div><span class="field-label">Last updated</span><strong id="updated-at">—</strong></div>
+          <div><span class="field-label">Current step</span><strong id="current-step">—</strong></div>
+          <div><span class="field-label">Skipped onboarding</span><strong id="skipped">—</strong></div>
+        </div>
+      </section>
+      <section class="profile-card"><p class="eyebrow">BUSINESS</p><h2>Company details</h2><div id="company-grid" class="detail-grid"></div></section>
+      <section class="profile-card"><p class="eyebrow">BUSINESS</p><h2>Business answers</h2><div id="answers-grid" class="detail-grid"></div></section>
+      <section class="profile-card"><p class="eyebrow">OWNERSHIP</p><h2>Directors and shareholders</h2><div id="owners-list"></div></section>
+      <section class="profile-card"><div class="section-heading"><div><p class="eyebrow">CHECKLIST</p><h2>Onboarding items</h2></div><span id="item-count" class="muted"></span></div><div id="items-list" class="items-list"></div></section>
+      <section class="profile-card"><p class="eyebrow">GETTING STARTED</p><h2>Preferences and signature</h2><div id="start-grid" class="detail-grid"></div></section>
+    </div>
+  </main>
+  <script>window.TERAKIRA_CONFIG={NEON_AUTH_URL:"https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth"};</script>
+  <script type="module" src="/js/profile.js"></script>
+</body>
+</html>

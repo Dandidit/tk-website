@@ -33,22 +33,11 @@
   </div>
   <div class="strip" id="strip"></div>
 </header>
-<div id="navbar"></div>
 <div id="root"></div>
 <div id="bar" class="bar" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
 
   </div>
-  <script>
-    fetch("component/navbar.html")
-      .then(res => res.text())
-      .then(data => {
-        document.getElementById("navbar").innerHTML = data;
-        const script = document.createElement("script");
-        script.src = "component/navbar.js";
-        document.body.appendChild(script);
-      });
-  </script>
   <script type="module" src="js/onboarding-client.js"></script>
   <script type="module" src="js/onboarding.js"></script>
 </body>

@@ -84,7 +84,7 @@ body.dashboard-page {
 .upload-copy strong { display: block; font-size: 13px; font-weight: 800; }
 .upload-copy p { margin: 5px 0 0; color: var(--dash-muted); font-size: 12px; }
 #statement-file { position: absolute; width: 1px; height: 1px; overflow: hidden; clip: rect(0, 0, 0, 0); white-space: nowrap; clip-path: inset(50%); }
-.file-picker { display: inline-flex; align-items: center; justify-content: center; min-height: 41px; padding: 0 14px; border: 1px solid var(--dash-border); border-radius: 999px; color: var(--dash-text); cursor: pointer; font-size: 12px; font-weight: 800; transition: border-color .2s, background .2s; }
+.file-picker { background: var(--dash-green); display: inline-flex; align-items: center; justify-content: center; min-height: 41px; padding: 0 14px; border: 1px solid var(--dash-border); border-radius: 999px; color: #102219; cursor: pointer; font-size: 12px; font-weight: 800; transition: border-color .2s, background .2s; }
 .file-picker:hover, #statement-file:focus-visible + .button { border-color: var(--dash-green); }
 .button { min-height: 42px; display: inline-flex; align-items: center; justify-content: center; gap: 10px; padding: 0 17px; border: 1px solid transparent; border-radius: 999px; cursor: pointer; font: inherit; font-size: 12px; font-weight: 800; transition: transform .18s, background .18s, border-color .18s; }
 .button:hover { transform: translateY(-1px); }
