@@ -58,6 +58,39 @@
     </main>
   </div>
 
+  <div id="appointment-modal" class="appointment-modal" hidden>
+    <section class="appointment-dialog" role="dialog" aria-modal="true" aria-labelledby="appointment-heading">
+      <div class="appointment-heading">
+        <div><h2 id="appointment-heading">Set appointment</h2><p id="appointment-client"></p></div>
+        <button class="button button-quiet appointment-close" type="button" aria-label="Close">×</button>
+      </div>
+      <form id="appointment-form">
+        <label>Appointment title
+          <input name="title" type="text" value="Client consultation" maxlength="160" required>
+        </label>
+        <label>Date and time
+          <input name="startAt" id="appointment-start" type="datetime-local" required>
+        </label>
+        <label>Duration
+          <select name="duration" id="appointment-duration">
+            <option value="30">30 minutes</option>
+            <option value="60" selected>1 hour</option>
+            <option value="90">1 hour 30 minutes</option>
+            <option value="120">2 hours</option>
+          </select>
+        </label>
+        <label>Notes (optional)
+          <textarea name="notes" rows="3" maxlength="2000" placeholder="Meeting details or preparation notes"></textarea>
+        </label>
+        <p id="appointment-message" class="appointment-message" role="status"></p>
+        <div class="appointment-actions">
+          <button class="button button-quiet appointment-cancel" type="button">Cancel</button>
+          <button class="button" id="appointment-save" type="submit">Save appointment</button>
+        </div>
+      </form>
+    </section>
+  </div>
+
   <script type="module" src="js/admin.js"></script>
 </body>
 </html>

@@ -90,3 +90,21 @@ footer { padding: 18px 4px; color: var(--muted); font-size: 12px; text-align: ce
   .document-row { align-items: flex-start; flex-direction: column; gap: 10px; }
   .document-actions { padding-left: 50px; }
 }
+
+
+/* Appointment modal */
+.appointment-modal { position: fixed; inset: 0; z-index: 1000; display: grid; place-items: center; padding: 18px; background: rgba(0,0,0,.68); }
+.appointment-modal[hidden] { display: none; }
+.appointment-dialog { width: min(100%, 480px); max-height: calc(100vh - 36px); overflow-y: auto; padding: 24px; border: 1px solid var(--line); border-radius: 18px; background: var(--surface); box-shadow: 0 24px 80px rgba(0,0,0,.35); }
+.appointment-heading { display: flex; align-items: flex-start; justify-content: space-between; gap: 16px; margin-bottom: 20px; }
+.appointment-heading h2 { margin: 0 0 4px; font-size: 21px; }
+.appointment-heading p { margin: 0; color: var(--muted); font-size: 13px; overflow-wrap: anywhere; }
+.appointment-close { min-width: 40px; padding: 0; font-size: 24px; }
+#appointment-form { display: grid; gap: 14px; }
+#appointment-form label { display: grid; gap: 6px; color: var(--muted); font-size: 13px; font-weight: 650; }
+#appointment-form input, #appointment-form select, #appointment-form textarea { width: 100%; min-width: 0; padding: 11px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--page); color: var(--ink); font: inherit; }
+#appointment-form textarea { resize: vertical; }
+.appointment-message { margin: 0; color: var(--muted); font-size: 13px; }
+.appointment-message.error { color: #ff9b9b; }
+.appointment-actions { display: flex; justify-content: flex-end; gap: 8px; margin-top: 4px; }
+@media (max-width: 640px) { .appointment-dialog { padding: 18px; } .client-meta .view-profile, .client-meta .set-appointment { padding: 0 9px; font-size: 12px; } }
