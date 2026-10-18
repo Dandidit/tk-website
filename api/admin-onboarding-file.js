@@ -1,18 +1,21 @@
 import { neon } from "@neondatabase/serverless";
 import { get } from "@vercel/blob";
-import { requireAdmin } from "./_auth.js";
+import { requireAuth } from "./_auth.js";
 
 const sql = neon(process.env.terakira_db_DATABASE_URL);
 const ALLOWED_ITEMS = ["d_ssm", "d_tax", "d_fs", "d_bank", "d_pay", "d_loan", "d_asset", "d_sst"];
 
 export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
-  const admin = await requireAdmin(req, res);
-  if (!admin) return;
+  const requester = await requireAuth(req, res);
+  if (!requester) return;
 
   const userId = String(req.query?.userId || "");
   const itemId = String(req.query?.itemId || "");
   if (!userId || !ALLOWED_ITEMS.includes(itemId)) return res.status(400).json({ error: "Invalid file request." });
+  if (requester.role !== "admin" && requester.id !== userId) {
+    return res.status(403).json({ error: "You can only access your own files." });
+  }
 
   try {
     const rows = await sql`SELECT file_url, file_name FROM public.onboarding_items WHERE user_id = ${userId} AND item_id = ${itemId} LIMIT 1`;

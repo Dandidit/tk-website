@@ -9,6 +9,9 @@ document.getElementById("welcome").textContent =
 
 document.getElementById("role").textContent = user.role;
 
+const profileLink = document.getElementById("profile-link");
+if (profileLink) profileLink.href = `/profile.html?userId=${encodeURIComponent(user.id)}`;
+
 const adminViewLink = document.getElementById("admin-view-link");
 if (adminViewLink && user.role === "admin") adminViewLink.hidden = false;
 

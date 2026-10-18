@@ -1,15 +1,18 @@
 import { neon } from "@neondatabase/serverless";
-import { requireAdmin } from "./_auth.js";
+import { requireAuth } from "./_auth.js";
 
 const sql = neon(process.env.terakira_db_DATABASE_URL);
 
 export default async function handler(req, res) {
   if (req.method !== "GET") return res.status(405).json({ error: "Method not allowed" });
-  const admin = await requireAdmin(req, res);
-  if (!admin) return;
+  const requester = await requireAuth(req, res);
+  if (!requester) return;
 
   const userId = String(req.query?.userId || "").trim();
   if (!userId) return res.status(400).json({ error: "Missing user ID." });
+  if (requester.role !== "admin" && requester.id !== userId) {
+    return res.status(403).json({ error: "You can only view your own profile." });
+  }
 
   try {
     const [[user], [onboarding], owners, items] = await Promise.all([

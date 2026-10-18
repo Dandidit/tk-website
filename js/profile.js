@@ -4,16 +4,26 @@ import { apiFetch } from "./api.js";
 
 const currentUser = await getAppUser();
 if (!currentUser) throw new Error("Authentication required");
-if (currentUser.role !== "admin") {
-  document.body.innerHTML = `<main style="max-width:560px;margin:12vh auto;padding:24px;font:16px system-ui;color:#e5f0ea"><h1>Access denied</h1><p>This page is available to administrator accounts only.</p><a href="/dashboard.html" style="color:#63cfa7">Return to dashboard</a></main>`;
-  throw new Error("Admin access required");
-}
 
 document.getElementById("logout-button").addEventListener("click", logout);
 const message = document.getElementById("profile-message");
 const content = document.getElementById("profile-content");
 const params = new URLSearchParams(location.search);
-const userId = params.get("userId");
+const requestedUserId = params.get("userId");
+const userId = requestedUserId || currentUser.id;
+
+const backLink = document.querySelector(".back-link");
+if (backLink) {
+  if (currentUser.role === "admin") {
+    backLink.href = "/admin.html";
+    backLink.textContent = "← Back to admin";
+  } else {
+    backLink.href = "/dashboard.html";
+    backLink.textContent = "← Back to dashboard";
+  }
+}
+const eyebrow = document.querySelector(".profile-header .eyebrow");
+if (eyebrow) eyebrow.textContent = currentUser.role === "admin" ? "CLIENT PROFILE" : "MY PROFILE";
 
 const ITEM_LABELS = {
   c_name: "Company name and entity type", c_ssm: "SSM registration number", c_tin: "Income tax number (LHDN TIN)",

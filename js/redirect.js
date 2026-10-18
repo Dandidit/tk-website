@@ -3,6 +3,21 @@ import { getJWT } from "./auth.js";
 export async function redirectAfterLogin() {
   const token = await getJWT();
 
+  const meResponse = await fetch("/api/me", {
+    headers: { Authorization: `Bearer ${token}` },
+    cache: "no-store"
+  });
+
+  if (!meResponse.ok) {
+    throw new Error("Unable to check account.");
+  }
+
+  const user = await meResponse.json();
+  if (user.role === "admin") {
+    window.location.href = "/admin.html";
+    return;
+  }
+
   const response = await fetch("/api/onboarding", {
     headers: {
       Authorization: `Bearer ${token}`
