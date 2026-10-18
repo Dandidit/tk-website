@@ -55,7 +55,7 @@ async function loadStatements() {
     button.addEventListener("click", async () => {
       try {
         const token = await (await import("./auth.js")).getJWT();
-        const response = await fetch(`/api/statement-file?id=${encodeURIComponent(button.dataset.file)}`, {
+        const response = await fetch(`/api/onboarding-file?id=${encodeURIComponent(button.dataset.file)}`, {
           headers: { Authorization: `Bearer ${token}` }
         });
 

@@ -62,7 +62,7 @@ async function openFile(itemId, button) {
   try {
     const token = await getJWT();
     if (!token) throw new Error("Your session has expired. Please sign in again.");
-    const response = await fetch(`/api/admin-onboarding-file?userId=${encodeURIComponent(userId)}&itemId=${encodeURIComponent(itemId)}`, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await fetch(`/api/onboarding-file?userId=${encodeURIComponent(userId)}&itemId=${encodeURIComponent(itemId)}`, { headers: { Authorization: `Bearer ${token}` } });
     if (!response.ok) {
       const result = await response.json().catch(() => ({}));
       throw new Error(result.error || "Unable to open this file.");

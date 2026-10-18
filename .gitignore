@@ -34,3 +34,4 @@ terakira-neon-auth
 .env*
 admin-change
 change-dashboard
+patch-api

@@ -127,7 +127,7 @@ async function openDocument(id, button) {
   try {
     const token = await getJWT();
     if (!token) throw new Error("Your session has expired. Please sign in again.");
-    const response = await fetch(`/api/statement-file?id=${encodeURIComponent(id)}`, {
+    const response = await fetch(`/api/onboarding-file?id=${encodeURIComponent(id)}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!response.ok) {
