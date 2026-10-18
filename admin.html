@@ -40,6 +40,18 @@
         <article class="stat-card"><span>Awaiting review</span><strong id="review-count">—</strong></article>
       </section>
 
+      <section class="calendar-panel" aria-labelledby="calendar-title">
+        <div class="panel-heading">
+          <div><h2 id="calendar-title">Appointments</h2><p id="calendar-summary">Loading appointments…</p></div>
+          <div class="calendar-controls">
+            <button class="button button-quiet" id="calendar-prev" type="button" aria-label="Previous month">‹</button>
+            <button class="button button-quiet" id="calendar-today" type="button">Today</button>
+            <button class="button button-quiet" id="calendar-next" type="button" aria-label="Next month">›</button>
+          </div>
+        </div>
+        <div id="appointment-calendar" class="appointment-calendar" aria-live="polite"></div>
+      </section>
+
       <section class="documents-panel">
         <div class="panel-heading">
           <div><h2>All client files</h2><p id="result-summary">Loading documents…</p></div>

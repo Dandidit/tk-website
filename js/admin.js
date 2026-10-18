@@ -19,7 +19,11 @@ const searchInput = document.getElementById("search-input");
 const statusMessage = document.getElementById("status-message");
 const refreshButton = document.getElementById("refresh-button");
 let allStatements = [];
+let allAppointments = [];
+let calendarMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
 let selectedClient = null;
+const calendar = document.getElementById("appointment-calendar");
+const calendarSummary = document.getElementById("calendar-summary");
 const appointmentModal = document.getElementById("appointment-modal");
 const appointmentForm = document.getElementById("appointment-form");
 const appointmentMessage = document.getElementById("appointment-message");
@@ -60,6 +64,66 @@ function formatDate(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? "Date unavailable" : date.toLocaleString();
 }
+function renderCalendar() {
+  const year = calendarMonth.getFullYear();
+  const month = calendarMonth.getMonth();
+  const firstDay = new Date(year, month, 1);
+  const start = new Date(year, month, 1 - firstDay.getDay());
+  const today = new Date();
+  const monthAppointments = allAppointments.filter(item => {
+    const date = new Date(item.start_at);
+    return !Number.isNaN(date.getTime()) && date.getFullYear() === year && date.getMonth() === month;
+  });
+
+  calendarSummary.textContent = `${calendarMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" })} · ${monthAppointments.length} appointment${monthAppointments.length === 1 ? "" : "s"}`;
+  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
+  let html = `<div class="calendar-weekdays">${weekdays.map(day => `<span>${day}</span>`).join("")}</div><div class="calendar-grid">`;
+
+  for (let i = 0; i < 42; i++) {
+    const date = new Date(start);
+    date.setDate(start.getDate() + i);
+    const dayAppointments = allAppointments.filter(item => {
+      const eventDate = new Date(item.start_at);
+      return !Number.isNaN(eventDate.getTime()) && eventDate.getFullYear() === date.getFullYear() && eventDate.getMonth() === date.getMonth() && eventDate.getDate() === date.getDate();
+    }).sort((a, b) => new Date(a.start_at) - new Date(b.start_at));
+    const classes = ["calendar-day"];
+    if (date.getMonth() !== month) classes.push("outside-month");
+    if (date.toDateString() === today.toDateString()) classes.push("is-today");
+    html += `<div class="${classes.join(" ")}"><span class="calendar-day-number">${date.getDate()}</span>`;
+    dayAppointments.slice(0, 3).forEach(item => {
+      const time = new Date(item.start_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
+      const clientName = item.user_name || item.user_email || "Client";
+      const cancelled = String(item.status || "scheduled").toLowerCase() === "cancelled";
+      html += `<button type="button" class="calendar-event${cancelled ? " cancelled" : ""}" data-appointment-id="${escapeHtml(item.id)}" title="${escapeHtml(`${time} · ${item.title} · ${clientName}`)}"><span>${escapeHtml(time)} ${escapeHtml(item.title || "Appointment")}</span><span>${escapeHtml(clientName)}</span></button>`;
+    });
+    if (dayAppointments.length > 3) html += `<span class="calendar-event-more">+${dayAppointments.length - 3} more</span>`;
+    html += `</div>`;
+  }
+  html += `</div>`;
+  if (!allAppointments.length) html += `<div class="calendar-empty">No appointments scheduled yet.</div>`;
+  calendar.innerHTML = html;
+  calendar.querySelectorAll(".calendar-event").forEach(button => button.addEventListener("click", () => {
+    const item = allAppointments.find(appointment => String(appointment.id) === button.dataset.appointmentId);
+    if (!item) return;
+    const startAt = new Date(item.start_at);
+    const endAt = new Date(item.end_at);
+    window.alert(`${item.title || "Appointment"}\nClient: ${item.user_name || item.user_email || "Unknown client"}\nWhen: ${startAt.toLocaleString()} – ${endAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}${item.notes ? `\nNotes: ${item.notes}` : ""}${item.status ? `\nStatus: ${item.status}` : ""}`);
+  }));
+}
+
+async function loadAppointments() {
+  calendarSummary.textContent = "Loading appointments…";
+  try {
+    const result = await apiFetch("/api/appointments");
+    if (!Array.isArray(result)) throw new Error("Unexpected response from appointments API.");
+    allAppointments = result;
+    renderCalendar();
+  } catch (error) {
+    calendarSummary.textContent = "Could not load appointments.";
+    calendar.innerHTML = `<div class="calendar-empty calendar-error">${escapeHtml(error.message || "Please refresh and try again.")}</div>`;
+  }
+}
+
 function formatSize(value) {
   const bytes = Number(value);
   if (!Number.isFinite(bytes) || bytes <= 0) return "Size unavailable";
@@ -237,6 +301,7 @@ appointmentForm.addEventListener("submit", async event => {
     closeAppointment();
     statusMessage.classList.remove("error");
     statusMessage.textContent = `Appointment saved for ${clientName}.`;
+    await loadAppointments();
   } catch (error) {
     appointmentMessage.textContent = error.message || "Could not save the appointment.";
     appointmentMessage.classList.add("error");
@@ -250,5 +315,19 @@ document.querySelectorAll(".appointment-close, .appointment-cancel").forEach(but
 appointmentModal.addEventListener("click", event => { if (event.target === appointmentModal) closeAppointment(); });
 document.addEventListener("keydown", event => { if (event.key === "Escape" && !appointmentModal.hidden) closeAppointment(); });
 searchInput.addEventListener("input", render);
-refreshButton.addEventListener("click", loadDocuments);
-await loadDocuments();
+refreshButton.addEventListener("click", async () => {
+  await Promise.all([loadDocuments(), loadAppointments()]);
+});
+document.getElementById("calendar-prev").addEventListener("click", () => {
+  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
+  renderCalendar();
+});
+document.getElementById("calendar-next").addEventListener("click", () => {
+  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
+  renderCalendar();
+});
+document.getElementById("calendar-today").addEventListener("click", () => {
+  calendarMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
+  renderCalendar();
+});
+await Promise.all([loadDocuments(), loadAppointments()]);
