@@ -75,7 +75,7 @@ async function loadStatements() {
     button.addEventListener("click", async () => {
       button.disabled = true;
       try {
-        await apiFetch("/api/parse-statement", {
+        await apiFetch("/api/transactions", {
           method: "POST",
           body: JSON.stringify({ statementId: button.dataset.id })
         });
@@ -142,7 +142,7 @@ uploadForm.addEventListener("submit", async (event) => {
       file,
       {
         access: "private",
-        handleUploadUrl: "/api/upload",
+        handleUploadUrl: `${window.location.origin}/api/upload`,
         headers: {
           Authorization: `Bearer ${token}`
         }
@@ -161,7 +161,7 @@ uploadForm.addEventListener("submit", async (event) => {
 
     uploadMessage.textContent = "Uploaded. Parsing statement...";
 
-    await apiFetch("/api/parse-statement", {
+    await apiFetch("/api/transactions", {
       method: "POST",
       body: JSON.stringify({ statementId: statement.id })
     });
@@ -172,6 +172,12 @@ uploadForm.addEventListener("submit", async (event) => {
   } catch (error) {
     console.error(error);
     uploadMessage.textContent = error.message || "Upload failed.";
+  }
+});
+
+uploadInput.addEventListener("change", () => {
+  if (uploadInput.files.length) {
+    uploadForm.requestSubmit();
   }
 });
 

@@ -52,9 +52,7 @@ export default async function handler(req, res) {
             userId: user.id
           })
         };
-      },
-
-      onUploadCompleted: async () => {}
+      }
     });
 
     return res.status(200).json(jsonResponse);
