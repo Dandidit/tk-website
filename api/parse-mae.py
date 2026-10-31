@@ -5,9 +5,9 @@ import tempfile
 from datetime import datetime
 from http.server import BaseHTTPRequestHandler
 
-import fitz
+import pymupdf as fitz
 import psycopg
-from vercel.blob import AsyncBlobClient
+from vercel.blob import get_blob
 
 def clean_amount(val):
     if val is None or val == "":
@@ -66,30 +66,46 @@ def process_mae_debit(pdf_path):
 
     structured_data = []
     temp_entry = {}
-    date_pattern = re.compile(r"\d{2}/\d{2}")
+
+    date_pattern = re.compile(r"^\d{2}/\d{2}$")
+    amount_pattern = re.compile(r"^[\d,]+\.\d{2}[+-]$")
+    balance_pattern = re.compile(r"^[\d,]+\.\d{2}$")
 
     for line in filtered_lines:
         line = line.strip()
 
+        if not line:
+            continue
+
         if date_pattern.match(line):
             if temp_entry:
                 structured_data.append(temp_entry)
+
             temp_entry = {
                 "Entry Date": line,
                 "Transaction Description": "",
                 "Transaction Amount": "",
                 "Statement Balance": ""
             }
-        elif temp_entry.get("Transaction Amount") and temp_entry.get("Statement Balance") == "":
-            temp_entry["Statement Balance"] = line
-        elif temp_entry.get("Transaction Amount") == "":
+
+        elif not temp_entry:
+            continue
+
+        elif amount_pattern.match(line):
             temp_entry["Transaction Amount"] = line
-        elif temp_entry:
+
+        elif (
+            temp_entry["Transaction Amount"]
+            and not temp_entry["Statement Balance"]
+            and balance_pattern.match(line)
+        ):
+            temp_entry["Statement Balance"] = line
+
+        else:
             temp_entry["Transaction Description"] += line + ", "
 
     if temp_entry:
         structured_data.append(temp_entry)
-
     if not structured_data:
         raise ValueError("No transactions extracted from the Maybank PDF.")
 
@@ -228,19 +244,10 @@ class handler(BaseHTTPRequestHandler):
             statement_id = body["statementId"]
             storage_path = body["storagePath"]
 
-            client = AsyncBlobClient()
-            # Run the async SDK from this synchronous Vercel handler.
             import asyncio
 
-            async def read_blob():
-                result = await client.get(storage_path, access="private")
-                print(type(result))
-                print(dir(result))
-                if result is None or result.status_code != 200:
-                    raise ValueError("Stored PDF could not be read.")
-                return result.content
-
-            pdf_bytes = asyncio.run(read_blob())
+            result = asyncio.run(get_blob(storage_path, access="private"))
+            pdf_bytes = result.body
 
             with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
                 tmp.write(pdf_bytes)
