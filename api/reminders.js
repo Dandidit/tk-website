@@ -13,11 +13,11 @@ export async function GET(request) {
 
   // 1. Extend open-ended series to 12 months ahead.
   const tails = await sql`
-    SELECT DISTINCT ON (series_id) *, event_date::text AS event_date, period::text AS period,
+    SELECT DISTINCT ON (e.series_id) e.*, e.event_date::text AS event_date, e.period::text AS period, e.start_time::text AS start_time,
            (SELECT min(event_date)::text FROM events x WHERE x.series_id = e.series_id) AS anchor
     FROM events e
-    WHERE series_id IS NOT NULL AND repeat_until IS NULL
-    ORDER BY series_id, event_date DESC
+    WHERE e.series_id IS NOT NULL AND e.repeat_until IS NULL
+    ORDER BY e.series_id, e.event_date DESC
   `;
   let extended = 0;
   for (const t of tails) {
