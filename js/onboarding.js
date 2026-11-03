@@ -194,8 +194,7 @@ V.welcome = () => `
     <li>Access and accounts<span>1 min</span></li>
     <li>Sign and confirm<span>1 min</span></li>
   </ul>
-  <p class="lede" style="margin-bottom:12px">Missing something? Choose “Send later” and keep going. Nothing blocks you.</p>
-  <button class="link" data-act="demo" style="padding-left:0">Load example: Street Shawarma</button>`;
+  <p class="lede" style="margin-bottom:12px">Missing something? Choose “Send later” and keep going. Nothing blocks you.</p>`;
 
 function qBlock(key, title, hint, opts) {
   return `<div class="q" role="radiogroup" aria-label="${title}"><div class="qt">${title}</div>${hint ? `<div class="hint">${hint}</div>` : ''}<div class="pills">${opts.map(([lab, val]) => `<button class="pill" role="radio" aria-checked="${S.ans[key] === val}" data-act="ans" data-k="${key}" data-v="${val}">${lab}</button>`).join('')}</div></div>`;

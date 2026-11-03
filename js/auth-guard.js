@@ -14,7 +14,7 @@ export async function requireAuth() {
 export async function getAppUser() {
   const token = await getJWT();
 
-  const response = await fetch("/api/me", {
+  const response = await fetch("/api/account?action=me", {
     headers: {
       Authorization: `Bearer ${token}`
     }

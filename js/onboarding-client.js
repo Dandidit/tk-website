@@ -13,7 +13,7 @@ export async function loadOnboarding() {
         window.location.href = "/login.html";
         return null;
     }
-    const r = await fetch("/api/onboarding", { headers: await headers(), cache: "no-store" });
+    const r = await fetch("/api/client?action=onboarding", { headers: await headers(), cache: "no-store" });
     if (!r.ok)
         throw new Error("Unable to load onboarding data.");
     return await r.json();
@@ -24,7 +24,7 @@ export function queueSave(state) {
 }
 export async function saveOnboarding(state, action = "save") {
     try {
-        const r = await fetch("/api/onboarding", { method: "POST", headers: await headers(), body: JSON.stringify({ ...state, action }) });
+        const r = await fetch("/api/client?action=onboarding", { method: "POST", headers: await headers(), body: JSON.stringify({ ...state, action }) });
         if (!r.ok)
             throw new Error("Unable to save onboarding data.");
         return await r.json();
@@ -66,7 +66,7 @@ export async function uploadOnboardingFile(file, itemId) {
 
 export async function getOnboardingFile(itemId) {
   const r = await fetch(
-    `/api/onboarding-file?itemId=${encodeURIComponent(itemId)}`,
+    `/api/client?action=onboarding-file?itemId=${encodeURIComponent(itemId)}`,
     {
       headers: await headers(),
       cache: "no-store"

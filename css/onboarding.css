@@ -3,7 +3,7 @@
   --btn:#17443D; --btn-ink:#FFFFFF; --ok:#1B7556; --ok-bg:#DDF0E6;
   --open:#8A5A00; --open-bg:#FBE9B7; --na:#66766F; --na-bg:#E6ECE8; --focus:#2456D6;
 }
-@media (prefers-color-scheme:dark){
+/* @media (prefers-color-scheme:dark){
   :root:not([data-theme="light"]){
     --bg:#0E1B18; --surface:#15261F; --ink:#E5F0EA; --muted:#9BB3A9; --line:#2A403A;
     --btn:#63CFA7; --btn-ink:#0A1E18; --ok:#63CFA7; --ok-bg:#173A2E;
@@ -14,7 +14,7 @@
   --bg:#0E1B18; --surface:#15261F; --ink:#E5F0EA; --muted:#9BB3A9; --line:#2A403A;
   --btn:#63CFA7; --btn-ink:#0A1E18; --ok:#63CFA7; --ok-bg:#173A2E;
   --open:#F2C46C; --open-bg:#3B2F12; --na:#93A69E; --na-bg:#20332D; --focus:#8FB0FF;
-}
+} */
 .onboarding-app{min-height:100%;background:var(--bg);color:var(--ink);font:400 16px/1.5 var(--font-main);-webkit-text-size-adjust:100%}
 .onboarding-app h1,.onboarding-app h2,.onboarding-app h3{font-family:var(--font-main);font-weight:700;letter-spacing:-.015em;line-height:1.15;margin:0}
 .onboarding-app h1{font-size:clamp(28px,6vw,40px);margin-bottom:10px}

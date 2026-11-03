@@ -114,7 +114,7 @@ function renderCalendar() {
 async function loadAppointments() {
   calendarSummary.textContent = "Loading appointments…";
   try {
-    const result = await apiFetch("/api/appointments");
+    const result = await apiFetch("/api/client?action=appointments");
     if (!Array.isArray(result)) throw new Error("Unexpected response from appointments API.");
     allAppointments = result;
     renderCalendar();
@@ -230,7 +230,7 @@ async function openDocument(id, button) {
   try {
     const token = await getJWT();
     if (!token) throw new Error("Your session has expired. Please sign in again.");
-    const response = await fetch(`/api/statement-file?id=${encodeURIComponent(id)}`, {
+    const response = await fetch(`/api/client?action=onboarding-file&id=${encodeURIComponent(id)}`, {
       headers: { Authorization: `Bearer ${token}` }
     });
     if (!response.ok) {
@@ -256,7 +256,7 @@ async function loadDocuments() {
   statusMessage.classList.remove("error");
   statusMessage.textContent = "Loading client documents…";
   try {
-    const result = await apiFetch("/api/statements");
+    const result = await apiFetch("/api/finance?action=statements");
     if (!Array.isArray(result)) throw new Error("Unexpected response from the documents API.");
     allStatements = result;
     statusMessage.textContent = "";
@@ -288,7 +288,7 @@ appointmentForm.addEventListener("submit", async event => {
   appointmentMessage.classList.remove("error");
   try {
     const clientName = selectedClient.name;
-    await apiFetch("/api/appointments", {
+    await apiFetch("/api/client?action=appointments", {
       method: "POST",
       body: JSON.stringify({
         userId: selectedClient.id,
@@ -331,3 +331,169 @@ document.getElementById("calendar-today").addEventListener("click", () => {
   renderCalendar();
 });
 await Promise.all([loadDocuments(), loadAppointments()]);
+
+
+// Shared Xero connection and client organisation management.
+const xero = {
+  badge: document.getElementById("xero-connection-badge"),
+  connectionMessage: document.getElementById("xero-connection-message"),
+  connect: document.getElementById("xero-connect"),
+  refresh: document.getElementById("xero-refresh"),
+  disconnect: document.getElementById("xero-disconnect"),
+  orgCount: document.getElementById("xero-org-count"),
+  orgList: document.getElementById("xero-org-list"),
+  clientSearch: document.getElementById("xero-client-search"),
+  clientList: document.getElementById("xero-client-list"),
+  message: document.getElementById("xero-admin-message")
+};
+let xeroConnected = false;
+let xeroTenants = [];
+let xeroClients = [];
+
+function xeroMessage(message, error = false) {
+  xero.message.textContent = message;
+  xero.message.classList.toggle("error", error);
+}
+function renderXeroOrganisations() {
+  xero.orgCount.textContent = xeroConnected ? xeroTenants.length : "—";
+  if (!xeroConnected) {
+    xero.orgList.innerHTML = '<p class="empty-state">Connect TeraKira to Xero to retrieve accessible organisations.</p>';
+    return;
+  }
+  if (!xeroTenants.length) {
+    xero.orgList.innerHTML = '<p class="empty-state">No organisations are accessible through this Xero connection. Check the organisations selected during authorisation.</p>';
+    return;
+  }
+  const assigned = new Set(xeroClients.map(client => client.tenant_id).filter(Boolean));
+  xero.orgList.innerHTML = xeroTenants.map(tenant => {
+    const client = xeroClients.find(item => item.tenant_id === tenant.tenantId);
+    return `<div class="xero-org-row"><span><strong>${escapeHtml(tenant.tenantName)}</strong><small>${escapeHtml(tenant.tenantType || "Xero organisation")}</small></span><span class="xero-assignment ${client ? "assigned" : "available"}">${client ? `Assigned to ${escapeHtml(client.name || client.email)}` : "Available"}</span></div>`;
+  }).join("");
+}
+function renderXeroClients() {
+  const query = xero.clientSearch.value.trim().toLowerCase();
+  const filtered = xeroClients.filter(client => `${client.name || ""} ${client.email || ""}`.toLowerCase().includes(query));
+  if (!xeroConnected) {
+    xero.clientList.innerHTML = '<p class="empty-state">Connect to Xero before assigning organisations to clients.</p>';
+    return;
+  }
+  if (!filtered.length) {
+    xero.clientList.innerHTML = `<p class="empty-state">${xeroClients.length ? "No clients match your search." : "No registered client accounts found."}</p>`;
+    return;
+  }
+  const assignedTenantIds = new Set(xeroClients.map(client => client.tenant_id).filter(Boolean));
+  xero.clientList.innerHTML = filtered.map(client => {
+    const current = xeroTenants.find(tenant => tenant.tenantId === client.tenant_id);
+    const hasMapping = Boolean(client.tenant_id);
+    const currentName = current?.tenantName || client.tenant_name || "Organisation not currently accessible";
+    const options = xeroTenants.filter(tenant => !assignedTenantIds.has(tenant.tenantId) || tenant.tenantId === client.tenant_id);
+    return `<article class="xero-client-row">
+      <div class="xero-client-info"><strong>${escapeHtml(client.name || "Unnamed client")}</strong><small>${escapeHtml(client.email || "No email")}</small><span class="xero-assignment ${hasMapping ? (current ? "assigned" : "unassigned") : "unassigned"}">${hasMapping ? `Assigned: ${escapeHtml(currentName)}${current ? "" : " (not accessible through the current Xero connection)"}` : "No organisation assigned"}</span></div>
+      <div class="xero-client-controls"><select aria-label="Xero organisation for ${escapeHtml(client.name || client.email)}" data-xero-select="${escapeHtml(client.id)}"><option value="">Select an available organisation</option>${options.map(tenant => `<option value="${escapeHtml(tenant.tenantId)}" ${tenant.tenantId === client.tenant_id ? "selected" : ""}>${escapeHtml(tenant.tenantName)}</option>`).join("")}</select>
+      <button class="button" type="button" data-xero-assign="${escapeHtml(client.id)}">${hasMapping ? "Update Assignment" : "Assign Organisation"}</button>
+      ${hasMapping ? `<button class="button button-quiet" type="button" data-xero-remove="${escapeHtml(client.id)}">Remove Assignment</button>` : ""}</div>
+    </article>`;
+  }).join("");
+  xero.clientList.querySelectorAll("[data-xero-assign]").forEach(button => button.addEventListener("click", async () => {
+    const clientId = button.dataset.xeroAssign;
+    const select = xero.clientList.querySelector(`[data-xero-select="${CSS.escape(clientId)}"]`);
+    const tenantId = select?.value;
+    if (!tenantId) return xeroMessage("Select an available Xero organisation first.", true);
+    const tenant = xeroTenants.find(item => item.tenantId === tenantId);
+    button.disabled = true;
+    try {
+      await apiFetch("/api/xero?action=mapping", { method: "POST", body: JSON.stringify({ clientId, tenantId, tenantName: tenant?.tenantName }) });
+      xeroMessage("Xero organisation assigned successfully.");
+      await loadXeroManagement(false);
+    } catch (error) { xeroMessage(error.message || "Unable to assign organisation.", true); button.disabled = false; }
+  }));
+  xero.clientList.querySelectorAll("[data-xero-remove]").forEach(button => button.addEventListener("click", async () => {
+    const clientId = button.dataset.xeroRemove;
+    const client = xeroClients.find(item => item.id === clientId);
+    if (!window.confirm(`Remove the Xero organisation assignment for ${client?.name || client?.email || "this client"}? The client account and Xero data will not be deleted.`)) return;
+    button.disabled = true;
+    try {
+      await apiFetch("/api/xero?action=mapping", { method: "DELETE", body: JSON.stringify({ clientId }) });
+      xeroMessage("Organisation assignment removed.");
+      await loadXeroManagement(false);
+    } catch (error) { xeroMessage(error.message || "Unable to remove assignment.", true); button.disabled = false; }
+  }));
+}
+async function loadXeroManagement(showLoading = true) {
+  if (showLoading) {
+    xero.connectionMessage.textContent = "Checking shared connection…";
+    xero.orgList.innerHTML = '<p class="empty-state">Loading organisations…</p>';
+    xero.clientList.innerHTML = '<p class="empty-state">Loading clients…</p>';
+  }
+  try {
+    const status = await apiFetch("/api/xero?action=status");
+    xeroConnected = Boolean(status.connected);
+    xero.badge.textContent = xeroConnected ? "Connected" : "Disconnected";
+    xero.badge.classList.toggle("connected", xeroConnected);
+    xero.badge.classList.toggle("disconnected", !xeroConnected);
+    xero.connectionMessage.textContent = xeroConnected
+      ? `Connected to Xero. Last updated ${formatDate(status.updatedAt)}.`
+      : "TeraKira is not connected to Xero. An administrator must connect the shared account before organisations can be assigned.";
+    xero.connect.disabled = xeroConnected;
+    xero.refresh.disabled = !xeroConnected;
+    xero.disconnect.disabled = !xeroConnected;
+    if (xeroConnected) {
+      const [tenants, clients] = await Promise.all([
+        apiFetch("/api/xero?action=tenants"),
+        apiFetch("/api/xero?action=users")
+      ]);
+      xeroTenants = Array.isArray(tenants) ? tenants : [];
+      xeroClients = Array.isArray(clients) ? clients : [];
+    } else {
+      xeroTenants = [];
+      xeroClients = await apiFetch("/api/xero?action=users");
+    }
+    renderXeroOrganisations();
+    renderXeroClients();
+    return true;
+  } catch (error) {
+    xero.connectionMessage.textContent = error.message || "Unable to check the Xero connection.";
+    xero.orgList.innerHTML = '<p class="empty-state">Could not load Xero organisations. Please try again.</p>';
+    xero.clientList.innerHTML = '<p class="empty-state">Could not load client mappings.</p>';
+    xeroMessage(error.message || "Xero management could not be loaded.", true);
+    return false;
+  }
+}
+xero.connect.addEventListener("click", async () => {
+  xero.connect.disabled = true;
+  xero.connect.textContent = "Connecting…";
+  try {
+    const result = await apiFetch("/api/xero?action=connect", { method: "POST" });
+    if (!result.authorizationUrl) throw new Error("Xero did not return an authorisation URL.");
+    window.location.assign(result.authorizationUrl);
+  } catch (error) {
+    xeroMessage(error.message || "Unable to start Xero connection.", true);
+    xero.connect.disabled = false;
+    xero.connect.textContent = "Connect to Xero";
+  }
+});
+xero.refresh.addEventListener("click", async () => {
+  xero.refresh.disabled = true;
+  xero.refresh.textContent = "Refreshing…";
+  try {
+    const refreshed = await loadXeroManagement(false);
+    if (refreshed) xeroMessage("Organisations refreshed.");
+  } finally { xero.refresh.textContent = "Refresh Organisations"; xero.refresh.disabled = !xeroConnected; }
+});
+xero.disconnect.addEventListener("click", async () => {
+  if (!window.confirm("Disconnect the shared TeraKira Xero connection? Existing client organisation mappings will be kept, but clients cannot retrieve Xero data until reconnected.")) return;
+  xero.disconnect.disabled = true;
+  try {
+    await apiFetch("/api/xero?action=disconnect", { method: "POST" });
+    xeroMessage("Xero disconnected. Existing client mappings have been retained.");
+    await loadXeroManagement(false);
+  } catch (error) { xeroMessage(error.message || "Unable to disconnect Xero.", true); xero.disconnect.disabled = false; }
+});
+xero.clientSearch.addEventListener("input", renderXeroClients);
+const xeroCallback = new URLSearchParams(window.location.search).get("xero");
+if (xeroCallback) {
+  const messages = { connected: "TeraKira has successfully connected to Xero.", denied: "Xero authorisation was cancelled.", error: "Xero connection failed. Check the server logs and Xero configuration." };
+  xeroMessage(messages[xeroCallback] || "Xero authorisation returned.", xeroCallback !== "connected");
+  history.replaceState({}, "", window.location.pathname);
+}
+await loadXeroManagement();

@@ -101,7 +101,7 @@ async function initializeConsultationForm() {
     submitButton.textContent = "Submitting...";
 
     try {
-      const response = await fetch("/api/consultation", {
+      const response = await fetch("/api/client?action=consultation", {
         method: "POST",
         headers: {
           "Content-Type": "application/json"

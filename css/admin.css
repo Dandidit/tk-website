@@ -137,3 +137,40 @@ footer { padding: 18px 4px; color: var(--muted); font-size: 12px; text-align: ce
   .calendar-day-number { margin-bottom: 3px; font-size: 10px; }
   .calendar-event { margin: 2px 0; padding: 4px 3px; font-size: 9px; }
 }
+
+
+/* Xero integration management */
+.xero-panel { margin: 24px 0; padding: 24px; border: 1px solid var(--line); border-radius: var(--radius); background: var(--surface); }
+.xero-panel h2, .xero-panel h3 { margin: 0 0 4px; }
+.xero-panel .panel-heading > div > p, .xero-mapping-heading p { margin: 0; color: var(--muted); font-size: 13px; }
+.xero-badge { padding: 6px 11px; border-radius: 999px; font-size: 12px; font-weight: 750; white-space: nowrap; }
+.xero-badge.connected { color: var(--green); background: rgba(99,207,167,.13); }
+.xero-badge.disconnected { color: var(--amber); background: rgba(242,196,108,.13); }
+.xero-connection-card { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 18px; border: 1px solid var(--line); border-radius: 13px; background: var(--page); }
+.xero-connection-card p { margin: 5px 0 0; color: var(--muted); font-size: 13px; }
+.xero-actions { display: flex; flex-wrap: wrap; gap: 8px; }
+.button-danger { border: 1px solid rgba(255,120,120,.35); background: transparent; color: #e58b8b; }
+.xero-org-summary { display: flex; align-items: baseline; gap: 8px; margin: 20px 0 10px; color: var(--muted); font-size: 13px; }
+.xero-org-summary strong { color: var(--ink); font-size: 22px; }
+.xero-org-list { display: grid; gap: 8px; }
+.xero-org-row { display: flex; align-items: center; justify-content: space-between; gap: 12px; padding: 12px 14px; border: 1px solid var(--line); border-radius: 10px; background: var(--page); }
+.xero-org-row small, .xero-client-info small { display: block; margin-top: 3px; color: var(--muted); overflow-wrap: anywhere; }
+.xero-assignment { display: inline-block; margin-top: 5px; font-size: 12px; }
+.xero-assignment.assigned { color: var(--green); }
+.xero-assignment.available, .xero-assignment.unassigned { color: var(--amber); }
+.xero-mapping-heading { display: flex; align-items: end; justify-content: space-between; gap: 14px; margin: 28px 0 8px; }
+.xero-mapping-heading input, .xero-client-controls select { min-width: 220px; padding: 10px 12px; border: 1px solid var(--line); border-radius: 9px; background: var(--page); color: var(--ink); font: inherit; }
+.xero-client-list { display: grid; gap: 10px; }
+.xero-client-row { display: flex; align-items: center; justify-content: space-between; gap: 18px; padding: 15px; border: 1px solid var(--line); border-radius: 11px; background: var(--page); }
+.xero-client-info { min-width: 0; }
+.xero-client-controls { display: flex; align-items: center; justify-content: flex-end; flex-wrap: wrap; gap: 8px; }
+.xero-client-controls select { max-width: 270px; }
+@media (max-width: 760px) {
+  .xero-panel { padding: 16px; }
+  .xero-connection-card, .xero-client-row, .xero-mapping-heading { align-items: stretch; flex-direction: column; }
+  .xero-actions { display: grid; grid-template-columns: 1fr; }
+  .xero-actions .button { width: 100%; }
+  .xero-mapping-heading input, .xero-client-controls select { width: 100%; max-width: none; min-width: 0; }
+  .xero-client-controls { display: grid; grid-template-columns: 1fr; }
+  .xero-org-row { align-items: flex-start; flex-direction: column; }
+}

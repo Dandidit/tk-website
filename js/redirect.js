@@ -3,7 +3,7 @@ import { getJWT } from "./auth.js";
 export async function redirectAfterLogin() {
   const token = await getJWT();
 
-  const meResponse = await fetch("/api/me", {
+  const meResponse = await fetch("/api/account?action=me", {
     headers: { Authorization: `Bearer ${token}` },
     cache: "no-store"
   });
@@ -18,7 +18,7 @@ export async function redirectAfterLogin() {
     return;
   }
 
-  const response = await fetch("/api/onboarding", {
+  const response = await fetch("/api/client?action=onboarding", {
     headers: {
       Authorization: `Bearer ${token}`
     },

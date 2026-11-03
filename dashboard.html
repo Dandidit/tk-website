@@ -2,114 +2,133 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <meta name="theme-color" content="#0E1B18">
-  <title>Dashboard | TeraKira</title>
-  <link rel="stylesheet" href="css/variables.css">
-  <link rel="stylesheet" href="css/layout.css">
-  <link rel="stylesheet" href="css/dashboard.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+  <meta name="theme-color" content="#f5f7f6">
+  <title>Client Portal | TeraKira</title>
+  <link rel="stylesheet" href="/css/variables.css">
+  <link rel="stylesheet" href="/css/dashboard.css">
 </head>
-<body class="dashboard-page">
-  <div class="dashboard-app">
-    <header class="dashboard-topbar">
-      <a class="brand" href="/dashboard.html" aria-label="TeraKira dashboard">
-        <svg width="27" height="27" viewBox="0 0 26 26" aria-hidden="true"><rect x="2" y="3" width="22" height="20" rx="4" fill="none" stroke="currentColor" stroke-width="2.4"/><path d="M7 11h12M7 15.5h12M7 19.5h6" stroke="currentColor" stroke-width="2.4" stroke-linecap="round"/></svg>
-        <span>Terakira</span>
-      </a>
-      <nav class="dashboard-nav" aria-label="Account navigation">
-        <a href="/profile.html" id="profile-link">Profile</a>
-        <a href="/login-settings.html">Login settings</a>
-        <a href="/admin.html" id="admin-view-link" hidden>Admin view</a>
-      </nav>
-      <div class="topbar-account">
-        <span id="role" class="role-pill">Account</span>
-        <button id="logout-button" class="button button-quiet" type="button">Log out <span aria-hidden="true">↗</span></button>
+<body class="client-portal">
+  <aside class="sidebar">
+    <a class="logo" href="/dashboard.html">Tera<span>Kira</span></a>
+    <nav id="portal-nav" aria-label="Portal navigation">
+      <button class="nav-item active" type="button" data-view="home"><svg viewBox="0 0 24 24"><path d="M3 11l9-8 9 8v10a1 1 0 0 1-1 1h-5v-7H9v7H4a1 1 0 0 1-1-1z"/></svg>Home</button>
+      <button class="nav-item" type="button" data-view="profile"><svg viewBox="0 0 24 24"><circle cx="12" cy="8" r="4"/><path d="M4 21c0-4 4-6 8-6s8 2 8 6"/></svg>Profile</button>
+      <button class="nav-item" type="button" data-view="docs"><svg viewBox="0 0 24 24"><path d="M14 3H6a1 1 0 0 0-1 1v16a1 1 0 0 0 1 1h12a1 1 0 0 0 1-1V8z"/><path d="M14 3v5h5"/></svg>Documents</button>
+    </nav>
+    <div class="sidebar-user">
+      <div class="avatar" id="user-avatar">TK</div>
+      <div class="user-meta"><strong id="sidebar-name">Loading…</strong><small id="sidebar-company">Client account</small></div>
+      <button id="logout-button" class="logout-icon" type="button" aria-label="Log out">↗</button>
+    </div>
+  </aside>
+
+  <main class="portal-main">
+    <section class="view active" id="view-home">
+      <div class="page-heading">
+        <div><p class="eyebrow">YOUR CLIENT PORTAL</p><h1 id="welcome-title">Welcome back</h1><p class="subheading">Here’s where your books stand today.</p></div>
+        <span class="today-label" id="today-label"></span>
       </div>
-    </header>
 
-    <main class="dashboard-main">
-      <section class="page-intro">
-        <div>
-          <p class="eyebrow">YOUR WORKSPACE</p>
-          <h1>Dashboard<span class="heading-period">.</span></h1>
-          <p id="welcome" class="welcome-copy">Welcome back.</p>
-        </div>
-        <div class="intro-mark" aria-hidden="true">
-          <svg viewBox="0 0 48 48" fill="none"><rect x="5" y="5" width="38" height="38" rx="12" stroke="currentColor" stroke-width="1.5"/><path d="M15 18h18M15 24h18M15 30h10" stroke="currentColor" stroke-width="2" stroke-linecap="round"/></svg>
-        </div>
-      </section>
+      <div class="grid grid-two home-top">
+        <section class="card calendar-card">
+          <div class="card-heading"><h2>Calendar</h2><span class="muted" id="calendar-month"></span></div>
+          <div class="calendar-controls"><button type="button" id="calendar-prev" aria-label="Previous month">‹</button><button type="button" id="calendar-next" aria-label="Next month">›</button></div>
+          <div class="calendar" id="calendar-grid"></div>
+          <div class="calendar-legend"><span class="legend-dot"></span> Appointment scheduled</div>
+        </section>
+        <section class="card">
+          <div class="card-heading"><h2>What’s coming &amp; pending</h2><span class="count-badge" id="pending-count">0</span></div>
+          <div id="pending-list" class="activity-list"><p class="muted">Loading updates…</p></div>
+        </section>
+      </div>
 
-      <section class="dashboard-card statements-card" aria-labelledby="statements-title">
-        <div class="section-heading">
-          <div class="section-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><path d="M6 3.75h8l4 4V20a.75.75 0 0 1-.75.75h-10.5A.75.75 0 0 1 6 20V3.75Z" stroke="currentColor" stroke-width="1.6" stroke-linejoin="round"/><path d="M14 4v4h4M9 13h6M9 16.5h6" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <p class="eyebrow">DOCUMENTS</p>
-            <h2 id="statements-title">Bank statements</h2>
-            <p class="section-description">Upload a statement to get it ready for reconciliation.</p>
-          </div>
+      <div class="grid grid-two financial-grid">
+        <section class="card">
+          <div class="card-heading chart-heading"><div><h2>Profit &amp; Loss</h2><p class="muted">Last six months · Xero</p></div><span class="connection-state" id="xero-state"><i></i> Checking Xero</span></div>
+          <div id="profit-chart" class="profit-chart"><p class="muted">Loading financial data…</p></div>
+        </section>
+        <div class="metric-stack">
+          <section class="card metric-card"><span class="metric-label">Cash balance</span><strong class="metric-value" id="cash-balance">—</strong><span class="metric-foot" id="cash-caption">Xero bank summary</span></section>
+          <section class="card metric-card"><span class="metric-label">Outstanding invoices</span><strong class="metric-value" id="invoice-total">—</strong><span class="metric-foot" id="invoice-caption">Loading invoice details…</span></section>
         </div>
+      </div>
 
-        <form id="upload-form" class="upload-panel">
-          <div class="upload-copy">
-            <span class="upload-symbol" aria-hidden="true">
-              <svg viewBox="0 0 24 24" fill="none"><path d="M12 15V4m0 0L7.5 8.5M12 4l4.5 4.5M5 14.5v4A1.5 1.5 0 0 0 6.5 20h11a1.5 1.5 0 0 0 1.5-1.5v-4" stroke="currentColor" stroke-width="1.7" stroke-linecap="round" stroke-linejoin="round"/></svg>
-            </span>
-            <div>
-              <strong>Choose a bank statement</strong>
-              <p>PDF, JPG or PNG files</p>
-            </div>
-          </div>
-          <label class="file-picker" for="statement-file">Browse files →</label>
-          <input id="statement-file" type="file" accept=".pdf,.jpg,.jpeg,.png" required>
+      <div class="grid grid-three lower-grid">
+        <section class="card">
+          <div class="card-heading"><h2>Your bookkeeper</h2></div>
+          <div class="bookkeeper"><div class="avatar avatar-large">TK</div><div><strong>TeraKira Bookkeeping</strong><small class="muted">Your bookkeeping support team</small></div></div>
+          <p class="card-note">Need help with your account? Contact the TeraKira team through your usual communication channel.</p>
+        </section>
+        <section class="card">
+          <div class="card-heading"><h2>Onboarding checklist</h2><span class="muted" id="checklist-count">—</span></div>
+          <div id="checklist-summary" class="checklist-summary"><p class="muted">Loading checklist…</p></div>
+          <a class="text-link" href="/onboarding.html">View onboarding →</a>
+        </section>
+        <section class="card">
+          <div class="card-heading"><h2>Latest activity</h2></div>
+          <div id="latest-activity" class="activity-list"><p class="muted">Loading activity…</p></div>
+        </section>
+      </div>
+
+      <section class="card admin-appointment-card" id="admin-appointment-panel" hidden>
+        <div class="card-heading"><div><h2>Schedule an appointment</h2><p class="muted">Admin only</p></div></div>
+        <form id="appointment-form" class="appointment-form">
+          <label>Client user ID<input id="appointment-user" required placeholder="Client UUID"></label>
+          <label>Appointment title<input id="appointment-title" required placeholder="e.g. Monthly review"></label>
+          <label>Starts<input id="appointment-start" type="datetime-local" required></label>
+          <label>Ends<input id="appointment-end" type="datetime-local" required></label>
+          <label class="field-wide">Notes<textarea id="appointment-notes" rows="2"></textarea></label>
+          <div class="field-wide form-actions"><button class="button button-primary" type="submit">Create appointment</button><span id="appointment-message" class="muted" role="status"></span></div>
         </form>
-        <p id="upload-message" class="upload-message" role="status" aria-live="polite"></p>
-
-        <div class="list-heading">
-          <h3>Your documents</h3>
-          <span class="list-caption">Latest uploads</span>
-        </div>
-        <div id="statement-list" class="statement-list"></div>
       </section>
+      <footer class="portal-footer"><span>TeraKira</span><span>Your finances, in clearer view.</span></footer>
+    </section>
 
-      <section class="dashboard-card calendar-card" aria-labelledby="calendar-title">
-        <div class="section-heading">
-          <div class="section-icon" aria-hidden="true">
-            <svg viewBox="0 0 24 24" fill="none"><rect x="3.75" y="5.5" width="16.5" height="14.75" rx="2" stroke="currentColor" stroke-width="1.6"/><path d="M7.5 3.75v3.5M16.5 3.75v3.5M4 9.5h16M8 13h2M14 13h2M8 16.5h2" stroke="currentColor" stroke-width="1.6" stroke-linecap="round"/></svg>
-          </div>
-          <div>
-            <p class="eyebrow">STAY ON TRACK</p>
-            <h2 id="calendar-title">Appointments</h2>
-            <p class="section-description">Keep track of your upcoming sessions.</p>
-          </div>
+    <section class="view" id="view-profile">
+      <div class="page-heading"><div><p class="eyebrow">YOUR ACCOUNT</p><h1>Profile</h1><p class="subheading">Your personal and company information.</p></div></div>
+      <div class="grid grid-two profile-layout">
+        <section class="card">
+          <div class="card-heading"><h2>Personal &amp; company details</h2><span class="status-pill">From onboarding</span></div>
+          <div id="profile-details" class="profile-details"><p class="muted">Loading profile…</p></div>
+          <p class="card-note">To update these details, please contact TeraKira. Profile editing is not enabled in this portal yet.</p>
+        </section>
+        <div class="profile-side">
+          <section class="card">
+            <div class="card-heading"><h2>Xero connection</h2></div>
+            <div class="connection-panel"><span class="connection-indicator" id="profile-xero-indicator"></span><div><strong id="profile-xero-name">Checking connection…</strong><small id="profile-xero-caption" class="muted">Financial information is supplied by Xero.</small></div></div>
+            <p class="card-note">Your Xero organisation connection is managed securely by TeraKira.</p>
+          </section>
+          <section class="card"><div class="card-heading"><h2>Account security</h2></div><p class="muted">Your account is protected by TeraKira sign-in.</p><a class="button button-outline" href="/login.html">Sign-in page</a></section>
         </div>
-        <div id="calendar-list" class="calendar-list"></div>
+      </div>
+    </section>
 
-        <div id="admin-appointment-panel" class="admin-panel" hidden>
-          <div class="admin-panel-heading">
-            <h3>Schedule an appointment</h3>
-            <p>Create a session for a client.</p>
+    <section class="view" id="view-docs">
+      <div class="page-heading"><div><p class="eyebrow">YOUR FILES</p><h1>Documents</h1><p class="subheading">Upload bank statements and access your submitted files.</p></div></div>
+      <section class="card documents-card">
+        <form id="upload-form" class="upload-drop">
+          <div class="upload-icon">↑</div><strong>Upload a bank statement</strong><p class="muted">PDF, JPG or PNG · Your file is stored securely.</p>
+          <label class="button button-primary" for="statement-file">Browse files</label>
+          <input id="statement-file" type="file" accept=".pdf,.jpg,.jpeg,.png" hidden>
+          <span id="upload-message" class="upload-message" role="status" aria-live="polite"></span>
+        </form>
+        <div class="document-toolbar">
+          <div class="tabs" id="document-tabs">
+            <button class="active" type="button" data-filter="all">All</button><button type="button" data-filter="Reports">Reports</button><button type="button" data-filter="Tax">Tax</button><button type="button" data-filter="Uploads">My uploads</button>
           </div>
-          <form id="appointment-form" class="appointment-form">
-            <label class="field field-user" for="appointment-user">User ID<input id="appointment-user" placeholder="Enter user ID" required></label>
-            <label class="field" for="appointment-title">Appointment title<input id="appointment-title" placeholder="e.g. Financial review" required></label>
-            <label class="field" for="appointment-start">Starts<input id="appointment-start" type="datetime-local" required></label>
-            <label class="field" for="appointment-end">Ends<input id="appointment-end" type="datetime-local" required></label>
-            <label class="field field-notes" for="appointment-notes">Notes <span>(optional)</span><textarea id="appointment-notes" placeholder="Add any useful details"></textarea></label>
-            <div class="form-actions"><button class="button button-primary" type="submit">Create appointment <span aria-hidden="true">→</span></button></div>
-          </form>
+          <label class="client-filter" id="document-client-filter-wrap" hidden>
+            <span>Client</span>
+            <select id="document-client-filter"><option value="all">All clients</option></select>
+          </label>
         </div>
+        <div class="table-wrap"><table class="document-table"><thead><tr><th>Name</th><th>Category</th><th>Date</th><th>Status</th><th id="document-client-heading" hidden>Client</th><th></th></tr></thead><tbody id="document-rows"><tr><td colspan="6" class="empty-cell">Loading documents…</td></tr></tbody></table></div>
+        <p class="document-note">Reports and tax documents shared by TeraKira will appear here when document sharing is enabled.</p>
       </section>
-      <footer class="dashboard-footer"><span>Terakira</span><span>Your finances, in clearer view.</span></footer>
-    </main>
-  </div>
+    </section>
+  </main>
 
-  <script>
-    window.TERAKIRA_CONFIG = {
-      NEON_AUTH_URL: "https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth"
-    };
-  </script>
-  <script type="module" src="js/dashboard.js"></script>
+  <script>window.TERAKIRA_CONFIG={NEON_AUTH_URL:"https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth"};</script>
+  <script type="module" src="/js/dashboard.js"></script>
 </body>
 </html>

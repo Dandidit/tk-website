@@ -34,6 +34,26 @@
         <p class="intro-copy">Browse uploaded bank statements, organised by client. Only administrator accounts can access this page.</p>
       </section>
 
+      <section class="xero-panel" aria-labelledby="xero-title">
+        <div class="panel-heading">
+          <div><h2 id="xero-title">Xero Integration</h2><p>Manage TeraKira’s shared Xero connection and assign organisations to clients.</p></div>
+          <span id="xero-connection-badge" class="xero-badge disconnected">Disconnected</span>
+        </div>
+        <div class="xero-connection-card">
+          <div><strong>Shared Xero connection</strong><p id="xero-connection-message" class="muted">Checking connection…</p></div>
+          <div class="xero-actions">
+            <button class="button" id="xero-connect" type="button">Connect to Xero</button>
+            <button class="button button-quiet" id="xero-refresh" type="button" disabled>Refresh Organisations</button>
+            <button class="button button-danger" id="xero-disconnect" type="button" disabled>Disconnect Xero</button>
+          </div>
+        </div>
+        <div class="xero-org-summary"><strong id="xero-org-count">—</strong><span>organisations accessible to TeraKira</span></div>
+        <div id="xero-org-list" class="xero-org-list"><p class="empty-state">Loading organisations…</p></div>
+        <div class="xero-mapping-heading"><div><h3>Client organisation mapping</h3><p>Each Xero organisation can only belong to one TeraKira client.</p></div><input id="xero-client-search" type="search" placeholder="Search clients by name or email" autocomplete="off"></div>
+        <p id="xero-admin-message" class="status-message" role="status" aria-live="polite"></p>
+        <div id="xero-client-list" class="xero-client-list"><p class="empty-state">Loading clients…</p></div>
+      </section>
+
       <section class="stats-grid" aria-label="Document overview">
         <article class="stat-card"><span>Total clients</span><strong id="client-count">—</strong></article>
         <article class="stat-card"><span>Total documents</span><strong id="document-count">—</strong></article>

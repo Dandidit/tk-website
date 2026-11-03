@@ -62,7 +62,7 @@ async function openFile(itemId, button) {
   try {
     const token = await getJWT();
     if (!token) throw new Error("Your session has expired. Please sign in again.");
-    const response = await fetch(`/api/onboarding-file?userId=${encodeURIComponent(userId)}&itemId=${encodeURIComponent(itemId)}`, { headers: { Authorization: `Bearer ${token}` } });
+    const response = await fetch(`/api/client?action=onboarding-file&userId=${encodeURIComponent(userId)}&itemId=${encodeURIComponent(itemId)}`, { headers: { Authorization: `Bearer ${token}` } });
     if (!response.ok) {
       const result = await response.json().catch(() => ({}));
       throw new Error(result.error || "Unable to open this file.");
@@ -82,7 +82,7 @@ async function openFile(itemId, button) {
 
 async function loadProfile() {
   if (!userId) throw new Error("Missing client ID in the URL.");
-  const data = await apiFetch(`/api/admin-profile?userId=${encodeURIComponent(userId)}`);
+  const data = await apiFetch(`/api/account?action=admin-profile&userId=${encodeURIComponent(userId)}`);
   const user = data.user;
   const co = data.onboarding || {};
   document.getElementById("client-name").textContent = user.name || "Unnamed client";

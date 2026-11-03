@@ -1,5 +1,5 @@
 import { handleUpload } from "@vercel/blob/client";
-import { requireAuth } from "./_auth.js";
+import { requireAuth } from "../lib/auth.js";
 
 const allowedTypes = [
   "application/pdf",
