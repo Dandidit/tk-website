@@ -1,5 +1,8 @@
 import { handleUpload } from "@vercel/blob/client";
 import { requireAuth } from "../lib/auth.js";
+import { statementPrefix, onboardingPrefix, isOwnedBlob } from "../lib/blob-paths.js";
+
+const MAX_UPLOAD_BYTES = 10 * 1024 * 1024; // 10 MB
 
 const allowedTypes = [
   "application/pdf",
@@ -23,6 +26,13 @@ export default async function handler(req, res) {
       token: process.env.BLOB_READ_WRITE_TOKEN,
 
       onBeforeGenerateToken: async (pathname) => {
+        if (
+          !isOwnedBlob(pathname, statementPrefix(user.id)) &&
+          !isOwnedBlob(pathname, onboardingPrefix(user.id))
+        ) {
+          throw new Error("Invalid upload location.");
+        }
+
         const lower = pathname.toLowerCase();
 
         const allowed = allowedTypes.some(type => {
@@ -47,7 +57,9 @@ export default async function handler(req, res) {
 
         return {
           allowedContentTypes: allowedTypes,
+          maximumSizeInBytes: MAX_UPLOAD_BYTES,
           addRandomSuffix: true,
+          allowOverwrite: false,
           tokenPayload: JSON.stringify({
             userId: user.id
           })

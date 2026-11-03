@@ -1,3 +1,4 @@
+import hmac
 import json
 import os
 import re
@@ -8,6 +9,8 @@ from http.server import BaseHTTPRequestHandler
 import pymupdf as fitz
 import psycopg
 from vercel.blob import get_blob
+
+MAX_PDF_BYTES = 10 * 1024 * 1024  # matches the upload limit in api/upload.js
 
 def clean_amount(val):
     if val is None or val == "":
@@ -231,7 +234,11 @@ def save_results(statement_id, rows):
 
 class handler(BaseHTTPRequestHandler):
     def do_POST(self):
-        if self.headers.get("x-parser-secret") != os.environ.get("PARSER_SECRET"):
+        expected_secret = os.environ.get("PARSER_SECRET") or ""
+        provided_secret = self.headers.get("x-parser-secret") or ""
+        if not expected_secret or not hmac.compare_digest(
+            provided_secret.encode(), expected_secret.encode()
+        ):
             self.send_response(401)
             self.send_header("Content-Type", "application/json")
             self.end_headers()
@@ -248,6 +255,10 @@ class handler(BaseHTTPRequestHandler):
 
             result = asyncio.run(get_blob(storage_path, access="private"))
             pdf_bytes = result.body
+
+            # Don't hand untrusted content to the PDF parser unless it looks like a PDF of sane size.
+            if len(pdf_bytes) > MAX_PDF_BYTES or not pdf_bytes.startswith(b"%PDF-"):
+                raise ValueError("Invalid or oversized PDF file")
 
             with tempfile.NamedTemporaryFile(suffix=".pdf", delete=False) as tmp:
                 tmp.write(pdf_bytes)

@@ -52,8 +52,10 @@ export async function uploadOnboardingFile(file, itemId) {
     throw new Error("Only PDF, JPG and PNG files are allowed.");
   }
 
+  const user = await getCurrentUser();
+
   return await upload(
-    `onboarding/${itemId}/${file.name}`,
+    `onboarding/${user.id}/${itemId}/${file.name}`,
     file,
     {
       access: "private",
