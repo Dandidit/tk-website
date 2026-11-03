@@ -263,3 +263,29 @@ ALTER TABLE "neon_auth"."invitation" ADD CONSTRAINT "invitation_organizationId_f
 ALTER TABLE "neon_auth"."member" ADD CONSTRAINT "member_organizationId_fkey" FOREIGN KEY ("organizationId") REFERENCES "neon_auth"."organization"("id") ON DELETE CASCADE;
 ALTER TABLE "neon_auth"."member" ADD CONSTRAINT "member_userId_fkey" FOREIGN KEY ("userId") REFERENCES "neon_auth"."user"("id") ON DELETE CASCADE;
 ALTER TABLE "neon_auth"."session" ADD CONSTRAINT "session_userId_fkey" FOREIGN KEY ("userId") REFERENCES "neon_auth"."user"("id") ON DELETE CASCADE;
+
+CREATE TABLE IF NOT EXISTS public.xero_connections (
+  connection_key text PRIMARY KEY CHECK (connection_key = 'primary'),
+  access_token_encrypted text NOT NULL,
+  refresh_token_encrypted text NOT NULL,
+  expires_at timestamptz NOT NULL,
+  scope text,
+  updated_at timestamptz NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS public.xero_oauth_states (
+  state text PRIMARY KEY,
+  created_by uuid NOT NULL REFERENCES neon_auth."user"(id) ON DELETE CASCADE,
+  expires_at timestamptz NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS xero_oauth_states_expires_idx
+  ON public.xero_oauth_states (expires_at);
+
+CREATE TABLE IF NOT EXISTS public.xero_client_mappings (
+  client_id uuid PRIMARY KEY REFERENCES neon_auth."user"(id) ON DELETE CASCADE,
+  tenant_id text NOT NULL UNIQUE,
+  tenant_name text,
+  mapped_by uuid REFERENCES neon_auth."user"(id),
+  updated_at timestamptz NOT NULL DEFAULT now()
+);

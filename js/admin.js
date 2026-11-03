@@ -19,40 +19,6 @@ const searchInput = document.getElementById("search-input");
 const statusMessage = document.getElementById("status-message");
 const refreshButton = document.getElementById("refresh-button");
 let allStatements = [];
-let allAppointments = [];
-let calendarMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-let selectedClient = null;
-const calendar = document.getElementById("appointment-calendar");
-const calendarSummary = document.getElementById("calendar-summary");
-const appointmentModal = document.getElementById("appointment-modal");
-const appointmentForm = document.getElementById("appointment-form");
-const appointmentMessage = document.getElementById("appointment-message");
-const appointmentStart = document.getElementById("appointment-start");
-const appointmentSave = document.getElementById("appointment-save");
-
-function toLocalInputValue(date) {
-  const local = new Date(date.getTime() - date.getTimezoneOffset() * 60000);
-  return local.toISOString().slice(0, 16);
-}
-function openAppointment(client) {
-  selectedClient = client;
-  appointmentForm.reset();
-  appointmentForm.elements.title.value = "Client consultation";
-  const start = new Date();
-  start.setMinutes(0, 0, 0);
-  start.setHours(start.getHours() + 1);
-  appointmentStart.min = toLocalInputValue(new Date());
-  appointmentStart.value = toLocalInputValue(start);
-  document.getElementById("appointment-client").textContent = `${client.name} · ${client.email}`;
-  appointmentMessage.textContent = "";
-  appointmentMessage.classList.remove("error");
-  appointmentModal.hidden = false;
-  appointmentForm.elements.title.focus();
-}
-function closeAppointment() {
-  appointmentModal.hidden = true;
-  selectedClient = null;
-}
 
 function escapeHtml(value) {
   return String(value ?? "").replace(/[&<>"']/g, char => ({
@@ -64,66 +30,6 @@ function formatDate(value) {
   const date = new Date(value);
   return Number.isNaN(date.getTime()) ? "Date unavailable" : date.toLocaleString();
 }
-function renderCalendar() {
-  const year = calendarMonth.getFullYear();
-  const month = calendarMonth.getMonth();
-  const firstDay = new Date(year, month, 1);
-  const start = new Date(year, month, 1 - firstDay.getDay());
-  const today = new Date();
-  const monthAppointments = allAppointments.filter(item => {
-    const date = new Date(item.start_at);
-    return !Number.isNaN(date.getTime()) && date.getFullYear() === year && date.getMonth() === month;
-  });
-
-  calendarSummary.textContent = `${calendarMonth.toLocaleDateString(undefined, { month: "long", year: "numeric" })} · ${monthAppointments.length} appointment${monthAppointments.length === 1 ? "" : "s"}`;
-  const weekdays = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"];
-  let html = `<div class="calendar-weekdays">${weekdays.map(day => `<span>${day}</span>`).join("")}</div><div class="calendar-grid">`;
-
-  for (let i = 0; i < 42; i++) {
-    const date = new Date(start);
-    date.setDate(start.getDate() + i);
-    const dayAppointments = allAppointments.filter(item => {
-      const eventDate = new Date(item.start_at);
-      return !Number.isNaN(eventDate.getTime()) && eventDate.getFullYear() === date.getFullYear() && eventDate.getMonth() === date.getMonth() && eventDate.getDate() === date.getDate();
-    }).sort((a, b) => new Date(a.start_at) - new Date(b.start_at));
-    const classes = ["calendar-day"];
-    if (date.getMonth() !== month) classes.push("outside-month");
-    if (date.toDateString() === today.toDateString()) classes.push("is-today");
-    html += `<div class="${classes.join(" ")}"><span class="calendar-day-number">${date.getDate()}</span>`;
-    dayAppointments.slice(0, 3).forEach(item => {
-      const time = new Date(item.start_at).toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" });
-      const clientName = item.user_name || item.user_email || "Client";
-      const cancelled = String(item.status || "scheduled").toLowerCase() === "cancelled";
-      html += `<button type="button" class="calendar-event${cancelled ? " cancelled" : ""}" data-appointment-id="${escapeHtml(item.id)}" title="${escapeHtml(`${time} · ${item.title} · ${clientName}`)}"><span>${escapeHtml(time)} ${escapeHtml(item.title || "Appointment")}</span><span>${escapeHtml(clientName)}</span></button>`;
-    });
-    if (dayAppointments.length > 3) html += `<span class="calendar-event-more">+${dayAppointments.length - 3} more</span>`;
-    html += `</div>`;
-  }
-  html += `</div>`;
-  if (!allAppointments.length) html += `<div class="calendar-empty">No appointments scheduled yet.</div>`;
-  calendar.innerHTML = html;
-  calendar.querySelectorAll(".calendar-event").forEach(button => button.addEventListener("click", () => {
-    const item = allAppointments.find(appointment => String(appointment.id) === button.dataset.appointmentId);
-    if (!item) return;
-    const startAt = new Date(item.start_at);
-    const endAt = new Date(item.end_at);
-    window.alert(`${item.title || "Appointment"}\nClient: ${item.user_name || item.user_email || "Unknown client"}\nWhen: ${startAt.toLocaleString()} – ${endAt.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit" })}${item.notes ? `\nNotes: ${item.notes}` : ""}${item.status ? `\nStatus: ${item.status}` : ""}`);
-  }));
-}
-
-async function loadAppointments() {
-  calendarSummary.textContent = "Loading appointments…";
-  try {
-    const result = await apiFetch("/api/client?action=appointments");
-    if (!Array.isArray(result)) throw new Error("Unexpected response from appointments API.");
-    allAppointments = result;
-    renderCalendar();
-  } catch (error) {
-    calendarSummary.textContent = "Could not load appointments.";
-    calendar.innerHTML = `<div class="calendar-empty calendar-error">${escapeHtml(error.message || "Please refresh and try again.")}</div>`;
-  }
-}
-
 function formatSize(value) {
   const bytes = Number(value);
   if (!Number.isFinite(bytes) || bytes <= 0) return "Size unavailable";
@@ -177,7 +83,7 @@ function render() {
     <details class="client-card" ${query || index === 0 ? "open" : ""}>
       <summary>
         <span class="client-info"><span class="client-name">${escapeHtml(client.name)}</span><span class="client-email">${escapeHtml(client.email)}</span></span>
-        <span class="client-meta"><span class="doc-count">${client.documents.length} file${client.documents.length === 1 ? "" : "s"}</span><button class="button button-quiet view-profile" type="button" data-client-id="${escapeHtml(client.id)}">View profile</button><button class="button set-appointment" type="button" data-client-id="${escapeHtml(client.id)}" data-client-name="${escapeHtml(client.name)}" data-client-email="${escapeHtml(client.email)}" ${client.canSchedule ? "" : "disabled title=\"Client account ID unavailable\""}>Set appointment</button></span>
+        <span class="client-meta"><span class="doc-count">${client.documents.length} file${client.documents.length === 1 ? "" : "s"}</span><button class="button button-quiet view-profile" type="button" data-client-id="${escapeHtml(client.id)}">View profile</button><a class="button open-dashboard" href="/dashboard.html?client=${encodeURIComponent(client.id)}" ${client.canSchedule ? "" : "hidden"}>Open dashboard</a></span>
       </summary>
       <div class="document-list">
         ${client.documents.map(statement => {
@@ -206,13 +112,7 @@ function render() {
   list.querySelectorAll(".view-file").forEach(button => {
     button.addEventListener("click", () => openDocument(button.dataset.id, button));
   });
-  list.querySelectorAll(".set-appointment").forEach(button => {
-    button.addEventListener("click", event => {
-      event.preventDefault();
-      event.stopPropagation();
-      openAppointment({ id: button.dataset.clientId, name: button.dataset.clientName, email: button.dataset.clientEmail });
-    });
-  });
+  list.querySelectorAll(".open-dashboard").forEach(a => a.addEventListener("click", event => event.stopPropagation()));
   list.querySelectorAll(".view-profile").forEach(button => {
     button.addEventListener("click", event => {
       event.preventDefault();
@@ -270,67 +170,11 @@ async function loadDocuments() {
   }
 }
 
-appointmentForm.addEventListener("submit", async event => {
-  event.preventDefault();
-  if (!selectedClient) return;
-
-  const start = new Date(appointmentStart.value);
-  const duration = Number(document.getElementById("appointment-duration").value);
-  if (!Number.isFinite(start.getTime()) || start <= new Date()) {
-    appointmentMessage.textContent = "Choose a future date and time.";
-    appointmentMessage.classList.add("error");
-    return;
-  }
-
-  appointmentSave.disabled = true;
-  appointmentSave.textContent = "Saving…";
-  appointmentMessage.textContent = "";
-  appointmentMessage.classList.remove("error");
-  try {
-    const clientName = selectedClient.name;
-    await apiFetch("/api/client?action=appointments", {
-      method: "POST",
-      body: JSON.stringify({
-        userId: selectedClient.id,
-        title: appointmentForm.elements.title.value.trim(),
-        startAt: start.toISOString(),
-        endAt: new Date(start.getTime() + duration * 60000).toISOString(),
-        notes: appointmentForm.elements.notes.value.trim()
-      })
-    });
-    closeAppointment();
-    statusMessage.classList.remove("error");
-    statusMessage.textContent = `Appointment saved for ${clientName}.`;
-    await loadAppointments();
-  } catch (error) {
-    appointmentMessage.textContent = error.message || "Could not save the appointment.";
-    appointmentMessage.classList.add("error");
-  } finally {
-    appointmentSave.disabled = false;
-    appointmentSave.textContent = "Save appointment";
-  }
-});
-
-document.querySelectorAll(".appointment-close, .appointment-cancel").forEach(button => button.addEventListener("click", closeAppointment));
-appointmentModal.addEventListener("click", event => { if (event.target === appointmentModal) closeAppointment(); });
-document.addEventListener("keydown", event => { if (event.key === "Escape" && !appointmentModal.hidden) closeAppointment(); });
 searchInput.addEventListener("input", render);
 refreshButton.addEventListener("click", async () => {
-  await Promise.all([loadDocuments(), loadAppointments()]);
+  await loadDocuments();
 });
-document.getElementById("calendar-prev").addEventListener("click", () => {
-  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() - 1, 1);
-  renderCalendar();
-});
-document.getElementById("calendar-next").addEventListener("click", () => {
-  calendarMonth = new Date(calendarMonth.getFullYear(), calendarMonth.getMonth() + 1, 1);
-  renderCalendar();
-});
-document.getElementById("calendar-today").addEventListener("click", () => {
-  calendarMonth = new Date(new Date().getFullYear(), new Date().getMonth(), 1);
-  renderCalendar();
-});
-await Promise.all([loadDocuments(), loadAppointments()]);
+await loadDocuments();
 
 
 // Shared Xero connection and client organisation management.

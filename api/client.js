@@ -1,4 +1,4 @@
-import appointmentsHandler from "../lib/routes/appointments.js";
+import eventsHandler from "../lib/routes/events.js";
 import onboardingHandler from "../lib/routes/onboarding.js";
 import onboardingFileHandler from "../lib/routes/onboarding-file.js";
 import { POST as consultationPost, GET as consultationGet } from "../lib/routes/consultation.js";
@@ -36,7 +36,7 @@ async function runConsultation(req, res) {
 
 export default async function handler(req, res) {
   const action = String(req.query?.action || "");
-  if (action === "appointments") return appointmentsHandler(req, res);
+  if (action === "events") return eventsHandler(req, res);
   if (action === "onboarding") return onboardingHandler(req, res);
   if (action === "onboarding-file") return onboardingFileHandler(req, res);
   if (action === "consultation") return runConsultation(req, res);

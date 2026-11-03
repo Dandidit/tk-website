@@ -26,16 +26,18 @@
   <main class="portal-main">
     <section class="view active" id="view-home">
       <div class="page-heading">
-        <div><p class="eyebrow">YOUR CLIENT PORTAL</p><h1 id="welcome-title">Welcome back</h1><p class="subheading">Here’s where your books stand today.</p></div>
+        <div><p class="eyebrow" id="portal-eyebrow">YOUR CLIENT PORTAL</p><h1 id="welcome-title">Welcome back</h1><p class="subheading">Here’s where your books stand today.</p></div>
         <span class="today-label" id="today-label"></span>
       </div>
+      <div class="client-banner" id="client-banner" hidden><span id="client-banner-text"></span><a href="/dashboard.html">View all clients</a></div>
 
       <div class="grid grid-two home-top">
         <section class="card calendar-card">
           <div class="card-heading"><h2>Calendar</h2><span class="muted" id="calendar-month"></span></div>
-          <div class="calendar-controls"><button type="button" id="calendar-prev" aria-label="Previous month">‹</button><button type="button" id="calendar-next" aria-label="Next month">›</button></div>
+          <div class="calendar-controls"><button type="button" class="set-event-button" id="set-event-button" hidden>+ Set event</button><button type="button" id="calendar-prev" aria-label="Previous month">‹</button><button type="button" id="calendar-next" aria-label="Next month">›</button></div>
           <div class="calendar" id="calendar-grid"></div>
-          <div class="calendar-legend"><span class="legend-dot"></span> Appointment scheduled</div>
+          <div class="calendar-legend"><span><i class="legend-dot t-bookkeeping"></i>Bookkeeping</span><span><i class="legend-dot t-appointment"></i>Appointment</span><span><i class="legend-dot t-adhoc"></i>Ad hoc</span><span><i class="legend-dot t-reminder"></i>Reminder</span></div>
+          <div id="day-events" class="day-events"></div>
         </section>
         <section class="card">
           <div class="card-heading"><h2>What’s coming &amp; pending</h2><span class="count-badge" id="pending-count">0</span></div>
@@ -71,17 +73,6 @@
         </section>
       </div>
 
-      <section class="card admin-appointment-card" id="admin-appointment-panel" hidden>
-        <div class="card-heading"><div><h2>Schedule an appointment</h2><p class="muted">Admin only</p></div></div>
-        <form id="appointment-form" class="appointment-form">
-          <label>Client user ID<input id="appointment-user" required placeholder="Client UUID"></label>
-          <label>Appointment title<input id="appointment-title" required placeholder="e.g. Monthly review"></label>
-          <label>Starts<input id="appointment-start" type="datetime-local" required></label>
-          <label>Ends<input id="appointment-end" type="datetime-local" required></label>
-          <label class="field-wide">Notes<textarea id="appointment-notes" rows="2"></textarea></label>
-          <div class="field-wide form-actions"><button class="button button-primary" type="submit">Create appointment</button><span id="appointment-message" class="muted" role="status"></span></div>
-        </form>
-      </section>
       <footer class="portal-footer"><span>TeraKira</span><span>Your finances, in clearer view.</span></footer>
     </section>
 
@@ -108,8 +99,9 @@
       <div class="page-heading"><div><p class="eyebrow">YOUR FILES</p><h1>Documents</h1><p class="subheading">Upload bank statements and access your submitted files.</p></div></div>
       <section class="card documents-card">
         <form id="upload-form" class="upload-drop">
-          <div class="upload-icon">↑</div><strong>Upload a bank statement</strong><p class="muted">PDF, JPG or PNG · Your file is stored securely.</p>
-          <label class="button button-primary" for="statement-file">Browse files</label>
+          <div class="upload-icon">↑</div><strong>Upload a document</strong><p class="muted">PDF, JPG or PNG · Your file is stored securely.</p>
+          <label class="upload-for">Upload for<select id="upload-event" required><option value="">Loading…</option></select></label>
+          <label class="button button-primary" for="statement-file" id="browse-label">Browse files</label>
           <input id="statement-file" type="file" accept=".pdf,.jpg,.jpeg,.png" hidden>
           <span id="upload-message" class="upload-message" role="status" aria-live="polite"></span>
         </form>
@@ -127,6 +119,44 @@
       </section>
     </section>
   </main>
+
+
+  <div id="event-modal" class="event-modal" hidden>
+    <section class="event-dialog" role="dialog" aria-modal="true" aria-labelledby="event-heading">
+      <div class="event-head"><h2 id="event-heading">Set event</h2><button class="event-close" type="button" aria-label="Close">×</button></div>
+      <form id="event-form" class="event-form">
+        <label id="event-client-wrap">Client<select id="event-client" required></select></label>
+        <p id="event-client-fixed" class="muted" hidden></p>
+        <label>Event type
+          <select id="event-type">
+            <option value="bookkeeping">Bookkeeping · Monthly document</option>
+            <option value="appointment">Appointment</option>
+            <option value="adhoc">Ad hoc upload</option>
+            <option value="reminder">Reminder</option>
+          </select>
+        </label>
+        <label id="event-title-wrap">Title<input id="event-title" maxlength="160" placeholder="Add title"></label>
+        <label id="event-period-wrap">Bookkeeping month<input id="event-period" type="month"></label>
+        <label><span id="event-date-label">Date</span><input id="event-date" type="date" required></label>
+        <div class="event-row" id="event-time-wrap">
+          <label>Start time<input id="event-time" type="time"></label>
+          <label>Duration<select id="event-duration"><option value="30">30 min</option><option value="60" selected>1 hour</option><option value="90">1 hr 30 min</option><option value="120">2 hours</option></select></label>
+        </div>
+        <p id="event-return" class="muted" hidden></p>
+        <label>Notes (optional)<textarea id="event-notes" rows="2" maxlength="2000"></textarea></label>
+        <div id="event-repeat-wrap">
+          <label class="check"><input type="checkbox" id="event-repeat-on"> Repeat</label>
+          <div class="event-row" id="event-repeat-opts" hidden>
+            <label>Every<select id="event-repeat"><option value="weekly">Week</option><option value="monthly" selected>Month</option><option value="yearly">Year</option></select></label>
+            <label>Until (optional)<input id="event-until" type="date"></label>
+          </div>
+        </div>
+        <label id="event-scope-wrap" hidden>Apply changes to<select id="event-scope"><option value="one">This event only</option><option value="future">This and all future events</option></select></label>
+        <p id="event-message" class="muted" role="status"></p>
+        <div class="event-actions"><button type="button" class="button button-danger" id="event-delete" hidden>Delete</button><span class="spacer"></span><button type="button" class="button button-outline event-close">Cancel</button><button type="submit" class="button button-primary" id="event-save">Save</button></div>
+      </form>
+    </section>
+  </div>
 
   <script>window.TERAKIRA_CONFIG={NEON_AUTH_URL:"https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth"};</script>
   <script type="module" src="/js/dashboard.js"></script>
