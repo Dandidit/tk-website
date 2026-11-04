@@ -4,18 +4,18 @@
   <meta charset="utf-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Client Onboarding | TeraKira</title>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;500;600;700;800&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/layout.css">
-  <style>
-    /* body {
-      margin: 0 !important;
-      background: #0E1B18;
-    } */
-  </style>
   <link rel="stylesheet" href="css/pages.css">
   <link rel="stylesheet" href="css/onboarding.css">
+  <style>
+        body {
+            background-color: #f5f1e8;
+        }
+  </style>
 </head>
-<body>
+<body class="onboarding-page">
   <script>window.TERAKIRA_CONFIG={NEON_AUTH_URL:"https://ep-tiny-haze-azrhc4h9.neonauth.c-3.ap-southeast-1.aws.neon.tech/neondb/auth"};</script>
   <!-- <div id="navbar"></div> -->
   <div class="onboarding-app">
@@ -30,10 +30,10 @@
       <button class="tab" role="tab" data-act="tab" data-v="app" id="tab-app">Onboarding</button>
       <button class="tab" role="tab" data-act="tab" data-v="flow" id="tab-flow">Flow map</button>
     </div>
+    <div class="strip" id="strip"></div>
   </div>
-  <div class="strip" id="strip"></div>
 </header>
-<div id="root"></div>
+<div id="root" aria-busy="true"><div class="shell has-rail"><div class="rail sk-rail sk"></div><div><div class="sk sk-h1"></div><div class="sk sk-line"></div><div class="sk sk-card"></div></div></div></div>
 <div id="bar" class="bar" hidden></div>
 <div id="toast" class="toast" role="status" hidden></div>
 

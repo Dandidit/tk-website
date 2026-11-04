@@ -3,10 +3,11 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-  <meta name="theme-color" content="#f5f7f6">
+  <meta name="theme-color" content="#F5F1E8">
   <title>Client Portal | TeraKira</title>
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/dashboard.css">
+  <link rel="stylesheet" href="/css/skeleton.css">
 </head>
 <body class="client-portal">
   <aside class="sidebar">
@@ -41,14 +42,14 @@
         </section>
         <section class="card">
           <div class="card-heading"><h2>What’s coming &amp; pending</h2><span class="count-badge" id="pending-count">0</span></div>
-          <div id="pending-list" class="activity-list"><p class="muted">Loading updates…</p></div>
+          <div id="pending-list" class="activity-list"><div class="sk sk-row"></div><div class="sk sk-row w60"></div><div class="sk sk-row"></div></div>
         </section>
       </div>
 
       <div class="grid grid-two financial-grid">
         <section class="card">
           <div class="card-heading chart-heading"><div><h2>Profit &amp; Loss</h2><p class="muted">Last six months · Xero</p></div><span class="connection-state" id="xero-state"><i></i> Checking Xero</span></div>
-          <div id="profit-chart" class="profit-chart"><p class="muted">Loading financial data…</p></div>
+          <div id="profit-chart" class="profit-chart"><div class="sk sk-block"></div></div>
         </section>
         <div class="metric-stack">
           <section class="card metric-card"><span class="metric-label">Cash balance</span><strong class="metric-value" id="cash-balance">—</strong><span class="metric-foot" id="cash-caption">Xero bank summary</span></section>
@@ -64,12 +65,12 @@
         </section>
         <section class="card">
           <div class="card-heading"><h2>Onboarding checklist</h2><span class="muted" id="checklist-count">—</span></div>
-          <div id="checklist-summary" class="checklist-summary"><p class="muted">Loading checklist…</p></div>
+          <div id="checklist-summary" class="checklist-summary"><div class="sk sk-row"></div><div class="sk sk-row w60"></div><div class="sk sk-row"></div></div>
           <a class="text-link" href="/onboarding.html">View onboarding →</a>
         </section>
         <section class="card">
           <div class="card-heading"><h2>Latest activity</h2></div>
-          <div id="latest-activity" class="activity-list"><p class="muted">Loading activity…</p></div>
+          <div id="latest-activity" class="activity-list"><div class="sk sk-row"></div><div class="sk sk-row w60"></div><div class="sk sk-row"></div></div>
         </section>
       </div>
 
@@ -81,7 +82,7 @@
       <div class="grid grid-two profile-layout">
         <section class="card">
           <div class="card-heading"><h2>Personal &amp; company details</h2><span class="status-pill">From onboarding</span></div>
-          <div id="profile-details" class="profile-details"><p class="muted">Loading profile…</p></div>
+          <div id="profile-details" class="profile-details"><div class="sk sk-row"></div><div class="sk sk-row w60"></div><div class="sk sk-row"></div></div>
           <p class="card-note">To update these details, please contact TeraKira. Profile editing is not enabled in this portal yet.</p>
         </section>
         <div class="profile-side">

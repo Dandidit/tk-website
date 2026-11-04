@@ -100,8 +100,8 @@ function chrome() {
   if (S.tab !== 'app' || st === 'welcome') { strip.innerHTML = ''; strip.style.display = 'none'; }
   else {
     strip.style.display = 'flex';
-    strip.innerHTML = `<div class="where">Step <b>${S.step}</b> of 6 · ${TITLES[st]}</div>
-      <div class="bal" aria-label="${s.done} of ${s.total} items settled"><span class="n">${s.done}<small>/${s.total}</small></span><span class="l">items settled</span></div>`;
+    strip.innerHTML = `<div class="where">Step <b>${S.step}</b> of 6<span class="t"> · ${TITLES[st]}</span></div>
+      <div class="bal"><span class="n">${s.done}<small>/${s.total}</small></span> items settled</div>`;
   }
   const rail = document.getElementById('rail');
   if (rail) {
@@ -295,7 +295,7 @@ function flowView() {
   </ul></div>
   <h2 style="margin-top:32px">Always on</h2>
   <ul class="next-list"><li>Autosave on every change, with the invite link reopening the same place.</li>
-  <li>Running total of settled items in the header, shown as a ledger balance with a double rule.</li>
+  <li>Running total of settled items in the header.</li>
   <li>Suggested: a WhatsApp reminder after three days if items remain open.</li>
   <li>Suggested: a Terakira-side view with the same statuses, so your team sees what each client still owes.</li></ul>
   <p class="lede" style="margin-top:20px">This prototype doesn’t upload files or send messages.</p>
@@ -420,7 +420,7 @@ function loadDemo() {
   try {
     const data = await window.TKOnboarding.loadOnboarding();
     if (data?.onboarding) S = Object.assign(blank(), data.onboarding);
-    if (data?.completed) { window.location.href = '/dashboard.html'; return; }
+    // if (data?.completed) { window.location.href = '/dashboard.html'; return; }
     render(true);
   } catch (error) {
     console.error(error);

@@ -8,7 +8,7 @@ if (user.role !== "admin") {
   document.body.innerHTML = `
     <main style="max-width:560px;margin:12vh auto;padding:24px;font:16px system-ui;color:#e5f0ea">
       <h1>Access denied</h1><p>This page is available to administrator accounts only.</p>
-      <a href="/dashboard.html" style="color:#63cfa7">Return to dashboard</a>
+      <a href="/dashboard.html" style="color:#1E884A">Return to dashboard</a>
     </main>`;
   throw new Error("Admin access required");
 }

@@ -114,11 +114,13 @@ async function loadProfile() {
   }).join("") : `<p class="empty">No onboarding items recorded.</p>`;
   items.querySelectorAll("[data-item-id]").forEach(button => button.addEventListener("click", () => openFile(button.dataset.itemId, button)));
   content.hidden = false;
+  document.getElementById("profile-skeleton")?.remove();
 }
 
 try {
   await loadProfile();
 } catch (error) {
+  document.getElementById("profile-skeleton")?.remove();
   message.textContent = error.message || "Unable to load client profile.";
   message.classList.add("error");
   document.getElementById("client-name").textContent = "Client profile";

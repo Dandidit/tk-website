@@ -1,0 +1,6 @@
+/* shared skeleton loader */
+.sk{display:block;background:linear-gradient(90deg,#EAE6DA 25%,#F8F5EE 50%,#EAE6DA 75%);background-size:200% 100%;border-radius:8px;color:transparent}
+.sk-row{height:16px;margin:12px 0}
+.sk-row.w60{width:60%}.sk-row.w40{width:40%}
+.sk-block{height:150px;border-radius:12px;margin:0}
+@media(prefers-reduced-motion:no-preference){.sk{animation:sk 1.2s linear infinite}@keyframes sk{to{background-position:-200% 0}}}

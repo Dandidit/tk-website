@@ -7,6 +7,7 @@
   <title>Admin · Documents | TeraKira</title>
   <link rel="stylesheet" href="css/variables.css">
   <link rel="stylesheet" href="css/admin.css">
+  <link rel="stylesheet" href="css/skeleton.css">
 </head>
 <body>
   <script>
@@ -48,10 +49,10 @@
           </div>
         </div>
         <div class="xero-org-summary"><strong id="xero-org-count">—</strong><span>organisations accessible to TeraKira</span></div>
-        <div id="xero-org-list" class="xero-org-list"><p class="empty-state">Loading organisations…</p></div>
+        <div id="xero-org-list" class="xero-org-list"><div class="sk sk-row"></div><div class="sk sk-row"></div></div>
         <div class="xero-mapping-heading"><div><h3>Client organisation mapping</h3><p>Each Xero organisation can only belong to one TeraKira client.</p></div><input id="xero-client-search" type="search" placeholder="Search clients by name or email" autocomplete="off"></div>
         <p id="xero-admin-message" class="status-message" role="status" aria-live="polite"></p>
-        <div id="xero-client-list" class="xero-client-list"><p class="empty-state">Loading clients…</p></div>
+        <div id="xero-client-list" class="xero-client-list"><div class="sk sk-row"></div><div class="sk sk-row"></div></div>
       </section>
 
       <section class="stats-grid" aria-label="Document overview">
@@ -72,7 +73,7 @@
         </label>
 
         <p id="status-message" class="status-message" role="status" aria-live="polite"></p>
-        <div id="client-list" class="client-list"></div>
+        <div id="client-list" class="client-list"><div class="sk sk-block" style="height:60px"></div><div class="sk sk-block" style="height:60px"></div><div class="sk sk-block" style="height:60px"></div></div>
       </section>
       <footer>Client files are private. Open documents only when required for your work.</footer>
     </main>
