@@ -93,7 +93,7 @@ function getOnboardingTasks(){
   return Object.entries(items).filter(([,v])=>!["done","na","team"].includes(String(v?.status||"").toLowerCase())).map(([id,v])=>({title:labels[id]||id.replaceAll("_"," "),detail:v?.note||"Onboarding item requires attention",warning:String(v?.status||"").toLowerCase()==="review"}));
 }
 function renderPending(){
-  const todayKey=ymd(new Date()),upcoming=calendarItems().filter(i=>i.date>=todayKey&&!i.done&&!i.report).sort((a,b)=>a.date.localeCompare(b.date)).slice(0,3).map(i=>({title:i.label,detail:`${TYPE_LABEL[i.type]} · ${dayLabel(i.date)}`,tag:i.type==="reminder"?"Reminder":"Coming"}));
+  const todayKey=ymd(new Date()),upcoming=calendarItems().filter(i=>i.date>=todayKey&&!i.done&&!i.report).sort((a,b)=>a.date.localeCompare(b.date)).filter((i,n,all)=>all.findIndex(x=>(x.ev.series_id||x.ev.id)===(i.ev.series_id||i.ev.id))===n).slice(0,3).map(i=>({title:i.label,detail:`${TYPE_LABEL[i.type]} · ${dayLabel(i.date)}`,tag:i.type==="reminder"?"Reminder":"Coming"}));
   const pending=getOnboardingTasks().slice(0,3).map(t=>({...t,tag:t.warning?"Review":"Pending"}));
   const entries=[...pending,...upcoming].slice(0,5);$("#pending-count").textContent=entries.length;
   $("#pending-list").innerHTML=entries.length?entries.map(x=>`<div class="activity-item"><span class="activity-tag${x.warning?" warning":""}">${escapeHtml(x.tag)}</span><div class="activity-copy"><strong>${escapeHtml(x.title)}</strong><small>${escapeHtml(x.detail)}</small></div></div>`).join(""):'<p class="muted">You’re all caught up. No pending tasks or upcoming appointments.</p>';
