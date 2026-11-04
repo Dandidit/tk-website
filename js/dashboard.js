@@ -215,7 +215,7 @@ $("#statement-file").addEventListener("change",async()=>{
 
 function renderUploadOptions(){
   const sel=$("#upload-event");if(!sel||isAdmin)return;
-  const open=state.events.filter(e=>["bookkeeping","adhoc"].includes(e.type)&&!e.submitted_at&&e.status!=="cancelled").sort((a,b)=>String(a.event_date).localeCompare(String(b.event_date)));
+  const open=state.events.filter(e=>["bookkeeping","adhoc"].includes(e.type)&&!e.submitted_at&&e.status!=="cancelled").sort((a,b)=>String(a.event_date).localeCompare(String(b.event_date))).filter((e,n,all)=>all.findIndex(x=>(x.series_id||x.id)===(e.series_id||e.id))===n);
   sel.innerHTML=open.length?'<option value="">Select what you are uploading for…</option>'+open.map(e=>`<option value="${escapeHtml(e.id)}">${escapeHtml(eventTitle(e))} (due ${escapeHtml(dayLabel(e.event_date))})</option>`).join(""):'<option value="">No uploads requested yet</option>';
   $("#upload-form").classList.toggle("disabled",!open.length);
 }
