@@ -31,7 +31,8 @@ if(isAdmin){
   $("#upload-form").hidden=true;
   $("#document-client-filter-wrap").hidden=false;
   $("#document-client-heading").hidden=false;
-  const link=document.createElement("a");link.href="/admin.html";link.className="text-link";link.textContent="Admin view";$(".sidebar-user")?.append(link);
+  const link=document.createElement("a");link.href="/admin.html";link.className="text-link";link.textContent="Admin Page";$(".sidebar-user")?.append(link);
+  const navLink=document.createElement("a");navLink.href="/admin.html";navLink.className="nav-item admin-nav-link";navLink.textContent="Admin Page";$("#portal-nav")?.append(navLink);
 }
 $("#mobile-logout")?.addEventListener("click",logout);
 

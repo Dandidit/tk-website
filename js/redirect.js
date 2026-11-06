@@ -17,7 +17,7 @@ export async function redirectAfterLogin() {
 
   const user = await meResponse.json();
   if (user.role === "admin") {
-    window.location.href = "/admin.html";
+    window.location.href = "/dashboard.html";
     return;
   }
 

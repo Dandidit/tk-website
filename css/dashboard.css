@@ -63,3 +63,5 @@ h1{margin:0;font-size:26px;line-height:1.2;letter-spacing:-.04em}.subheading{mar
 .event-actions{display:flex;align-items:center;gap:8px}.event-actions .spacer{flex:1}.event-form p{margin:0;font-size:12px}.event-form p.error{color:var(--portal-negative)}
 .button-danger{border-color:var(--portal-negative);background:transparent;color:var(--portal-negative)}
 .upload-drop[hidden]{display:none}
+.admin-nav-link{display:none;text-decoration:none}
+@media(max-width:760px){.admin-nav-link{display:inline-flex;align-items:center}}
