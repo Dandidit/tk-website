@@ -85,8 +85,12 @@ footer { padding: 18px 4px; color: var(--muted); font-size: 12px; text-align: ce
   .stat-card strong { font-size: 24px; }
   .documents-panel { padding: 16px 12px; }
   .panel-heading { align-items: flex-start; }
-  .client-card summary { padding: 15px 12px; }
-  .client-meta { gap: 4px; }
+  .client-card summary { position: relative; flex-direction: column; align-items: stretch; gap: 10px; padding: 15px 12px; }
+  .client-card summary::after { position: absolute; top: 15px; right: 12px; }
+  .client-info { padding-right: 28px; }
+  .client-meta { flex-wrap: wrap; justify-content: flex-start; gap: 8px; width: 100%; }
+  .client-meta .doc-count { order: -1; margin-right: auto; }
+  .client-meta .button, .client-meta .open-dashboard { flex: 1 1 auto; min-width: 0; padding: 0 12px; text-align: center; }
   .document-list { padding: 4px 12px 6px; }
   .document-row { align-items: flex-start; flex-direction: column; gap: 10px; }
   .document-actions { padding-left: 50px; }
