@@ -27,3 +27,5 @@ h2 { margin-bottom: 0; font-size: 20px; }
 .message { color: #1E884A; }
 .message.error { color: #B42318; }
 @media (max-width: 650px) { .profile-page { width: min(100% - 24px, 1100px); padding-top: 24px; } .profile-header { align-items: flex-start; } .profile-card { padding: 18px; } .overview-grid, .detail-grid { grid-template-columns: 1fr; gap: 10px; } .item-row { grid-template-columns: 1fr; } }
+.page-logo{display:inline-flex;align-items:center;gap:6px;margin-bottom:12px;color:inherit;text-decoration:none;font-size:20px;font-weight:800;letter-spacing:-.02em;line-height:1}.page-logo img{display:block;height:40px;width:40px;object-fit:contain}
+@media(max-width:480px){.page-logo{font-size:18px}.page-logo img{height:32px;width:32px}}

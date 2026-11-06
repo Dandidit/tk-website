@@ -65,3 +65,7 @@ h1{margin:0;font-size:26px;line-height:1.2;letter-spacing:-.04em}.subheading{mar
 .upload-drop[hidden]{display:none}
 .admin-nav-link{display:none;text-decoration:none}
 @media(max-width:760px){.admin-nav-link{display:inline-flex;align-items:center}}
+.logo{display:flex;align-items:center;gap:6px;line-height:1}.logo img{display:block;height:38px;width:38px;object-fit:contain}.logo span{color:var(--portal-ink)}
+@media(max-width:760px){.sidebar>.logo{padding:0 5px}.logo img{height:32px;width:32px}}
+@media(max-width:540px){.logo img{height:28px;width:28px}}
+.footer-brand{display:inline-flex;align-items:center;gap:6px;font-weight:700}.footer-logo{display:block;height:24px;width:24px}

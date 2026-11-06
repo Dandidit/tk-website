@@ -34,3 +34,7 @@ body.auth-body{margin:0;background:var(--a-cream);color:var(--a-navy)}
 .strength[data-level="3"] i:nth-child(-n+3){background:#7bc043}
 .strength[data-level="4"] i{background:var(--a-green)}
 @media(max-width:480px){.auth-card{padding:26px 20px}}
+.auth-logo{display:inline-flex;align-items:center;gap:6px;line-height:1}
+.auth-logo img{display:block;height:48px;width:48px;object-fit:contain}
+.auth-logo span{color:var(--a-navy)}
+@media(max-width:480px){.auth-logo{font-size:22px}.auth-logo img{height:40px;width:40px}}

@@ -129,3 +129,5 @@ footer { padding: 18px 4px; color: var(--muted); font-size: 12px; text-align: ce
   .xero-client-controls { display: grid; grid-template-columns: 1fr; }
   .xero-org-row { align-items: flex-start; flex-direction: column; }
 }
+.brand img{display:block;height:36px;width:36px;object-fit:contain}
+@media(max-width:480px){.brand{font-size:17px;gap:6px}.brand img{height:30px;width:30px}}
