@@ -42,16 +42,20 @@ export async function GET(request) {
            (e.event_date - ${today}::date) AS days_left, u.email, u.name
     FROM events e JOIN neon_auth."user" u ON u.id = e.user_id
     WHERE e.status <> 'cancelled'
-      AND (e.event_date - ${today}::date) IN (1, 2, 3)
       AND NOT ((e.event_date - ${today}::date) = ANY (e.reminders_sent))
-      AND (e.type IN ('appointment', 'reminder') OR e.submitted_at IS NULL)
+      AND (
+        ((e.event_date - ${today}::date) IN (1, 2, 3) AND (e.type IN ('appointment', 'reminder') OR e.submitted_at IS NULL))
+        OR ((e.event_date - ${today}::date) IN (0, -1, -2, -3) AND e.type = 'bookkeeping' AND e.submitted_at IS NULL)
+      )
   `;
   let sent = 0;
   for (const ev of due) {
+    const d = ev.days_left, n = Math.abs(d), s = n === 1 ? "" : "s";
+    const when = d > 0 ? `in ${d} day${s}` : d === 0 ? "is due today" : `overdue by ${n} day${s}`;
     const ok = await sendMail({
       to: ev.email,
-      subject: `${TYPE_LABEL[ev.type]} in ${ev.days_left} day${ev.days_left === 1 ? "" : "s"}: ${ev.title}`,
-      lines: [`Hi ${ev.name || ""},`.trim(), `This is a reminder — ${ev.days_left} day${ev.days_left === 1 ? "" : "s"} to go.`, ...describe(ev)]
+      subject: `${TYPE_LABEL[ev.type]} ${when}: ${ev.title}`,
+      lines: [`Hi ${ev.name || ""},`.trim(), d > 0 ? `This is a reminder — ${d} day${s} to go.` : d === 0 ? "This is due today." : `This is ${n} day${s} overdue. Please upload your documents as soon as possible.`, ...describe(ev)]
     });
     if (ok) {
       await sql`UPDATE events SET reminders_sent = array_append(reminders_sent, ${ev.days_left}::int) WHERE id = ${ev.id}::uuid`;

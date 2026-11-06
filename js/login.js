@@ -50,7 +50,7 @@ form.addEventListener("submit", async (event) => {
     await redirectAfterLogin();
   } catch (error) {
     console.error(error);
-    showError("Unable to sign in. Please try again.");
+    showError(`Unable to sign in. Please try again. [${error?.message || error}]`);
   } finally {
     button.disabled = false;
     button.textContent = "Sign in";
