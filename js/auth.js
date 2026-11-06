@@ -7,7 +7,9 @@ if (!authUrl) {
   throw new Error("NEON_AUTH_URL is not configured.");
 }
 
-export const authClient = createAuthClient(authUrl);
+// Route auth through this site's own origin (see rewrite in vercel.json) so the
+// session cookie is first-party. Safari/iOS blocks it when set by neon.tech.
+export const authClient = createAuthClient(`${window.location.origin}/neon-auth`);
 
 export async function signIn(email, password) {
   return await authClient.signIn.email({ email, password });
