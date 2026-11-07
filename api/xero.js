@@ -327,6 +327,15 @@ function extractReport(report) {
   return rows;
 }
 
+// Xero's report Rows[0] is a RowType:"Header" row whose Cells are the period
+// end-dates for every column, ordered most-recent-period-first. extractReport()
+// deliberately skips Header/SummaryRow rows, so pull the period labels here.
+function extractPeriodLabels(report) {
+  const header = report?.Reports?.[0]?.Rows?.find(r => r.RowType === "Header");
+  if (!header) return [];
+  return header.Cells.slice(1).map(c => c.Value ?? "");
+}
+
 async function clientDashboard(req, res) {
   const user = await requireAuth(req, res);
   if (!user) return;
@@ -363,6 +372,7 @@ async function clientDashboard(req, res) {
       organisation: mapping.tenant_name,
       profitAndLoss: pnlData.Reports?.[0] || null,
       profitAndLossRows: extractReport(pnlData),
+      profitAndLossPeriods: extractPeriodLabels(pnlData),
       bankSummary: bankData.Reports?.[0] || null,
       bankSummaryRows: extractReport(bankData),
       outstandingInvoices: {

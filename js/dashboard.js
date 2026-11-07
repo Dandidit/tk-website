@@ -134,11 +134,18 @@ function cashFromRows(rows){
 function renderProfit(data){
   const rows=data.profitAndLossRows?.length?data.profitAndLossRows:flattenReport(data.profitAndLoss);
   const row=rows.find(r=>/net profit|net income/i.test(String(r[0]||"")));
-  const values=row?row.slice(1).map(numeric).filter(v=>v!==null).slice(-6):[];
+  // Xero returns report columns most-recent-period-first (left) to oldest-last
+  // (right). Reverse to chronological order before slicing so the chart reads
+  // oldest -> newest left-to-right and keeps the 6 MOST RECENT periods
+  // (slicing before reversing was dropping the newest period instead).
+  const periods=data.profitAndLossPeriods||[];
+  const rawValues=row?row.slice(1).map(numeric):[];
+  const paired=rawValues.map((v,i)=>({v,label:periods[i]||""})).filter(p=>p.v!==null).reverse().slice(-6);
+  const values=paired.map(p=>p.v),labels=paired.map(p=>p.label);
   if(!values.length){$("#profit-chart").innerHTML='<div class="chart-empty">Profit &amp; Loss data is not available from Xero yet.</div>';return;}
   const max=Math.max(...values.map(Math.abs),1),w=560,base=128,bw=42,gap=42,start=(w-(values.length*bw+(values.length-1)*gap))/2;
   let svg=`<svg viewBox="0 0 ${w} 190" role="img" aria-label="Monthly net profit and loss"><line x1="18" x2="${w-18}" y1="${base}" y2="${base}" stroke="var(--portal-line)"/>`;
-  values.forEach((v,i)=>{const h=Math.max(3,Math.abs(v)/max*82),x=start+i*(bw+gap),y=v>=0?base-h:base,color=v>=0?"var(--portal-positive)":"var(--portal-negative)";svg+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="5" fill="${color}"/><text x="${x+bw/2}" y="165" text-anchor="middle" fill="var(--portal-muted)" font-size="11">${i+1}</text>`;});
+  values.forEach((v,i)=>{const h=Math.max(3,Math.abs(v)/max*82),x=start+i*(bw+gap),y=v>=0?base-h:base,color=v>=0?"var(--portal-positive)":"var(--portal-negative)";svg+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="5" fill="${color}"/><text x="${x+bw/2}" y="165" text-anchor="middle" fill="var(--portal-muted)" font-size="11">${escapeHtml(labels[i]||String(i+1))}</text>`;});
   $("#profit-chart").innerHTML=svg+"</svg><p class='muted'>Monthly net profit/loss · Values supplied by Xero.</p>";
 }
 function setXeroState(text,error=false){const el=$("#xero-state");el.innerHTML=`<i></i>${escapeHtml(text)}`;el.classList.toggle("error",error);}
