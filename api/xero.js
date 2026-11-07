@@ -350,7 +350,6 @@ async function clientDashboard(req, res) {
     // Xero requires the selected tenant header. Re-fetch these resources with that header.
     const accessToken = await getAccessToken();
     const todayDate = new Date();
-    const pnlStart = new Date(todayDate.getFullYear(), todayDate.getMonth() - 5, 1).toISOString().slice(0, 10);
     const pnlEnd = todayDate.toISOString().slice(0, 10);
     async function tenantGet(path) {
       const response = await fetch(`${XERO_API}${path}`, {
@@ -361,7 +360,11 @@ async function clientDashboard(req, res) {
       return data;
     }
     const [pnlData, bankData, invoiceData] = await Promise.all([
-      tenantGet(`/Reports/ProfitAndLoss?${new URLSearchParams({ fromDate: pnlStart, toDate: pnlEnd, periods: "6", timeframe: "MONTH" })}`),
+      // Only pass toDate + periods + timeframe. Adding fromDate alongside
+      // periods/timeframe makes Xero fold the custom-range column into the
+      // same figures as the first comparison column, duplicating the newest
+      // period across two columns (every line item identical in both).
+      tenantGet(`/Reports/ProfitAndLoss?${new URLSearchParams({ toDate: pnlEnd, periods: "6", timeframe: "MONTH" })}`),
       tenantGet(`/Reports/BankSummary?${new URLSearchParams({ fromDate: new Date(new Date().getFullYear(), 0, 1).toISOString().slice(0, 10), toDate: new Date().toISOString().slice(0, 10) })}`),
       tenantGet(`/Invoices?${new URLSearchParams({ where: 'Type=="ACCREC"&&Status=="AUTHORISED"' })}`)
     ]);
