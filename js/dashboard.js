@@ -143,14 +143,19 @@ function renderProfit(data){
   const paired=rawValues.map((v,i)=>({v,label:periods[i]||""})).filter(p=>p.v!==null).reverse().slice(-6);
   const values=paired.map(p=>p.v),labels=paired.map(p=>p.label);
   if(!values.length){$("#profit-chart").innerHTML='<div class="chart-empty">Profit &amp; Loss data is not available from Xero yet.</div>';return;}
-  const max=Math.max(...values.map(Math.abs),1),w=560,base=128,bw=42,gap=42,start=(w-(values.length*bw+(values.length-1)*gap))/2;
-  let svg=`<svg viewBox="0 0 ${w} 190" role="img" aria-label="Monthly net profit and loss"><line x1="18" x2="${w-18}" y1="${base}" y2="${base}" stroke="var(--portal-line)"/>`;
+  // base/maxHalf sized so the deepest negative bar + its value label never
+  // collides with the fixed month-label row underneath (previous geometry let
+  // a near-max negative bar extend past the month labels and get clipped/
+  // overlapped, making the value unreadable).
+  const max=Math.max(...values.map(Math.abs),1),w=560,base=90,maxHalf=50,bw=42,gap=42,start=(w-(values.length*bw+(values.length-1)*gap))/2;
+  const monthY=base+maxHalf+32,viewH=monthY+14;
+  let svg=`<svg viewBox="0 0 ${w} ${viewH}" role="img" aria-label="Monthly net profit and loss"><line x1="18" x2="${w-18}" y1="${base}" y2="${base}" stroke="var(--portal-line)"/>`;
   values.forEach((v,i)=>{
-    const h=Math.max(3,Math.abs(v)/max*82),x=start+i*(bw+gap),y=v>=0?base-h:base,color=v>=0?"var(--portal-positive)":"var(--portal-negative)";
-    const valueY=v>=0?y-6:y+h+13;
+    const h=Math.max(3,Math.abs(v)/max*maxHalf),x=start+i*(bw+gap),y=v>=0?base-h:base,color=v>=0?"var(--portal-positive)":"var(--portal-negative)";
+    const valueY=v>=0?y-8:y+h+15;
     svg+=`<rect x="${x}" y="${y}" width="${bw}" height="${h}" rx="5" fill="${color}"/>`;
     svg+=`<text x="${x+bw/2}" y="${valueY}" text-anchor="middle" fill="${color}" font-size="10" font-weight="600">${escapeHtml(money(v))}</text>`;
-    svg+=`<text x="${x+bw/2}" y="165" text-anchor="middle" fill="var(--portal-muted)" font-size="11">${escapeHtml(labels[i]||String(i+1))}</text>`;
+    svg+=`<text x="${x+bw/2}" y="${monthY}" text-anchor="middle" fill="var(--portal-muted)" font-size="11">${escapeHtml(labels[i]||String(i+1))}</text>`;
   });
   $("#profit-chart").innerHTML=svg+"</svg><p class='muted'>Monthly net profit/loss · Values supplied by Xero.</p>";
 }
