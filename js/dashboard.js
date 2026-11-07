@@ -132,16 +132,11 @@ function cashFromRows(rows){
   return amounts.length?amounts.reduce((a,b)=>a+b,0):null;
 }
 function renderProfit(data){
-  const rows=data.profitAndLossRows?.length?data.profitAndLossRows:flattenReport(data.profitAndLoss);
-  const row=rows.find(r=>/net profit|net income/i.test(String(r[0]||"")));
-  // Xero returns report columns most-recent-period-first (left) to oldest-last
-  // (right). Reverse to chronological order before slicing so the chart reads
-  // oldest -> newest left-to-right and keeps the 6 MOST RECENT periods
-  // (slicing before reversing was dropping the newest period instead).
-  const periods=data.profitAndLossPeriods||[];
-  const rawValues=row?row.slice(1).map(numeric):[];
-  const paired=rawValues.map((v,i)=>({v,label:periods[i]||""})).filter(p=>p.v!==null).reverse().slice(-6);
-  const values=paired.map(p=>p.v),labels=paired.map(p=>p.label);
+  // Server now sends real calendar months (1st -> end of month), already in
+  // chronological (oldest -> newest) order, each with a precomputed Net
+  // Profit figure — no more reconstructing this from Xero's raw report rows.
+  const months=(data.profitAndLossMonths||[]).filter(m=>m.netProfit!==null).slice(-6);
+  const values=months.map(m=>m.netProfit),labels=months.map(m=>m.label);
   if(!values.length){$("#profit-chart").innerHTML='<div class="chart-empty">Profit &amp; Loss data is not available from Xero yet.</div>';return;}
   // base/maxHalf sized so the deepest negative bar + its value label never
   // collides with the fixed month-label row underneath (previous geometry let

@@ -327,13 +327,36 @@ function extractReport(report) {
   return rows;
 }
 
-// Xero's report Rows[0] is a RowType:"Header" row whose Cells are the period
-// end-dates for every column, ordered most-recent-period-first. extractReport()
-// deliberately skips Header/SummaryRow rows, so pull the period labels here.
-function extractPeriodLabels(report) {
-  const header = report?.Reports?.[0]?.Rows?.find(r => r.RowType === "Header");
-  if (!header) return [];
-  return header.Cells.slice(1).map(c => c.Value ?? "");
+const MONTH_NAMES = ["Jan", "Feb", "Mar", "Apr", "May", "Jun", "Jul", "Aug", "Sep", "Oct", "Nov", "Dec"];
+
+function ymd(date) {
+  return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
+}
+
+// The user wants genuine calendar months (1st -> end of month), not Xero's
+// rolling periods/timeframe columns (which step back by exactly one month
+// from an arbitrary toDate, e.g. "7th to 7th" or "30th to 30th" — never truly
+// the 1st-to-end-of-month the user is picturing). Fetch each of the last 6
+// calendar months as its own single-period report and read its Net Profit.
+async function fetchCalendarMonthNetProfit(tenantGet, monthsBack) {
+  const now = new Date();
+  const months = [];
+  for (let i = monthsBack - 1; i >= 0; i--) {
+    const first = new Date(now.getFullYear(), now.getMonth() - i, 1);
+    const lastCalendarDay = new Date(now.getFullYear(), now.getMonth() - i + 1, 0);
+    // Don't ask Xero for days beyond today in the current (partial) month.
+    const last = i === 0 && lastCalendarDay > now ? now : lastCalendarDay;
+    months.push({ label: `${MONTH_NAMES[first.getMonth()]} ${first.getFullYear()}`, fromDate: ymd(first), toDate: ymd(last) });
+  }
+  const reports = await Promise.all(months.map(m =>
+    tenantGet(`/Reports/ProfitAndLoss?${new URLSearchParams({ fromDate: m.fromDate, toDate: m.toDate })}`)
+  ));
+  return months.map((m, i) => {
+    const rows = extractReport(reports[i]);
+    const netProfitRow = rows.find(r => /net profit|net income/i.test(String(r[0] || "")));
+    const value = netProfitRow ? Number(String(netProfitRow[1] ?? "0").replace(/,/g, "")) : null;
+    return { label: m.label, fromDate: m.fromDate, toDate: m.toDate, netProfit: Number.isFinite(value) ? value : null };
+  });
 }
 
 async function clientDashboard(req, res) {
@@ -349,8 +372,6 @@ async function clientDashboard(req, res) {
     const tenantId = mapping.tenant_id;
     // Xero requires the selected tenant header. Re-fetch these resources with that header.
     const accessToken = await getAccessToken();
-    const todayDate = new Date();
-    const pnlEnd = todayDate.toISOString().slice(0, 10);
     async function tenantGet(path) {
       const response = await fetch(`${XERO_API}${path}`, {
         headers: { Authorization: `Bearer ${accessToken}`, "xero-tenant-id": tenantId, Accept: "application/json" }
@@ -359,12 +380,8 @@ async function clientDashboard(req, res) {
       if (!response.ok) throw new Error(data?.Message || `Xero API returned ${response.status}.`);
       return data;
     }
-    const [pnlData, bankData, invoiceData] = await Promise.all([
-      // Only pass toDate + periods + timeframe. Adding fromDate alongside
-      // periods/timeframe makes Xero fold the custom-range column into the
-      // same figures as the first comparison column, duplicating the newest
-      // period across two columns (every line item identical in both).
-      tenantGet(`/Reports/ProfitAndLoss?${new URLSearchParams({ toDate: pnlEnd, periods: "6", timeframe: "MONTH" })}`),
+    const [calendarMonths, bankData, invoiceData] = await Promise.all([
+      fetchCalendarMonthNetProfit(tenantGet, 6),
       tenantGet(`/Reports/BankSummary?${new URLSearchParams({ fromDate: new Date(new Date().getFullYear(), 0, 1).toISOString().slice(0, 10), toDate: new Date().toISOString().slice(0, 10) })}`),
       tenantGet(`/Invoices?${new URLSearchParams({ where: 'Type=="ACCREC"&&Status=="AUTHORISED"' })}`)
     ]);
@@ -373,9 +390,10 @@ async function clientDashboard(req, res) {
     const outstanding = (invoiceData.Invoices || []).filter(i => Number(i.AmountDue || 0) > 0);
     return json(res, 200, {
       organisation: mapping.tenant_name,
-      profitAndLoss: pnlData.Reports?.[0] || null,
-      profitAndLossRows: extractReport(pnlData),
-      profitAndLossPeriods: extractPeriodLabels(pnlData),
+      // profitAndLossMonths is real calendar months (1st -> end of month),
+      // already in chronological (oldest -> newest) order — this is what the
+      // P&L chart should render directly.
+      profitAndLossMonths: calendarMonths,
       bankSummary: bankData.Reports?.[0] || null,
       bankSummaryRows: extractReport(bankData),
       outstandingInvoices: {
