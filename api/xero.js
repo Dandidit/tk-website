@@ -333,12 +333,31 @@ function ymd(date) {
   return `${date.getFullYear()}-${String(date.getMonth() + 1).padStart(2, "0")}-${String(date.getDate()).padStart(2, "0")}`;
 }
 
+// Xero enforces a hard concurrency limit of 5 in-flight requests per
+// tenant connection. Exceeding it returns HTTP 429 with an EMPTY body (no
+// JSON at all), so a naive `await response.json()` blows up with
+// "Unexpected end of JSON input" instead of a useful error. Run Xero calls
+// through this small pool (max 4, safely under Xero's limit of 5) instead of
+// Promise.all-ing everything at once.
+async function runLimited(tasks, limit) {
+  const results = new Array(tasks.length);
+  let next = 0;
+  async function worker() {
+    while (next < tasks.length) {
+      const i = next++;
+      results[i] = await tasks[i]();
+    }
+  }
+  await Promise.all(Array.from({ length: Math.min(limit, tasks.length) }, worker));
+  return results;
+}
+
 // The user wants genuine calendar months (1st -> end of month), not Xero's
 // rolling periods/timeframe columns (which step back by exactly one month
 // from an arbitrary toDate, e.g. "7th to 7th" or "30th to 30th" — never truly
 // the 1st-to-end-of-month the user is picturing). Fetch each of the last 6
 // calendar months as its own single-period report and read its Net Profit.
-async function fetchCalendarMonthNetProfit(tenantGet, monthsBack) {
+async function fetchCalendarMonthNetProfit(tenantGet, monthsBack, limit) {
   const now = new Date();
   const months = [];
   for (let i = monthsBack - 1; i >= 0; i--) {
@@ -348,9 +367,10 @@ async function fetchCalendarMonthNetProfit(tenantGet, monthsBack) {
     const last = i === 0 && lastCalendarDay > now ? now : lastCalendarDay;
     months.push({ label: `${MONTH_NAMES[first.getMonth()]} ${first.getFullYear()}`, fromDate: ymd(first), toDate: ymd(last) });
   }
-  const reports = await Promise.all(months.map(m =>
-    tenantGet(`/Reports/ProfitAndLoss?${new URLSearchParams({ fromDate: m.fromDate, toDate: m.toDate })}`)
-  ));
+  const reports = await runLimited(
+    months.map(m => () => tenantGet(`/Reports/ProfitAndLoss?${new URLSearchParams({ fromDate: m.fromDate, toDate: m.toDate })}`)),
+    limit
+  );
   return months.map((m, i) => {
     const rows = extractReport(reports[i]);
     const netProfitRow = rows.find(r => /net profit|net income/i.test(String(r[0] || "")));
@@ -372,16 +392,38 @@ async function clientDashboard(req, res) {
     const tenantId = mapping.tenant_id;
     // Xero requires the selected tenant header. Re-fetch these resources with that header.
     const accessToken = await getAccessToken();
-    async function tenantGet(path) {
+    async function tenantGet(path, attempt = 1) {
       const response = await fetch(`${XERO_API}${path}`, {
         headers: { Authorization: `Bearer ${accessToken}`, "xero-tenant-id": tenantId, Accept: "application/json" }
       });
-      const data = await response.json();
-      if (!response.ok) throw new Error(data?.Message || `Xero API returned ${response.status}.`);
-      return data;
+      // Read as text first: a 429 (rate limit exceeded) comes back with an
+      // EMPTY body, and calling response.json() directly on that throws the
+      // opaque "Unexpected end of JSON input" instead of a useful error.
+      const text = await response.text();
+      if (response.status === 429 && attempt <= 2) {
+        const retryAfter = Math.min(Number(response.headers.get("retry-after")) || 2, 10);
+        await new Promise(r => setTimeout(r, retryAfter * 1000));
+        return tenantGet(path, attempt + 1);
+      }
+      let data = null;
+      if (text) {
+        try { data = JSON.parse(text); } catch { /* fall through to status-based error below */ }
+      }
+      if (!response.ok) {
+        const problem = response.headers.get("x-rate-limit-problem");
+        throw new Error(
+          data?.Message || data?.Detail ||
+          (problem ? `Xero rate limit exceeded (${problem}). Please try again shortly.` : `Xero API returned ${response.status}.`)
+        );
+      }
+      return data || {};
     }
-    const [calendarMonths, bankData, invoiceData] = await Promise.all([
-      fetchCalendarMonthNetProfit(tenantGet, 6),
+    // Run the 6 calendar-month P&L calls through a concurrency-limited pool
+    // (Xero allows only 5 in-flight requests per org), then fetch the bank
+    // summary and invoices afterwards so total in-flight calls never exceed
+    // Xero's limit.
+    const calendarMonths = await fetchCalendarMonthNetProfit(tenantGet, 6, 4);
+    const [bankData, invoiceData] = await Promise.all([
       tenantGet(`/Reports/BankSummary?${new URLSearchParams({ fromDate: new Date(new Date().getFullYear(), 0, 1).toISOString().slice(0, 10), toDate: new Date().toISOString().slice(0, 10) })}`),
       tenantGet(`/Invoices?${new URLSearchParams({ where: 'Type=="ACCREC"&&Status=="AUTHORISED"' })}`)
     ]);
