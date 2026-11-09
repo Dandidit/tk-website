@@ -1,6 +1,7 @@
 import { getAppUser, logout } from "./auth-guard.js";
 import { apiFetch } from "./api.js";
 import { getJWT } from "./auth.js";
+import { ITEMS, ID_ORDER, SETTLED, status as itemStatus, stats as itemStats } from "./onboarding-model.js";
 
 const $ = selector => document.querySelector(selector);
 const $$ = selector => [...document.querySelectorAll(selector)];
@@ -88,10 +89,13 @@ function renderDayEvents(){
 $("#calendar-prev").addEventListener("click",()=>{state.month.setMonth(state.month.getMonth()-1);renderCalendar();});
 $("#calendar-next").addEventListener("click",()=>{state.month.setMonth(state.month.getMonth()+1);renderCalendar();});
 
+function getOnboardingState(){
+  const o=state.onboarding?.onboarding;if(!o)return null;
+  return {ans:o.ans||{},co:{holders:[{name:"",pct:""}],...(o.co||{})},items:o.items||{},comms:o.comms||"",sig:o.sig||""};
+}
 function getOnboardingTasks(){
-  const items=state.onboarding?.onboarding?.items||{};
-  const labels={c_name:"Confirm company details",c_ssm:"Provide SSM information",c_tin:"Provide tax identification number",c_addr:"Confirm registered address",c_fye:"Confirm financial year end",c_hold:"Confirm company ownership",d_ssm:"Upload SSM documents",d_tax:"Upload tax documents",d_fs:"Upload financial statements",d_bank:"Upload bank statements",d_pay:"Provide payroll information",d_loan:"Provide loan information",d_asset:"Provide asset information",d_sst:"Provide SST documents",a_bank:"Provide bank access",s_letter:"Complete engagement letter",s_dep:"Confirm deposit",s_comms:"Set communication preference"};
-  return Object.entries(items).filter(([,v])=>!["done","na","team"].includes(String(v?.status||"").toLowerCase())).map(([id,v])=>({title:labels[id]||id.replaceAll("_"," "),detail:v?.note||"Onboarding item requires attention",warning:String(v?.status||"").toLowerCase()==="review"}));
+  const S=getOnboardingState();if(!S)return [];
+  return ID_ORDER.filter(id=>!SETTLED.includes(itemStatus(S,id))).map(id=>({title:ITEMS[id].label,detail:S.items[id]?.note||"Onboarding item requires attention",warning:false}));
 }
 function renderPending(){
   const todayKey=ymd(new Date()),upcoming=calendarItems().filter(i=>i.date>=todayKey&&!i.done&&!i.report).sort((a,b)=>a.date.localeCompare(b.date)).filter((i,n,all)=>all.findIndex(x=>(x.ev.series_id||x.ev.id)===(i.ev.series_id||i.ev.id))===n).slice(0,3).map(i=>({title:i.label,detail:`${TYPE_LABEL[i.type]} · ${dayLabel(i.date)}`,tag:i.type==="reminder"?"Reminder":"Coming"}));
@@ -100,9 +104,9 @@ function renderPending(){
   $("#pending-list").innerHTML=entries.length?entries.map(x=>`<div class="activity-item"><span class="activity-tag${x.warning?" warning":""}">${escapeHtml(x.tag)}</span><div class="activity-copy"><strong>${escapeHtml(x.title)}</strong><small>${escapeHtml(x.detail)}</small></div></div>`).join(""):'<p class="muted">You’re all caught up. No pending tasks or upcoming appointments.</p>';
 }
 function renderChecklist(){
-  const items=Object.values(state.onboarding?.onboarding?.items||{}),done=items.filter(x=>["done","na","team"].includes(String(x?.status||"").toLowerCase())).length;
-  $("#checklist-count").textContent=items.length?`${done} / ${items.length}`:"Not started";
-  $("#checklist-summary").innerHTML=items.length?`<div class="checkline ${done===items.length?"done":""}">${done} of ${items.length} recorded items completed</div><div class="checkline ${state.onboarding?.completed?"done":""}">${state.onboarding?.completed?"Onboarding completed":"Onboarding in progress"}</div>`:'<p class="muted">Your onboarding checklist has not been started.</p>';
+  const S=getOnboardingState(),{done,total}=S?itemStats(S):{done:0,total:ID_ORDER.length};
+  $("#checklist-count").textContent=S?`${done} / ${total}`:"Not started";
+  $("#checklist-summary").innerHTML=S?`<div class="checkline ${done===total?"done":""}">${done} of ${total} checklist items settled</div><div class="checkline ${state.onboarding?.completed?"done":""}">${state.onboarding?.completed?"Onboarding completed":"Onboarding in progress"}</div>`:'<p class="muted">Your onboarding checklist has not been started.</p>';
 }
 function renderLatestActivity(){
   const latest=[...state.statements].sort((a,b)=>new Date(b.created_at)-new Date(a.created_at))[0];
