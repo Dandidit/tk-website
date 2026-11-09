@@ -17,7 +17,7 @@ body.onboarding-page{margin:0}
 .onboarding-app{padding-top:61px}
 .onboarding-top{position:fixed;top:0;left:0;right:0;z-index:1000;background:var(--bg);border-bottom:1px solid var(--line)}
 .onboarding-top-in{max-width:1080px;margin:0 auto;padding:0 16px;height:60px;display:flex;align-items:center;gap:16px}
-.brand{display:flex;align-items:center;gap:8px;color:var(--ink);font:700 20px/1 var(--font-main);letter-spacing:-.02em}
+.brand{display:flex;align-items:center;gap:8px;color:var(--ink);font:700 18px/1 var(--font-main);letter-spacing:-.02em}
 .tabs{display:flex;gap:4px;background:rgba(11,24,48,.07);padding:3px;border-radius:999px}
 .tab{border:0;background:none;padding:6px 14px;border-radius:999px;font-weight:500;font-size:14px;cursor:pointer;color:var(--muted);min-height:32px}
 .tab[aria-selected="true"]{background:var(--surface);color:var(--ink);box-shadow:0 1px 2px rgba(11,24,48,.12)}
@@ -136,5 +136,5 @@ table.rules th{border-bottom:1px solid var(--line);font-weight:600}
 @media(prefers-reduced-motion:no-preference){.sk{animation:sk 1.2s linear infinite}@keyframes sk{to{background-position:-200% 0}}}
 
 @media(max-width:700px){.onboarding-top-in{max-width:1080px;margin:0 auto;padding:0 16px;height:60px;display:flex;align-items:center;gap:16px}
-.brand img{display:block;height:32px;width:32px;object-fit:contain}
-@media(max-width:480px){.brand{font-size:17px}.brand img{height:28px;width:28px}}
+.brand img{display:block;height:24px;width:24px;object-fit:contain}
+@media(max-width:480px){.brand{font-size:16px}.brand img{height:22px;width:22px}}
