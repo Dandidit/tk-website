@@ -1,5 +1,5 @@
 import { neon } from "@neondatabase/serverless";
-import { sendMail, describe, TYPE_LABEL } from "../lib/mail.js";
+import { sendMail, eventContent, TYPE_LABEL } from "../lib/mail.js";
 import { seriesDates, horizonFrom, todayKL, monthsBetween, addMonths } from "../lib/events.js";
 
 const sql = neon(process.env.terakira_db_DATABASE_URL);
@@ -52,10 +52,13 @@ export async function GET(request) {
   for (const ev of due) {
     const d = ev.days_left, n = Math.abs(d), s = n === 1 ? "" : "s";
     const when = d > 0 ? `in ${d} day${s}` : d === 0 ? "is due today" : `overdue by ${n} day${s}`;
+    const content = eventContent(ev);
     const ok = await sendMail({
       to: ev.email,
       subject: `${TYPE_LABEL[ev.type]} ${when}: ${ev.title}`,
-      lines: [`Hi ${ev.name || ""},`.trim(), d > 0 ? `This is a reminder — ${d} day${s} to go.` : d === 0 ? "This is due today." : `This is ${n} day${s} overdue. Please upload your documents as soon as possible.`, ...describe(ev)]
+      heading: d > 0 ? `${TYPE_LABEL[ev.type]} ${when}` : d === 0 ? `${TYPE_LABEL[ev.type]} due today` : `${TYPE_LABEL[ev.type]} ${when}`,
+      lines: [`Hi ${ev.name || "there"},`, d > 0 ? `This is a friendly reminder — ${d} day${s} to go.` : d === 0 ? "This is due today." : `This is ${n} day${s} overdue. Please upload your documents as soon as possible.`, ...content.lines],
+      details: content.details
     });
     if (ok) {
       await sql`UPDATE events SET reminders_sent = array_append(reminders_sent, ${ev.days_left}::int) WHERE id = ${ev.id}::uuid`;
