@@ -1,5 +1,4 @@
 :root {
-  /* --font-main: "Manrope", sans-serif; */
   --font-main: "Manrope", sans-serif;
   --green-button: #28A65C;
   --green-button-hover: #1e884a;
@@ -10,6 +9,21 @@
   --accent: #178C4C;
   --dark-blue: #16233E;
   --light-gray: #6B7686;
+
+  /* Portal / app palette */
+  --portal-bg: #F5F1E8;
+  --portal-card: #fff;
+  --portal-ink: #0B1830;
+  --portal-muted: #5A6475;
+  --portal-line: #E2DED3;
+  --portal-brand: #17703C;
+  --portal-brand-hover: color-mix(in srgb, var(--portal-brand) 85%, black);
+  --portal-brand-soft: #E3F1E8;
+  --portal-positive: var(--portal-brand);
+  --portal-negative: #b91c1c;
+  --portal-negative-bg: #fee2e2;
+  --portal-warning: #b45309;
+  --portal-warning-bg: #fef3c7;
 }
 
 body {

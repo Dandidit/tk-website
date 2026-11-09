@@ -20,6 +20,9 @@ const formatDate = value => { if(!value)return "—"; const d=new Date(value); r
 const formatDateTime = value => { if(!value)return "—"; const d=new Date(value); return Number.isNaN(d.getTime())?"—":d.toLocaleString("en-MY",{day:"numeric",month:"short",hour:"numeric",minute:"2-digit"}); };
 const money = value => Number.isFinite(Number(value)) ? new Intl.NumberFormat("en-MY",{style:"currency",currency:"MYR"}).format(Number(value)) : "—";
 const initials = value => String(value||"TK").trim().split(/\s+/).slice(0,2).map(x=>x[0]).join("").toUpperCase();
+const cacheKey = name => `tk:${user.id||user.email}:${clientId||""}:${name}`;
+const cacheGet = name => { try { return JSON.parse(localStorage.getItem(cacheKey(name))); } catch { return null; } };
+const cacheSet = (name,value) => { try { localStorage.setItem(cacheKey(name),JSON.stringify(value)); } catch {} };
 const setMessage = (el,msg,error=false) => { if(el){el.textContent=msg;el.classList.toggle("error",error);} };
 
 $("#welcome-title").textContent = `Welcome back, ${(user.name||user.email||"there").split(" ")[0]}`;
@@ -43,6 +46,10 @@ function switchView(view){
 }
 $$(".nav-item").forEach(b=>b.addEventListener("click",()=>switchView(b.dataset.view)));
 
+function renderCore(){
+  const company=state.onboarding?.onboarding?.co?.name;if(company)$("#sidebar-company").textContent=company;
+  renderCalendar();renderPending();renderChecklist();renderLatestActivity();renderProfile();renderClientFilter();renderDocuments();renderUploadOptions();
+}
 async function loadCoreData(){
   const results = await Promise.allSettled([
     apiFetch("/api/client?action=onboarding"),
@@ -55,8 +62,8 @@ async function loadCoreData(){
   if(results[2].status==="fulfilled")state.clients=Array.isArray(results[2].value)?results[2].value:[];
   if(results[3].status==="fulfilled")state.statements=Array.isArray(results[3].value)?results[3].value:[];else console.warn("Statements:",results[3].reason);
   if(clientId){const c=state.clients.find(x=>x.id===clientId);$("#client-banner").hidden=false;$("#client-banner-text").textContent=`Viewing client: ${c?(c.name||c.email):"Unknown client"}`;}
-  const company=state.onboarding?.onboarding?.co?.name;if(company)$("#sidebar-company").textContent=company;
-  renderCalendar();renderPending();renderChecklist();renderLatestActivity();renderProfile();renderClientFilter();renderDocuments();renderUploadOptions();
+  cacheSet("core",{onboarding:state.onboarding,events:state.events,clients:state.clients,statements:state.statements});
+  renderCore();
 }
 function calendarItems(){
   const out=[];
@@ -163,15 +170,23 @@ async function loadXero(){
   if(user.role==="admin"){
     setXeroState("Admin account",true);$("#cash-caption").textContent="Open a client account to view its financial data.";$("#invoice-caption").textContent="This admin account has no client organisation mapping.";$("#profit-chart").innerHTML='<div class="chart-empty">Open a client account to view its Xero financial data.</div>';$("#profile-xero-name").textContent="Managed by TeraKira";$("#profile-xero-caption").textContent="Organisation connections are managed in the admin portal.";return;
   }
+  const cachedXero=cacheGet("xero");if(cachedXero){try{applyXero(cachedXero);}catch{}}
   try{
-    const data=await apiFetch("/api/xero?action=dashboard");setXeroState("Synced from Xero");
+    const data=await apiFetch("/api/xero?action=dashboard");cacheSet("xero",data);applyXero(data);
+  }catch(error){
+    if(cachedXero)return;
+    showXeroError(error);
+  }
+}
+function applyXero(data){
+    setXeroState("Synced from Xero");
     const bankRows=data.bankSummaryRows?.length?data.bankSummaryRows:flattenReport(data.bankSummary),cash=cashFromRows(bankRows);
     $("#cash-balance").textContent=cash===null?"—":money(cash);$("#cash-caption").textContent=cash===null?"Balance not available in Xero report":`Xero · ${data.organisation||"Connected organisation"}`;
     $("#invoice-total").textContent=money(data.outstandingInvoices?.total);$("#invoice-caption").textContent=`${Number(data.outstandingInvoices?.count||0)} invoices · ${Number(data.outstandingInvoices?.overdueCount||0)} overdue`;
     $("#profile-xero-name").textContent=data.organisation||"Xero connected";$("#profile-xero-caption").textContent=`Last retrieved ${formatDateTime(data.syncedAt)}`;renderProfit(data);
-  }catch(error){
+}
+function showXeroError(error){
     setXeroState("Xero unavailable",true);$("#cash-balance").textContent="—";$("#invoice-total").textContent="—";$("#invoice-caption").textContent=error.message||"Unable to retrieve Xero data.";$("#cash-caption").textContent="Xero data could not be loaded.";$("#profile-xero-name").textContent="Not connected";$("#profile-xero-caption").textContent=error.message||"No Xero organisation is assigned.";$("#profile-xero-indicator").classList.add("error");$("#profit-chart").innerHTML=`<div class="chart-empty">${escapeHtml(error.message||"Xero financial data is unavailable.")}</div>`;
-  }
 }
 function statementClientKey(statement){
   return String(statement.user_id ?? statement.user_email ?? "unknown");
@@ -314,5 +329,6 @@ ev$("delete").addEventListener("click",async()=>{
   await eventRequest(`/api/client?action=events&id=${encodeURIComponent(editing.id)}&scope=${scope}`,{method:"DELETE"});
 });
 
-await loadCoreData();
-await loadXero();
+const cachedCore=cacheGet("core");
+if(cachedCore){Object.assign(state,cachedCore);renderCore();}
+await Promise.all([loadCoreData(),loadXero()]);

@@ -6,6 +6,9 @@
   <meta name="theme-color" content="#F5F1E8">
   <title>Client Portal | TeraKira</title>
   <link rel="icon" type="image/png" href="/assets/logo.png">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="/css/variables.css">
   <link rel="stylesheet" href="/css/dashboard.css">
   <link rel="stylesheet" href="/css/skeleton.css">
@@ -21,7 +24,7 @@
     <button id="mobile-logout" class="logout-icon" type="button" aria-label="Log out"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
     <div class="sidebar-user">
       <div class="avatar" id="user-avatar">TK</div>
-      <div class="user-meta"><strong id="sidebar-name">Loading…</strong><small id="sidebar-company">Client account</small></div>
+      <div class="user-meta"><strong id="sidebar-name">&nbsp;</strong><small id="sidebar-company">Client account</small></div>
       <button id="logout-button" class="logout-icon" type="button" aria-label="Log out"><svg viewBox="0 0 24 24"><path d="M9 21H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h4"/><polyline points="16 17 21 12 16 7"/><line x1="21" y1="12" x2="9" y2="12"/></svg></button>
     </div>
   </aside>
@@ -29,7 +32,7 @@
   <main class="portal-main">
     <section class="view active" id="view-home">
       <div class="page-heading">
-        <div><p class="eyebrow" id="portal-eyebrow">YOUR CLIENT PORTAL</p><h1 id="welcome-title">Welcome back</h1><p class="subheading">Here’s where your books stand today.</p></div>
+        <div><h1 id="welcome-title">Welcome back</h1></div>
         <span class="today-label" id="today-label"></span>
       </div>
       <div class="client-banner" id="client-banner" hidden><span id="client-banner-text"></span><a href="/dashboard.html">View all clients</a></div>
@@ -38,7 +41,7 @@
         <section class="card calendar-card">
           <div class="card-heading"><h2>Calendar</h2><span class="muted" id="calendar-month"></span></div>
           <div class="calendar-controls"><button type="button" class="set-event-button" id="set-event-button" hidden>+ Set event</button><button type="button" id="calendar-prev" aria-label="Previous month">‹</button><button type="button" id="calendar-next" aria-label="Next month">›</button></div>
-          <div class="calendar" id="calendar-grid"></div>
+          <div class="calendar" id="calendar-grid"><div class="sk sk-calendar"></div></div>
           <div class="calendar-legend"><span><i class="legend-dot t-bookkeeping"></i>Bookkeeping</span><span><i class="legend-dot t-appointment"></i>Appointment</span><span><i class="legend-dot t-adhoc"></i>Ad hoc</span><span><i class="legend-dot t-reminder"></i>Reminder</span></div>
           <div id="day-events" class="day-events"></div>
         </section>
@@ -55,15 +58,15 @@
         </section>
         <div class="metric-stack">
           <section class="card metric-card"><span class="metric-label">Cash balance</span><strong class="metric-value" id="cash-balance">—</strong><span class="metric-foot" id="cash-caption">Xero bank summary</span></section>
-          <section class="card metric-card"><span class="metric-label">Outstanding invoices</span><strong class="metric-value" id="invoice-total">—</strong><span class="metric-foot" id="invoice-caption">Loading invoice details…</span></section>
+          <section class="card metric-card"><span class="metric-label">Outstanding invoices</span><strong class="metric-value" id="invoice-total">—</strong><span class="metric-foot" id="invoice-caption">Xero invoices</span></section>
         </div>
       </div>
 
       <div class="grid grid-three lower-grid">
         <section class="card">
           <div class="card-heading"><h2>Your bookkeeper</h2></div>
-          <div class="bookkeeper"><div class="avatar avatar-large">TK</div><div><strong>TeraKira Bookkeeping</strong><small class="muted">Your bookkeeping support team</small></div></div>
-          <p class="card-note">Need help with your account? Contact the TeraKira team through your usual communication channel.</p>
+          <div class="bookkeeper"><div class="avatar avatar-large">TK</div><div><strong>TeraKira Bookkeeping</strong><small class="muted">Bookkeeping support</small></div></div>
+          <p class="card-note">Need help? Contact the TeraKira team.</p>
         </section>
         <section class="card">
           <div class="card-heading"><h2>Onboarding checklist</h2><span class="muted" id="checklist-count">—</span></div>
@@ -76,16 +79,16 @@
         </section>
       </div>
 
-      <footer class="portal-footer"><span class="footer-brand"><img class="footer-logo" src="/assets/logo.png" alt=""><span>TeraKira</span></span><span>Your finances, in clearer view.</span></footer>
+      <footer class="portal-footer"><span class="footer-brand"><img class="footer-logo" src="/assets/logo.png" alt=""><span>TeraKira</span></span></footer>
     </section>
 
     <section class="view" id="view-profile">
-      <div class="page-heading"><div><p class="eyebrow">YOUR ACCOUNT</p><h1>Profile</h1><p class="subheading">Your personal and company information.</p></div></div>
+      <div class="page-heading"><div><h1>Profile</h1><p class="subheading">Your personal and company information.</p></div></div>
       <div class="grid grid-two profile-layout">
         <section class="card">
           <div class="card-heading"><h2>Personal &amp; company details</h2><span class="status-pill">From onboarding</span></div>
           <div id="profile-details" class="profile-details"><div class="sk sk-row"></div><div class="sk sk-row w60"></div><div class="sk sk-row"></div></div>
-          <p class="card-note">To update these details, please contact TeraKira. Profile editing is not enabled in this portal yet.</p>
+          <p class="card-note">To change these details, contact TeraKira.</p>
         </section>
         <div class="profile-side">
           <section class="card">
@@ -99,11 +102,11 @@
     </section>
 
     <section class="view" id="view-docs">
-      <div class="page-heading"><div><p class="eyebrow">YOUR FILES</p><h1>Documents</h1><p class="subheading">Upload bank statements and access your submitted files.</p></div></div>
+      <div class="page-heading"><div><h1>Documents</h1><p class="subheading">Upload bank statements and access your submitted files.</p></div></div>
       <section class="card documents-card">
         <form id="upload-form" class="upload-drop">
-          <div class="upload-icon">↑</div><strong>Upload a document</strong><p class="muted">PDF, JPG or PNG · Your file is stored securely.</p>
-          <label class="upload-for">Upload for<select id="upload-event" required><option value="">Loading…</option></select></label>
+          <strong>Upload a document</strong><p class="muted">PDF, JPG or PNG · Your file is stored securely.</p>
+          <label class="upload-for">Upload for<select id="upload-event" required><option value="">Select…</option></select></label>
           <label class="button button-primary" for="statement-file" id="browse-label">Browse files</label>
           <input id="statement-file" type="file" accept=".pdf,.jpg,.jpeg,.png" hidden>
           <span id="upload-message" class="upload-message" role="status" aria-live="polite"></span>
@@ -117,8 +120,8 @@
             <select id="document-client-filter"><option value="all">All clients</option></select>
           </label>
         </div>
-        <div class="table-wrap"><table class="document-table"><thead><tr><th>Name</th><th>Category</th><th>Date</th><th>Status</th><th id="document-client-heading" hidden>Client</th><th></th></tr></thead><tbody id="document-rows"><tr><td colspan="6" class="empty-cell">Loading documents…</td></tr></tbody></table></div>
-        <p class="document-note">Reports and tax documents shared by TeraKira will appear here when document sharing is enabled.</p>
+        <div class="table-wrap"><table class="document-table"><thead><tr><th>Name</th><th>Category</th><th>Date</th><th>Status</th><th id="document-client-heading" hidden>Client</th><th></th></tr></thead><tbody id="document-rows"><tr><td colspan="6"><div class="sk sk-row"></div></td></tr></tbody></table></div>
+        <p class="document-note">Reports and tax documents shared by TeraKira appear here.</p>
       </section>
     </section>
   </main>
